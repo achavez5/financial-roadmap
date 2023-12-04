@@ -32,10 +32,7 @@ const AmortizationForm = (props: AmortizationParameters) => {
     return (
         <Box>
             <VStack>
-                <Heading as="h1" id="formHeading">
-                    Amortization Table  
-                </Heading>
-                <Box p={6} rounded="md" backgroundColor={"#424242"} /**TODO: adjust the background color to match the theme | TODO: Add drop shadow to give element depth*/>
+                <Box p={6} rounded="md" /* TODO: Add drop shadow to give element depth*/>
                     <form onSubmit={formik.handleSubmit}>
                         <VStack spacing={4}>
                             <FormControl isInvalid={Boolean(formik.touched.loanAmount && formik.errors.loanAmount)}>
