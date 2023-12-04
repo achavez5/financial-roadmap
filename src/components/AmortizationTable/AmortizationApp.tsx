@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import AmortizationForm from "./AmortizationForm";
+import AmortizationTable from "./AmortizationTable";
+import { VStack } from "@chakra-ui/layout";
 
 const AmortizationApp = () => {
     const [loanAmount, updateLoanAmount] = useState(100_000);
@@ -14,11 +16,14 @@ const AmortizationApp = () => {
 
     return (
         <>
-            <AmortizationForm 
-                updateLoanAmount={updateLoanAmount} 
-                updateTermLength={updateTermLength}
-                updateInterestRate={updateInterestRate}
+            <VStack>
+                <AmortizationForm 
+                    updateLoanAmount={updateLoanAmount} 
+                    updateTermLength={updateTermLength}
+                    updateInterestRate={updateInterestRate}
                 />
+                <AmortizationTable />
+            </VStack>
         </>
     )
 };
