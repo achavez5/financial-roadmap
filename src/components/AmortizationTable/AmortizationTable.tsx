@@ -1,6 +1,6 @@
 import React from "react";
-import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, TableContainer } from '@chakra-ui/react';
-import { Round, GetPaymentAmount } from "../../Libraries/Math_Helpers";
+import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, TableContainer} from '@chakra-ui/react';
+import { Helpers } from "../../Libraries/Helpers";
 
 type AmortizationTableProps = {
     loanAmount: number,
@@ -12,8 +12,10 @@ const AmortizationTable = (props: AmortizationTableProps) => {
     const { loanAmount, termLength, interestRate } = props;
     
     function generateTable(): React.ReactElement[] {
+        let Round = Helpers.Math.Round;
         let arr: React.ReactElement[] = [];
-        let paymentAmount = GetPaymentAmount(loanAmount, interestRate, termLength);
+        let paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, termLength);
+        let formatter = Helpers.String.FormatToDollar.format;
         let balance = loanAmount;
         let total = 0, month = 1;
 
@@ -25,42 +27,48 @@ const AmortizationTable = (props: AmortizationTableProps) => {
             arr.push(
                 <Tr key={month}>
                     <Td>{month}</Td>
-                    <Td>{paymentAmount.toFixed(2)}</Td>
-                    <Td>{balance.toFixed(2)}</Td>
-                    <Td>{interest.toFixed(2)}</Td>
-                    <Td>{principal.toFixed(2)}</Td>
-                    <Td>{total.toFixed(2)}</Td>
+                    <Td>{formatter(paymentAmount)}</Td>
+                    <Td>{formatter(balance)}</Td>
+                    <Td>{formatter(interest)}</Td>
+                    <Td>{formatter(principal)}</Td>
+                    <Td>{formatter(total)}</Td>
                 </Tr>
             );
 
             balance -= principal;
             month++;
         }
-
         return arr;
     }
+
+    // store the header to have on top and bottom of table
+    let header = (
+        <Thead>
+            <Tr>
+                <Th>Month</Th>
+                <Th>Payment</Th>
+                <Th>Balance</Th>
+                <Th>Interest</Th>
+                <Th>Principal</Th>
+                <Th>Total</Th>
+            </Tr>
+        </Thead>
+    );
+    
     return (
         <>
             <TableContainer>
                 <Table variant='striped'>
                     <TableCaption placement="top">Amortization schedule</TableCaption>
-                    <Thead>
-                        <Tr>
-                            <Th>Month</Th>
-                            <Th>Payment</Th>
-                            <Th>Balance</Th>
-                            <Th>Interest</Th>
-                            <Th>Principal</Th>
-                            <Th>Total</Th>
-                        </Tr>
-                    </Thead>
+                    {header}
                     <Tbody>
                         {generateTable()}
                     </Tbody>   
+                    {header}
                 </Table>
             </TableContainer>       
          </>
-    )
+    );
 };
 
 export default AmortizationTable;
