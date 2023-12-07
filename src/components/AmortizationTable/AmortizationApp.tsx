@@ -8,12 +8,6 @@ const AmortizationApp = () => {
     const [termLength, updateTermLength] = useState(360);
     const [interestRate, updateInterestRate] = useState(5);
 
-    // TODO: remove this useEffect when amort table is complete
-    // console to reduce warning noise
-    useEffect(function () {
-        console.log(loanAmount, termLength, interestRate);
-    }, [loanAmount, termLength, interestRate]);
-
     return (
         <>
             <VStack>
@@ -22,7 +16,11 @@ const AmortizationApp = () => {
                     updateTermLength={updateTermLength}
                     updateInterestRate={updateInterestRate}
                 />
-                <AmortizationTable />
+                <AmortizationTable 
+                    loanAmount={loanAmount}
+                    termLength={termLength}
+                    interestRate={interestRate}
+                />
             </VStack>
         </>
     )
