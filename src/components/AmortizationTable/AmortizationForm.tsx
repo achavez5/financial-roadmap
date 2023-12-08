@@ -1,4 +1,4 @@
-import { Box, FormLabel, Input, VStack, FormControl, Button, FormErrorMessage } from "@chakra-ui/react";
+import { Box, FormLabel, Input, VStack, FormControl, Button, FormErrorMessage, Select, Card } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -6,11 +6,13 @@ import * as Yup from "yup";
 type AmortizationParameters = {
     updateLoanAmount: React.Dispatch<React.SetStateAction<number>>,
     updateTermLength: React.Dispatch<React.SetStateAction<number>>,
-    updateInterestRate: React.Dispatch<React.SetStateAction<number>>
+    updateInterestRate: React.Dispatch<React.SetStateAction<number>>,
+    updateBreakDownByMonth: React.Dispatch<React.SetStateAction<boolean>>,
+    breakdownByMonth: boolean,
 }
 
 const AmortizationForm = (props: AmortizationParameters) => {
-    const { updateLoanAmount, updateTermLength, updateInterestRate } = props;
+    const { updateLoanAmount, updateTermLength, updateInterestRate, updateBreakDownByMonth, breakdownByMonth } = props;
     const formik = useFormik({
         initialValues: {
           loanAmount: "", 
@@ -30,7 +32,7 @@ const AmortizationForm = (props: AmortizationParameters) => {
       });
 
     return (
-        <Box>
+        <Card>
             <VStack>
                 <Box p={6} rounded="md" /* TODO: Add drop shadow to give element depth*/>
                     <form onSubmit={formik.handleSubmit}>
@@ -44,16 +46,16 @@ const AmortizationForm = (props: AmortizationParameters) => {
                                     {...formik.getFieldProps("loanAmount")}
                                 />
                                 <FormErrorMessage>{formik.errors.loanAmount}</FormErrorMessage>
-
                             </FormControl>
                             <FormControl isInvalid={Boolean(formik.touched.termLength && formik.errors.termLength)}>
-                                <FormLabel htmlFor="termLength">Term length (months)</FormLabel>
+                                <FormLabel htmlFor="termLength">Term length ({breakdownByMonth ? "months" : "years"})</FormLabel>
                                 <Input
                                     id="termLength"
                                     placeholder="360"
                                     type="number"
                                     {...formik.getFieldProps("termLength")}
-                                />                                <FormErrorMessage>{formik.errors.termLength}</FormErrorMessage>
+                                />                                
+                                <FormErrorMessage>{formik.errors.termLength}</FormErrorMessage>
                             </FormControl>
                             <FormControl isInvalid={Boolean(formik.touched.interestRate && formik.errors.interestRate)}>
                                 <FormLabel htmlFor="interestRate">Yearly interest rate (%)</FormLabel>
@@ -62,7 +64,18 @@ const AmortizationForm = (props: AmortizationParameters) => {
                                     placeholder="5"
                                     type="number"
                                     {...formik.getFieldProps("interestRate")}
-                                />                                <FormErrorMessage>{formik.errors.loanAmount}</FormErrorMessage>
+                                />                                
+                                <FormErrorMessage>{formik.errors.loanAmount}</FormErrorMessage>
+                            </FormControl>
+                            <FormControl>
+                                <FormLabel htmlFor="breakdownByMonth">Show</FormLabel>
+                                <Select
+                                    id="breakdownByMonth"
+                                    onChange={() => updateBreakDownByMonth((prev) => !prev)}
+                                >
+                                    <option>By month</option>
+                                    <option>By year</option>
+                                </Select>
                             </FormControl>
                             <Button type="submit" width="full" colorScheme="blue">
                                 Calculate amortization schedule
@@ -71,7 +84,7 @@ const AmortizationForm = (props: AmortizationParameters) => {
                     </form>
                 </Box>
             </VStack>
-        </Box>
+        </Card>
     )
 };
 

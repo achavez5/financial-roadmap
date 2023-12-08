@@ -5,11 +5,12 @@ import { Helpers } from "../../Libraries/Helpers";
 type AmortizationTableProps = {
     loanAmount: number,
     termLength: number,
-    interestRate: number
+    interestRate: number,
+    breakdownByMonth: boolean,
 }
 
 const AmortizationTable = (props: AmortizationTableProps) => {
-    const { loanAmount, termLength, interestRate } = props;
+    const { loanAmount, termLength, interestRate, breakdownByMonth } = props;
     
     function generateTable(): React.ReactElement[] {
         let Round = Helpers.Math.Round;
@@ -24,16 +25,18 @@ const AmortizationTable = (props: AmortizationTableProps) => {
             let principal = Round(paymentAmount - interest, 2);
             total += Round(paymentAmount, 2);
 
-            arr.push(
-                <Tr key={month}>
-                    <Td>{month}</Td>
-                    <Td>{formatter(paymentAmount)}</Td>
-                    <Td>{formatter(balance)}</Td>
-                    <Td>{formatter(interest)}</Td>
-                    <Td>{formatter(principal)}</Td>
-                    <Td>{formatter(total)}</Td>
-                </Tr>
-            );
+            if (breakdownByMonth || month % 12 === 0) {
+                arr.push(
+                    <Tr key={month}>
+                        <Td>{breakdownByMonth  ? month : month / 12}</Td>
+                        <Td>{formatter(paymentAmount)}</Td>
+                        <Td>{formatter(balance)}</Td>
+                        <Td>{formatter(interest)}</Td>
+                        <Td>{formatter(principal)}</Td>
+                        <Td>{formatter(total)}</Td>
+                    </Tr>
+                );
+            }
 
             balance -= principal;
             month++;
@@ -45,7 +48,7 @@ const AmortizationTable = (props: AmortizationTableProps) => {
     let header = (
         <Thead>
             <Tr>
-                <Th>Month</Th>
+                <Th>{breakdownByMonth ? "Month" : "Year"}</Th>
                 <Th>Payment</Th>
                 <Th>Balance</Th>
                 <Th>Interest</Th>
