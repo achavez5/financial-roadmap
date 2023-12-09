@@ -73,7 +73,7 @@ const AmortizationForm = (props: AmortizationParameters) => {
                                 type="number"
                                 {...formik.getFieldProps("interestRate")}
                             />                                
-                            <FormErrorMessage>{formik.errors.loanAmount}</FormErrorMessage>
+                            <FormErrorMessage>{formik.errors.interestRate}</FormErrorMessage>
                         </FormControl>
                         <FormControl>
                             <FormLabel htmlFor="breakdownByMonth">Show</FormLabel>
@@ -88,8 +88,8 @@ const AmortizationForm = (props: AmortizationParameters) => {
                                     updateBreakDownByMonth((prev) => !prev);
                                 }}
                             >
-                                <option>By month</option>
                                 <option>By year</option>
+                                <option>By month</option>
                             </Select>
                         </FormControl>
                     </VStack>
