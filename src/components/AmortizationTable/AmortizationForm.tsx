@@ -1,7 +1,7 @@
 import { 
     Heading, FormLabel, Input, VStack,
     FormControl, Button, FormErrorMessage, Select, 
-    Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
+    Card, CardHeader, CardBody, CardFooter, useColorMode } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -18,6 +18,7 @@ type AmortizationParameters = {
 const AmortizationForm = (props: AmortizationParameters) => {
     const { updateLoanAmount, updateTermLength, updateInterestRate, 
             updateBreakDownByMonth, breakdownByMonth, updateSubmitted } = props;
+    const { colorMode } = useColorMode();
     const formik = useFormik({
         initialValues: {
           loanAmount: "", 
@@ -38,7 +39,7 @@ const AmortizationForm = (props: AmortizationParameters) => {
       });
 
     return (
-        <Card variant={"elevated"} maxWidth="100%">
+        <Card variant={"elevated"} maxWidth="100%" bg={ colorMode === "light" ? "" : "dark.cardBackground"}>
             <CardHeader>
                 <Heading size="xl">Amortization Calculator</Heading>
             </CardHeader>
@@ -95,7 +96,7 @@ const AmortizationForm = (props: AmortizationParameters) => {
                     </VStack>
                 </CardBody>
                 <CardFooter>
-                    <Button type="submit" width="full" colorScheme="blue">Calculate amortization schedule</Button>                
+                    <Button type="submit" width="full" colorScheme="telegram">Calculate amortization schedule</Button>                
                 </CardFooter>
             </form>
 

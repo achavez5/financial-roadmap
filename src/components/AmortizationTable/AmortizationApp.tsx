@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AmortizationForm from "./AmortizationForm";
 import AmortizationTable from "./AmortizationTable";
-import { VStack } from "@chakra-ui/react";
+import { VStack, Fade } from "@chakra-ui/react";
 
 const AmortizationApp = () => {
     // Default values
@@ -13,7 +13,7 @@ const AmortizationApp = () => {
 
     return (
         <>
-            <VStack>
+            <VStack spacing={4}>
                 <AmortizationForm 
                     updateLoanAmount={updateLoanAmount} 
                     updateTermLength={updateTermLength}
@@ -22,15 +22,14 @@ const AmortizationApp = () => {
                     updateSubmitted={updateSubmitted}
                     breakdownByMonth={breakdownByMonth}
                 />
-                {
-                    submitted && termLength && termLength && interestRate ? 
-                        <AmortizationTable 
+                <Fade in={Boolean(submitted && termLength && termLength && interestRate)}>
+                    <AmortizationTable 
                             loanAmount={loanAmount}
                             termLength={termLength}
                             interestRate={interestRate}
                             breakdownByMonth={breakdownByMonth}
-                        /> : null
-                }
+                    />
+                </Fade>
             </VStack>
         </>
     )

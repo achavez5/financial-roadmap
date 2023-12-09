@@ -3,10 +3,10 @@ import {
   Box,
   VStack,
   Grid,
-  theme,
 } from "@chakra-ui/react"
 import { ColorModeSwitcher } from "./ColorModeSwitcher"
 import AmortizationApp from "./components/AmortizationTable/AmortizationApp"
+import theme from "./theme"
 
 export const App = () => (
   <ChakraProvider theme={theme}>
