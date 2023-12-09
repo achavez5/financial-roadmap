@@ -11,11 +11,20 @@ type AmortizationTableProps = {
 
 const AmortizationTable = (props: AmortizationTableProps) => {
     const { loanAmount, termLength, interestRate, breakdownByMonth } = props;
+    let calculatedTermLength = breakdownByMonth ? termLength : termLength * 12;
+
+    if ((breakdownByMonth && termLength > 360) || (!breakdownByMonth && termLength > 30)) {
+        return (
+            <>
+                <p>Term length must be at most {breakdownByMonth ? 360 : 30} {breakdownByMonth ? "months" : "years"}</p>
+            </>
+        );
+    }
     
     function generateTable(): React.ReactElement[] {
         let Round = Helpers.Math.Round;
         let arr: React.ReactElement[] = [];
-        let paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, termLength);
+        let paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, calculatedTermLength);
         let formatter = Helpers.String.FormatToDollar.format;
         let balance = loanAmount;
         let total = 0, month = 1;
@@ -57,7 +66,7 @@ const AmortizationTable = (props: AmortizationTableProps) => {
             </Tr>
         </Thead>
     );
-    
+
     return (
         <>
             <TableContainer>

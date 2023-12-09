@@ -5,10 +5,11 @@ import { VStack } from "@chakra-ui/react";
 
 const AmortizationApp = () => {
     // Default values
-    const [loanAmount, updateLoanAmount] = useState(100_000);
-    const [termLength, updateTermLength] = useState(360);
-    const [interestRate, updateInterestRate] = useState(5);
+    const [loanAmount, updateLoanAmount] = useState(0);
+    const [termLength, updateTermLength] = useState(0);
+    const [interestRate, updateInterestRate] = useState(0);
     const [breakdownByMonth, updateBreakDownByMonth] = useState(true);
+    const [submitted, updateSubmitted] = useState(false);
 
     return (
         <>
@@ -19,13 +20,17 @@ const AmortizationApp = () => {
                     updateInterestRate={updateInterestRate}
                     updateBreakDownByMonth={updateBreakDownByMonth}
                     breakdownByMonth={breakdownByMonth}
+                    updateSubmitted={updateSubmitted}
                 />
-                <AmortizationTable 
-                    loanAmount={loanAmount}
-                    termLength={termLength}
-                    interestRate={interestRate}
-                    breakdownByMonth={breakdownByMonth}
-                />
+                {
+                    submitted && termLength && termLength && interestRate ? 
+                        <AmortizationTable 
+                            loanAmount={loanAmount}
+                            termLength={termLength}
+                            interestRate={interestRate}
+                            breakdownByMonth={breakdownByMonth}
+                        /> : null
+                }
             </VStack>
         </>
     )

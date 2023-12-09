@@ -1,4 +1,7 @@
-import { Box, FormLabel, Input, VStack, FormControl, Button, FormErrorMessage, Select, Card } from "@chakra-ui/react";
+import { 
+    Heading, FormLabel, Input, VStack,
+    FormControl, Button, FormErrorMessage, Select, 
+    Card, CardHeader, CardBody, CardFooter } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -8,11 +11,13 @@ type AmortizationParameters = {
     updateTermLength: React.Dispatch<React.SetStateAction<number>>,
     updateInterestRate: React.Dispatch<React.SetStateAction<number>>,
     updateBreakDownByMonth: React.Dispatch<React.SetStateAction<boolean>>,
+    updateSubmitted: React.Dispatch<React.SetStateAction<boolean>>,
     breakdownByMonth: boolean,
 }
 
 const AmortizationForm = (props: AmortizationParameters) => {
-    const { updateLoanAmount, updateTermLength, updateInterestRate, updateBreakDownByMonth, breakdownByMonth } = props;
+    const { updateLoanAmount, updateTermLength, updateInterestRate, 
+            updateBreakDownByMonth, breakdownByMonth, updateSubmitted } = props;
     const formik = useFormik({
         initialValues: {
           loanAmount: "", 
@@ -23,67 +28,77 @@ const AmortizationForm = (props: AmortizationParameters) => {
             updateLoanAmount(parseFloat(values.loanAmount));
             updateTermLength(parseFloat(values.termLength));
             updateInterestRate(parseFloat(values.interestRate));
+            updateSubmitted(true);
         },
         validationSchema: Yup.object({
-          loanAmount: Yup.number().required("Required"),
-          termLength: Yup.number().required("Required"),
-          interestRate: Yup.number().required("Required"),
+            loanAmount: Yup.number().required("Required").min(1, "Must be at least 1"),
+            termLength: Yup.number().required("Required").min(1, "Must be at least 1").max(360, "Must be at most 360"),
+            interestRate: Yup.number().required("Required").min(0, "Must be at least 0").max(100, "Must be at most 100"),
         }),
       });
 
     return (
-        <Card>
-            <VStack>
-                <Box p={6} rounded="md" /* TODO: Add drop shadow to give element depth*/>
-                    <form onSubmit={formik.handleSubmit}>
-                        <VStack spacing={4}>
-                            <FormControl isInvalid={Boolean(formik.touched.loanAmount && formik.errors.loanAmount)}>
-                                <FormLabel htmlFor="loanAmount">Loan amount</FormLabel>
-                                <Input
-                                    id="loanAmount"
-                                    placeholder="100,000"
-                                    type="number"
-                                    {...formik.getFieldProps("loanAmount")}
-                                />
-                                <FormErrorMessage>{formik.errors.loanAmount}</FormErrorMessage>
-                            </FormControl>
-                            <FormControl isInvalid={Boolean(formik.touched.termLength && formik.errors.termLength)}>
-                                <FormLabel htmlFor="termLength">Term length ({breakdownByMonth ? "months" : "years"})</FormLabel>
-                                <Input
-                                    id="termLength"
-                                    placeholder="360"
-                                    type="number"
-                                    {...formik.getFieldProps("termLength")}
-                                />                                
-                                <FormErrorMessage>{formik.errors.termLength}</FormErrorMessage>
-                            </FormControl>
-                            <FormControl isInvalid={Boolean(formik.touched.interestRate && formik.errors.interestRate)}>
-                                <FormLabel htmlFor="interestRate">Yearly interest rate (%)</FormLabel>
-                                <Input
-                                    id="interestRate"
-                                    placeholder="5"
-                                    type="number"
-                                    {...formik.getFieldProps("interestRate")}
-                                />                                
-                                <FormErrorMessage>{formik.errors.loanAmount}</FormErrorMessage>
-                            </FormControl>
-                            <FormControl>
-                                <FormLabel htmlFor="breakdownByMonth">Show</FormLabel>
-                                <Select
-                                    id="breakdownByMonth"
-                                    onChange={() => updateBreakDownByMonth((prev) => !prev)}
-                                >
-                                    <option>By month</option>
-                                    <option>By year</option>
-                                </Select>
-                            </FormControl>
-                            <Button type="submit" width="full" colorScheme="blue">
-                                Calculate amortization schedule
-                            </Button>
-                        </VStack>
-                    </form>
-                </Box>
-            </VStack>
+        <Card variant={"elevated"} maxWidth="100%">
+            <CardHeader>
+                <Heading size="xl">Amortization Calculator</Heading>
+            </CardHeader>
+            <form onSubmit={formik.handleSubmit}>
+                <CardBody>
+                    <VStack spacing={4}>    
+                        <FormControl isInvalid={Boolean(formik.touched.loanAmount && formik.errors.loanAmount)}>
+                            <FormLabel htmlFor="loanAmount">Loan amount</FormLabel>
+                            <Input
+                                id="loanAmount"
+                                placeholder="100,000"
+                                type="number"
+                                {...formik.getFieldProps("loanAmount")}
+                            />
+                            <FormErrorMessage>{formik.errors.loanAmount}</FormErrorMessage>
+                        </FormControl>
+                        <FormControl isInvalid={Boolean(formik.touched.termLength && formik.errors.termLength)}>
+                            <FormLabel htmlFor="termLength">Term length ({breakdownByMonth ? "months" : "years"})</FormLabel>
+                            <Input
+                                id="termLength"
+                                placeholder={breakdownByMonth ? "360" : "30"}
+                                type="number"
+                                {...formik.getFieldProps("termLength")}
+                            />                                
+                            <FormErrorMessage>{formik.errors.termLength}</FormErrorMessage>
+                        </FormControl>
+                        <FormControl isInvalid={Boolean(formik.touched.interestRate && formik.errors.interestRate)}>
+                            <FormLabel htmlFor="interestRate">Yearly interest rate (%)</FormLabel>
+                            <Input
+                                id="interestRate"
+                                placeholder="5"
+                                type="number"
+                                {...formik.getFieldProps("interestRate")}
+                            />                                
+                            <FormErrorMessage>{formik.errors.loanAmount}</FormErrorMessage>
+                        </FormControl>
+                        <FormControl>
+                            <FormLabel htmlFor="breakdownByMonth">Show</FormLabel>
+                            <Select
+                                id="breakdownByMonth"
+                                onChange={() =>  {
+                                    let newTermLength =  breakdownByMonth ? parseFloat(formik.values.termLength) / 12 : parseFloat(formik.values.termLength) * 12 ;
+                                    if (Boolean(formik.values.termLength) && newTermLength >= 1) {
+                                        updateTermLength(newTermLength);
+                                        formik.setFieldValue("termLength", newTermLength.toString()); 
+                                    } 
+                                    updateBreakDownByMonth((prev) => !prev);
+                                }}
+                            >
+                                <option>By month</option>
+                                <option>By year</option>
+                            </Select>
+                        </FormControl>
+                    </VStack>
+                </CardBody>
+                <CardFooter>
+                    <Button type="submit" width="full" colorScheme="blue">Calculate amortization schedule</Button>                
+                </CardFooter>
+            </form>
+
         </Card>
     )
 };
