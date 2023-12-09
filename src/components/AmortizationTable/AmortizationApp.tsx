@@ -19,8 +19,8 @@ const AmortizationApp = () => {
                     updateTermLength={updateTermLength}
                     updateInterestRate={updateInterestRate}
                     updateBreakDownByMonth={updateBreakDownByMonth}
-                    breakdownByMonth={breakdownByMonth}
                     updateSubmitted={updateSubmitted}
+                    breakdownByMonth={breakdownByMonth}
                 />
                 {
                     submitted && termLength && termLength && interestRate ? 

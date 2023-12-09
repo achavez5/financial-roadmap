@@ -13,10 +13,10 @@ const AmortizationTable = (props: AmortizationTableProps) => {
     const { loanAmount, termLength, interestRate, breakdownByMonth } = props;
     let calculatedTermLength = breakdownByMonth ? termLength : termLength * 12;
 
-    if ((breakdownByMonth && termLength > 360) || (!breakdownByMonth && termLength > 30)) {
+    if ((breakdownByMonth && termLength > 480) || (!breakdownByMonth && termLength > 40)) {
         return (
             <>
-                <p>Term length must be at most {breakdownByMonth ? 360 : 30} {breakdownByMonth ? "months" : "years"}</p>
+                <p>Term length must be at most {breakdownByMonth ? 480 : 40} {breakdownByMonth ? "months" : "years"}</p>
             </>
         );
     }

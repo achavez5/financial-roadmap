@@ -31,9 +31,9 @@ const AmortizationForm = (props: AmortizationParameters) => {
             updateSubmitted(true);
         },
         validationSchema: Yup.object({
-            loanAmount: Yup.number().required("Required").min(1, "Must be at least 1"),
-            termLength: Yup.number().required("Required").min(1, "Must be at least 1").max(360, "Must be at most 360"),
-            interestRate: Yup.number().required("Required").min(0, "Must be at least 0").max(100, "Must be at most 100"),
+            loanAmount: Yup.number().required("Required").min(1, "Must be at least $1"),
+            termLength: Yup.number().required("Required").min(1, `Must be at least 1 ${breakdownByMonth ? "month": "year"}`).max(breakdownByMonth ? 480 : 40, breakdownByMonth ? "Must be at most 480 months" : "Must be at most 40 years"),
+            interestRate: Yup.number().required("Required").min(0, "Must be at least 0% (cannot have a negative interest rate)"),
         }),
       });
 
@@ -59,7 +59,7 @@ const AmortizationForm = (props: AmortizationParameters) => {
                             <FormLabel htmlFor="termLength">Term length ({breakdownByMonth ? "months" : "years"})</FormLabel>
                             <Input
                                 id="termLength"
-                                placeholder={breakdownByMonth ? "360" : "30"}
+                                placeholder={breakdownByMonth ? "480" : "40"}
                                 type="number"
                                 {...formik.getFieldProps("termLength")}
                             />                                
