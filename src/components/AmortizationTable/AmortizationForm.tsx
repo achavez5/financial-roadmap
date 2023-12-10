@@ -11,13 +11,12 @@ type AmortizationParameters = {
     updateTermLength: React.Dispatch<React.SetStateAction<number>>,
     updateInterestRate: React.Dispatch<React.SetStateAction<number>>,
     updateBreakDownByMonth: React.Dispatch<React.SetStateAction<boolean>>,
-    updateSubmitted: React.Dispatch<React.SetStateAction<boolean>>,
     breakdownByMonth: boolean,
 }
 
 const AmortizationForm = (props: AmortizationParameters) => {
     const { updateLoanAmount, updateTermLength, updateInterestRate, 
-            updateBreakDownByMonth, breakdownByMonth, updateSubmitted } = props;
+            updateBreakDownByMonth, breakdownByMonth } = props;
     const { colorMode } = useColorMode();
     const formik = useFormik({
         initialValues: {
@@ -29,7 +28,6 @@ const AmortizationForm = (props: AmortizationParameters) => {
             updateLoanAmount(parseFloat(values.loanAmount));
             updateTermLength(parseFloat(values.termLength));
             updateInterestRate(parseFloat(values.interestRate));
-            updateSubmitted(true);
         },
         validationSchema: Yup.object({
             loanAmount: Yup.number().required("Required").min(1, "Must be at least $1"),
@@ -41,7 +39,7 @@ const AmortizationForm = (props: AmortizationParameters) => {
     return (
         <Card variant={"elevated"} maxWidth="100%" bg={ colorMode === "light" ? "" : "dark.cardBackground"}>
             <CardHeader>
-                <Heading size="xl">Amortization Calculator</Heading>
+                <Heading size="lg">Amortization Calculator</Heading>
             </CardHeader>
             <form onSubmit={formik.handleSubmit}>
                 <CardBody>
@@ -60,7 +58,7 @@ const AmortizationForm = (props: AmortizationParameters) => {
                             <FormLabel htmlFor="termLength">Term length ({breakdownByMonth ? "months" : "years"})</FormLabel>
                             <Input
                                 id="termLength"
-                                placeholder={breakdownByMonth ? "480" : "40"}
+                                placeholder={breakdownByMonth ? "360" : "30"}
                                 type="number"
                                 {...formik.getFieldProps("termLength")}
                             />                                
