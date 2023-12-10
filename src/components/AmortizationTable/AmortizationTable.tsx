@@ -73,11 +73,11 @@ const AmortizationTable = (props: AmortizationTableProps) => {
                         </Stat>
                         <Stat>
                             <StatLabel>Total paid</StatLabel>
-                            <StatNumber>{formatToDollar(totalInterest)}</StatNumber>
+                            <StatNumber>{formatToDollar(total)}</StatNumber>
                         </Stat>
                         <Stat>
                             <StatLabel>Total interest</StatLabel>
-                            <StatNumber>{formatToDollar(total)}</StatNumber>
+                            <StatNumber>{formatToDollar(totalInterest)}</StatNumber>
                         </Stat>
                     </HStack>
                 </CardHeader>
