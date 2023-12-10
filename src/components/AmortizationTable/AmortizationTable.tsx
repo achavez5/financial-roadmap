@@ -64,7 +64,7 @@ const AmortizationTable = (props: AmortizationTableProps) => {
 
     return (
         <>
-            <Card boxShadow="inner" p="6" rounded="md" bg= { colorMode === "light" ? "" : "dark.cardBackground"}>
+            <Card boxShadow="inner" p="6" rounded="md" bg= { colorMode === "light" ? "" : "gray.900"}>
                 <CardHeader>
                     <HStack bg={ colorMode === "light" ? "#EDF2F7": "#2D3748"} borderRadius="md" p="10px" spacing="10x">
                         <Stat dropShadow={"inner"}>

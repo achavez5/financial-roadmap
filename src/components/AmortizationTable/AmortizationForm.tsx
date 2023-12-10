@@ -37,7 +37,7 @@ const AmortizationForm = (props: AmortizationParameters) => {
       });
 
     return (
-        <Card variant={"elevated"} maxWidth="100%" bg={ colorMode === "light" ? "" : "dark.cardBackground"}>
+        <Card variant={"elevated"} maxWidth="100%" bg={ colorMode === "light" ? "" : "gray.900"}>
             <CardHeader>
                 <Heading size="lg">Amortization Calculator</Heading>
             </CardHeader>
