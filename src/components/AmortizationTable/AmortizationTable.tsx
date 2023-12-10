@@ -17,8 +17,7 @@ const AmortizationTable = (props: AmortizationTableProps) => {
     const calculatedTermLength = breakdownByMonth ? termLength : termLength * 12;
     const paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, calculatedTermLength);
     const formatToDollar = Helpers.String.FormatToDollar.format;
-    const Round = Helpers.Math.Round;
-    let total = 0, totalInterest = 0;
+    let total = 0, totalInterest = 0, yearlyPrincipal = 0, yearlyInterest = 0;
     
     function generateTable(): React.ReactElement[] {
         let arr: React.ReactElement[] = [];
@@ -26,18 +25,23 @@ const AmortizationTable = (props: AmortizationTableProps) => {
         let month = 1;
 
         while (balance > 0) {
-            let interest = Round(balance * (interestRate / 12) / 100, 2);
-            let principal = Round(paymentAmount - interest, 2);
-            total += Round(paymentAmount, 2);
-            totalInterest += Round(interest, 2);
+            if(!breakdownByMonth ) {
+                if (month % 12 === 1) {
+                    yearlyPrincipal = 0;
+                    yearlyInterest = 0;
+                    
+                }
+                yearlyInterest += interest;
+                yearlyPrincipal += principal;
+            }
 
             if (breakdownByMonth || month % 12 === 0) {
                 arr.push(
                     <Tr key={month}>
                         <Td>{breakdownByMonth  ? month : month / 12}</Td>
                         <Td>{formatToDollar(balance)}</Td>
-                        <Td>{formatToDollar(interest)}</Td>
-                        <Td>{formatToDollar(principal)}</Td>
+                        <Td>{formatToDollar(breakdownByMonth ? interest : yearlyInterest)}</Td>
+                        <Td>{formatToDollar(breakdownByMonth ? principal: yearlyPrincipal)}</Td>
                     </Tr>
                 );
             }
