@@ -87,6 +87,8 @@ const AmortizationForm = (props: AmortizationParameters) => {
                                         formik.setFieldValue("termLength", newTermLength.toString()); 
                                     } 
                                     updateBreakDownByMonth((prev) => !prev);
+                                    formik.setFieldTouched("termLength", true, true);
+                                    formik.setFieldTouched("breakDownByMonth", true, true);
                                 }}
                             >
                                 <option>By year</option>

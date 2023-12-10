@@ -1,6 +1,6 @@
 import React from "react";
 import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, 
-         Stat, StatNumber, StatGroup, StatLabel, Card,
+         Stat, StatNumber, StatLabel, HStack, Card,
          CardHeader, CardBody, useColorMode } from '@chakra-ui/react';
 import { Helpers } from "../../Libraries/Helpers";
 
@@ -17,10 +17,10 @@ const AmortizationTable = (props: AmortizationTableProps) => {
     const calculatedTermLength = breakdownByMonth ? termLength : termLength * 12;
     const paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, calculatedTermLength);
     const formatToDollar = Helpers.String.FormatToDollar.format;
+    const Round = Helpers.Math.Round;
     let total = 0, totalInterest = 0;
     
     function generateTable(): React.ReactElement[] {
-        let Round = Helpers.Math.Round;
         let arr: React.ReactElement[] = [];
         let balance = loanAmount;
         let month = 1;
@@ -38,7 +38,6 @@ const AmortizationTable = (props: AmortizationTableProps) => {
                         <Td>{formatToDollar(balance)}</Td>
                         <Td>{formatToDollar(interest)}</Td>
                         <Td>{formatToDollar(principal)}</Td>
-                        <Td>{formatToDollar(total)}</Td>
                     </Tr>
                 );
             }
@@ -57,39 +56,36 @@ const AmortizationTable = (props: AmortizationTableProps) => {
                 <Th>Balance</Th>
                 <Th>Interest</Th>
                 <Th>Principal</Th>
-                <Th>Total</Th>
             </Tr>
         </Thead>
     );
 
-    let table = generateTable();
+    let table = <Tbody>{generateTable()}</Tbody>;
 
     return (
         <>
             <Card boxShadow="inner" p="6" rounded="md" bg= { colorMode === "light" ? "" : "dark.cardBackground"}>
                 <CardHeader>
-                    <StatGroup bg={ colorMode === "light" ? "#EDF2F7": "#2D3748"} borderRadius="sm" p="10px">
-                        <Stat>
+                    <HStack bg={ colorMode === "light" ? "#EDF2F7": "#2D3748"} borderRadius="md" p="10px" spacing="10x">
+                        <Stat dropShadow={"inner"}>
                             <StatLabel>Monthly payment</StatLabel>
                             <StatNumber>{formatToDollar(paymentAmount)}</StatNumber>
                         </Stat>
                         <Stat>
                             <StatLabel>Total paid</StatLabel>
-                            <StatNumber>{formatToDollar(total)}</StatNumber>
+                            <StatNumber>{formatToDollar(totalInterest)}</StatNumber>
                         </Stat>
                         <Stat>
                             <StatLabel>Total interest</StatLabel>
-                            <StatNumber>{formatToDollar(totalInterest)}</StatNumber>
+                            <StatNumber>{formatToDollar(total)}</StatNumber>
                         </Stat>
-                    </StatGroup>
+                    </HStack>
                 </CardHeader>
                 <CardBody>
                     <TableContainer borderRadius="sm">
                         <Table variant='striped'>
                             {header}
-                            <Tbody>
-                                {table}
-                            </Tbody>   
+                            {table}
                         </Table>
                     </TableContainer>
                 </CardBody>
