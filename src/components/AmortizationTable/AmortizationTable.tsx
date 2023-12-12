@@ -25,6 +25,18 @@ const AmortizationTable = (props: AmortizationTableProps) => {
         let month = 1;
 
         while (balance > 0) {
+            let interest = balance * (interestRate / 12) / 100;
+            let principal = paymentAmount - interest;
+            
+            // handle last payment
+            if (balance - principal < 0) {
+                principal = balance;
+            }
+
+            total += principal + interest;
+            totalInterest += interest;
+            balance -= principal;
+
             if(!breakdownByMonth ) {
                 if (month % 12 === 1) {
                     yearlyPrincipal = 0;
@@ -39,14 +51,12 @@ const AmortizationTable = (props: AmortizationTableProps) => {
                 arr.push(
                     <Tr key={month}>
                         <Td>{breakdownByMonth  ? month : month / 12}</Td>
-                        <Td>{formatToDollar(balance)}</Td>
                         <Td>{formatToDollar(breakdownByMonth ? interest : yearlyInterest)}</Td>
                         <Td>{formatToDollar(breakdownByMonth ? principal: yearlyPrincipal)}</Td>
+                        <Td>{formatToDollar(balance)}</Td>
                     </Tr>
                 );
             }
-
-            balance -= principal;
             month++;
         }
         return arr;
@@ -57,9 +67,9 @@ const AmortizationTable = (props: AmortizationTableProps) => {
         <Thead>
             <Tr>
                 <Th>{breakdownByMonth ? "Month" : "Year"}</Th>
-                <Th>Balance</Th>
                 <Th>Interest</Th>
                 <Th>Principal</Th>
+                <Th>Balance</Th>
             </Tr>
         </Thead>
     );
