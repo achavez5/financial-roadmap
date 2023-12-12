@@ -1,7 +1,9 @@
 import { 
     Heading, FormLabel, Input, VStack,
     FormControl, Button, FormErrorMessage, Select, 
-    Card, CardHeader, CardBody, CardFooter, useColorMode } from "@chakra-ui/react";
+    Card, CardHeader, CardBody, CardFooter, useColorMode,
+    Accordion, AccordionButton, AccordionItem, AccordionPanel, AccordionIcon,
+    Box } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -11,28 +13,32 @@ type AmortizationParameters = {
     updateTermLength: React.Dispatch<React.SetStateAction<number>>,
     updateInterestRate: React.Dispatch<React.SetStateAction<number>>,
     updateBreakDownByMonth: React.Dispatch<React.SetStateAction<boolean>>,
+    updateExtraPrincipalPayment: React.Dispatch<React.SetStateAction<number>>,
     breakdownByMonth: boolean,
 }
 
 const AmortizationForm = (props: AmortizationParameters) => {
     const { updateLoanAmount, updateTermLength, updateInterestRate, 
-            updateBreakDownByMonth, breakdownByMonth } = props;
+            updateBreakDownByMonth, updateExtraPrincipalPayment, breakdownByMonth } = props;
     const { colorMode } = useColorMode();
     const formik = useFormik({
         initialValues: {
-          loanAmount: "", 
-          termLength: "",
-          interestRate: "",
+            loanAmount: "", 
+            termLength: "",
+            interestRate: "",
+            extraPrincipalPayment: "",
         },
         onSubmit: (values) => {
             updateLoanAmount(parseFloat(values.loanAmount));
             updateTermLength(parseFloat(values.termLength));
             updateInterestRate(parseFloat(values.interestRate));
+            updateExtraPrincipalPayment(parseFloat(values.extraPrincipalPayment));
         },
         validationSchema: Yup.object({
             loanAmount: Yup.number().required("Required").min(1, "Must be at least $1"),
             termLength: Yup.number().required("Required").min(1, `Must be at least 1 ${breakdownByMonth ? "month": "year"}`).max(breakdownByMonth ? 480 : 40, breakdownByMonth ? "Must be at most 480 months" : "Must be at most 40 years"),
             interestRate: Yup.number().required("Required").min(0, "Must be at least 0% (cannot have a negative interest rate)"),
+            externalPaymentAmount: Yup.number().min(0, "Must be a non-negative number"),
         }),
       });
 
@@ -95,6 +101,27 @@ const AmortizationForm = (props: AmortizationParameters) => {
                         </FormControl>
                     </VStack>
                 </CardBody>
+                <Accordion allowToggle>
+                    <AccordionItem>
+                        <h2>
+                        <AccordionButton _hover={{ background: colorMode === "light" ? "" : "gray.400"}}>
+                            <Box as="span" flex='1' textAlign='left'>Advanced options</Box>
+                            <AccordionIcon />
+                        </AccordionButton>
+                        </h2>
+                        <AccordionPanel pb={4} bg={colorMode === "light" ? "" : "gray.700"}>
+                            <FormControl>
+                                <FormLabel htmlFor="extraPrincipalPayment">Extra monthly principal payment</FormLabel>
+                                <Input
+                                    id="extraPrincipalPayment"
+                                    placeholder="0"
+                                    type="number"
+                                    {...formik.getFieldProps("extraPrincipalPayment")}
+                                />                                
+                            </FormControl>
+                        </AccordionPanel>
+                    </AccordionItem>
+                </Accordion>
                 <CardFooter>
                     <Button type="submit" width="full" colorScheme="telegram">Calculate amortization schedule</Button>                
                 </CardFooter>

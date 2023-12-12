@@ -3,19 +3,21 @@ import { Table, Thead, Tbody, Tr, Th, Td, TableContainer,
          Stat, StatNumber, StatLabel, HStack, Card,
          CardHeader, CardBody, useColorMode } from '@chakra-ui/react';
 import { Helpers } from "../../Libraries/Helpers";
+import { format } from "path";
 
 type AmortizationTableProps = {
     loanAmount: number,
     termLength: number,
     interestRate: number,
     breakdownByMonth: boolean,
+    extraPrincipalPayment: number,
 }
 
 const AmortizationTable = (props: AmortizationTableProps) => {
-    const { loanAmount, termLength, interestRate, breakdownByMonth } = props;
+    const { loanAmount, termLength, interestRate, breakdownByMonth, extraPrincipalPayment } = props;
     const { colorMode } = useColorMode();
     const calculatedTermLength = breakdownByMonth ? termLength : termLength * 12;
-    const paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, calculatedTermLength);
+    const paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, calculatedTermLength) + (extraPrincipalPayment || 0);
     const formatToDollar = Helpers.String.FormatToDollar.format;
     let total = 0, totalInterest = 0, yearlyPrincipal = 0, yearlyInterest = 0;
     
@@ -59,6 +61,18 @@ const AmortizationTable = (props: AmortizationTableProps) => {
             }
             month++;
         }
+
+        if (extraPrincipalPayment > 0 && !breakdownByMonth) {
+            arr.push(
+                <Tr key={month}>
+                    <Td>{Math.ceil(month / 12)}</Td>
+                    <Td>{formatToDollar(yearlyInterest)}</Td>
+                    <Td>{formatToDollar(yearlyPrincipal)}</Td>
+                    <Td>{formatToDollar(balance)}</Td>
+                </Tr>
+            );
+        }
+
         return arr;
     }
 
