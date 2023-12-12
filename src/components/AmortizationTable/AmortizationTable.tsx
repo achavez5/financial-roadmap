@@ -17,8 +17,7 @@ const AmortizationTable = (props: AmortizationTableProps) => {
     const calculatedTermLength = breakdownByMonth ? termLength : termLength * 12;
     const paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, calculatedTermLength);
     const formatToDollar = Helpers.String.FormatToDollar.format;
-    const Round = Helpers.Math.Round;
-    let total = 0, totalInterest = 0;
+    let total = 0, totalInterest = 0, yearlyPrincipal = 0, yearlyInterest = 0;
     
     function generateTable(): React.ReactElement[] {
         let arr: React.ReactElement[] = [];
@@ -26,23 +25,38 @@ const AmortizationTable = (props: AmortizationTableProps) => {
         let month = 1;
 
         while (balance > 0) {
-            let interest = Round(balance * (interestRate / 12) / 100, 2);
-            let principal = Round(paymentAmount - interest, 2);
-            total += Round(paymentAmount, 2);
-            totalInterest += Round(interest, 2);
+            let interest = balance * (interestRate / 12) / 100;
+            let principal = paymentAmount - interest;
+            
+            // handle last payment
+            if (balance - principal < 0) {
+                principal = balance;
+            }
+
+            total += principal + interest;
+            totalInterest += interest;
+            balance -= principal;
+
+            if(!breakdownByMonth ) {
+                if (month % 12 === 1) {
+                    yearlyPrincipal = 0;
+                    yearlyInterest = 0;
+                    
+                }
+                yearlyInterest += interest;
+                yearlyPrincipal += principal;
+            }
 
             if (breakdownByMonth || month % 12 === 0) {
                 arr.push(
                     <Tr key={month}>
                         <Td>{breakdownByMonth  ? month : month / 12}</Td>
+                        <Td>{formatToDollar(breakdownByMonth ? interest : yearlyInterest)}</Td>
+                        <Td>{formatToDollar(breakdownByMonth ? principal: yearlyPrincipal)}</Td>
                         <Td>{formatToDollar(balance)}</Td>
-                        <Td>{formatToDollar(interest)}</Td>
-                        <Td>{formatToDollar(principal)}</Td>
                     </Tr>
                 );
             }
-
-            balance -= principal;
             month++;
         }
         return arr;
@@ -53,9 +67,9 @@ const AmortizationTable = (props: AmortizationTableProps) => {
         <Thead>
             <Tr>
                 <Th>{breakdownByMonth ? "Month" : "Year"}</Th>
-                <Th>Balance</Th>
                 <Th>Interest</Th>
                 <Th>Principal</Th>
+                <Th>Balance</Th>
             </Tr>
         </Thead>
     );
@@ -64,7 +78,7 @@ const AmortizationTable = (props: AmortizationTableProps) => {
 
     return (
         <>
-            <Card boxShadow="inner" p="6" rounded="md" bg= { colorMode === "light" ? "" : "dark.cardBackground"}>
+            <Card boxShadow="inner" p="6" rounded="md" bg= { colorMode === "light" ? "" : "gray.900"}>
                 <CardHeader>
                     <HStack bg={ colorMode === "light" ? "#EDF2F7": "#2D3748"} borderRadius="md" p="10px" spacing="10x">
                         <Stat dropShadow={"inner"}>

@@ -7,5 +7,5 @@ export function GetPaymentAmount(principalPayment: number, interestRate: number,
     let numerator = principalPayment * monthlyInterestRate;
     let denominator = (1.0 - Math.pow(1.0 + monthlyInterestRate, -(termLengthInMonths)));
     
-    return Round(numerator / denominator, 2);
+    return numerator / denominator;
 }
