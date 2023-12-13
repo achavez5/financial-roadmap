@@ -3,7 +3,6 @@ import { Table, Thead, Tbody, Tr, Th, Td, TableContainer,
          Stat, StatNumber, StatLabel, HStack, Card,
          CardHeader, CardBody, useColorMode } from '@chakra-ui/react';
 import { Helpers } from "../../Libraries/Helpers";
-import { format } from "path";
 
 type AmortizationTableProps = {
     loanAmount: number,
@@ -11,10 +10,11 @@ type AmortizationTableProps = {
     interestRate: number,
     breakdownByMonth: boolean,
     extraPrincipalPayment: number,
+    extraYearlyPayment: number,
 }
 
 const AmortizationTable = (props: AmortizationTableProps) => {
-    const { loanAmount, termLength, interestRate, breakdownByMonth, extraPrincipalPayment } = props;
+    const { loanAmount, termLength, interestRate, breakdownByMonth, extraPrincipalPayment, extraYearlyPayment } = props;
     const { colorMode } = useColorMode();
     const calculatedTermLength = breakdownByMonth ? termLength : termLength * 12;
     const paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, calculatedTermLength) + (extraPrincipalPayment || 0);
@@ -29,7 +29,11 @@ const AmortizationTable = (props: AmortizationTableProps) => {
         while (balance > 0) {
             let interest = balance * (interestRate / 12) / 100;
             let principal = paymentAmount - interest;
-            
+
+            if (extraYearlyPayment > 0 && month % 12 === 0) {
+                principal += extraYearlyPayment;
+            }
+
             // handle last payment
             if (balance - principal < 0) {
                 principal = balance;
@@ -39,11 +43,10 @@ const AmortizationTable = (props: AmortizationTableProps) => {
             totalInterest += interest;
             balance -= principal;
 
-            if(!breakdownByMonth ) {
+            if(!breakdownByMonth) {
                 if (month % 12 === 1) {
                     yearlyPrincipal = 0;
                     yearlyInterest = 0;
-                    
                 }
                 yearlyInterest += interest;
                 yearlyPrincipal += principal;
@@ -62,7 +65,7 @@ const AmortizationTable = (props: AmortizationTableProps) => {
             month++;
         }
 
-        if (extraPrincipalPayment > 0 && !breakdownByMonth) {
+        if ((extraPrincipalPayment > 0 || extraYearlyPayment > 0) && !breakdownByMonth) {
             arr.push(
                 <Tr key={month}>
                     <Td>{Math.ceil(month / 12)}</Td>

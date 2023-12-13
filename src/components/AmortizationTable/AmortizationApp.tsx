@@ -10,6 +10,7 @@ const AmortizationApp = () => {
     const [interestRate, updateInterestRate] = useState(5);
     const [breakdownByMonth, updateBreakDownByMonth] = useState(false);
     const [extraPrincipalPayment, updateExtraPrincipalPayment] = useState(0);
+    const [extraYearlyPayment, updateExtraYearlyPayment] = useState(0);
 
     return (
         <>
@@ -21,6 +22,7 @@ const AmortizationApp = () => {
                         updateInterestRate={updateInterestRate}
                         updateBreakDownByMonth={updateBreakDownByMonth}
                         updateExtraPrincipalPayment={updateExtraPrincipalPayment}
+                        updateExtraYearlyPayment={updateExtraYearlyPayment}
                         breakdownByMonth={breakdownByMonth}
                     />
                 </Box>
@@ -30,6 +32,7 @@ const AmortizationApp = () => {
                         interestRate={interestRate}
                         breakdownByMonth={breakdownByMonth}
                         extraPrincipalPayment={extraPrincipalPayment}
+                        extraYearlyPayment={extraYearlyPayment}
                 />
             </HStack>
         </>
