@@ -115,7 +115,7 @@ const AmortizationForm = (props: AmortizationParameters) => {
                                 <AccordionIcon />
                             </AccordionButton>
                         </h2>
-                        <AccordionPanel pb={4} bg={colorMode === "light" ? "" : "gray.700"} padding="20px" dropShadow="inner" borderRadius="medium">
+                        <AccordionPanel pb={4} bg={colorMode === "light" ? "gray.100" : "gray.700"} padding="20px" dropShadow="inner" borderRadius="medium">
                             <VStack spacing={4}>
                                 <FormControl>
                                     <FormLabel htmlFor="extraPrincipalPayment">Extra monthly principal payment</FormLabel>

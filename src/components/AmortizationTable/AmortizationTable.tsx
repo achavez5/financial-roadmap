@@ -97,7 +97,7 @@ const AmortizationTable = (props: AmortizationTableProps) => {
         <>
             <Card boxShadow="inner" p="6" rounded="md" bg= { colorMode === "light" ? "" : "gray.900"}>
                 <CardHeader>
-                    <HStack bg={ colorMode === "light" ? "#EDF2F7": "#2D3748"} borderRadius="md" p="10px" spacing="10x">
+                    <HStack bg={ colorMode === "light" ? "gray.100": "gray.700"} borderRadius="md" p="10px" spacing="10x">
                         <Stat dropShadow={"inner"}>
                             <StatLabel>Monthly payment</StatLabel>
                             <StatNumber>{formatToDollar(paymentAmount)}</StatNumber>
