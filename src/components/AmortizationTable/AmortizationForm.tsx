@@ -1,7 +1,7 @@
 import { 
     Heading, FormLabel, Input, VStack,
     FormControl, Button, FormErrorMessage, Select, 
-    Card, CardHeader, CardBody, CardFooter, useColorMode,
+    Card, CardHeader, CardBody, CardFooter, useColorModeValue,
     Accordion, AccordionButton, AccordionItem, AccordionPanel, AccordionIcon,
     Box, Tooltip, HStack} from "@chakra-ui/react";
 import { InfoOutlineIcon } from "@chakra-ui/icons";
@@ -23,7 +23,6 @@ const AmortizationForm = (props: AmortizationParameters) => {
     const { updateLoanAmount, updateTermLength, updateInterestRate, 
             updateBreakDownByMonth, updateExtraPrincipalPayment, 
             updateExtraYearlyPayment, breakdownByMonth } = props;
-    const { colorMode } = useColorMode();
     const formik = useFormik({
         initialValues: {
             loanAmount: "", 
@@ -49,7 +48,7 @@ const AmortizationForm = (props: AmortizationParameters) => {
       });
 
     return (
-        <Card variant={"elevated"} maxWidth="100%" bg={ colorMode === "light" ? "" : "gray.900"} >
+        <Card variant={"elevated"} maxWidth="100%" bg={ useColorModeValue("", "gray.900")} >
             <CardHeader>
                 <Heading size="lg">Amortization Calculator</Heading>
             </CardHeader>
@@ -110,12 +109,12 @@ const AmortizationForm = (props: AmortizationParameters) => {
                 <Accordion id="additional-options" allowToggle>
                     <AccordionItem>
                         <h2>
-                            <AccordionButton _hover={{ background: colorMode === "light" ? "" : "gray.400"}}>
+                            <AccordionButton _hover={{ background: useColorModeValue("", "gray.400")}}>
                                 <Box as="span" flex='1' textAlign='left'>Advanced options</Box>
                                 <AccordionIcon />
                             </AccordionButton>
                         </h2>
-                        <AccordionPanel pb={4} bg={colorMode === "light" ? "gray.100" : "gray.700"} padding="20px" dropShadow="inner" borderRadius="medium">
+                        <AccordionPanel pb={4} bg={useColorModeValue("gray.100", "gray.700")}  padding="20px" dropShadow="inner" borderRadius="medium">
                             <VStack spacing={4}>
                                 <FormControl>
                                     <FormLabel htmlFor="extraPrincipalPayment">Extra monthly principal payment</FormLabel>

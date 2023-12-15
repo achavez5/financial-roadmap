@@ -1,7 +1,7 @@
 import React from "react";
 import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, 
          Stat, StatNumber, StatLabel, HStack, Card,
-         CardHeader, CardBody, useColorMode } from '@chakra-ui/react';
+         CardHeader, CardBody, useColorModeValue } from '@chakra-ui/react';
 import { Helpers } from "../../Libraries/Helpers";
 
 type AmortizationTableProps = {
@@ -15,7 +15,6 @@ type AmortizationTableProps = {
 
 const AmortizationTable = (props: AmortizationTableProps) => {
     const { loanAmount, termLength, interestRate, breakdownByMonth, extraPrincipalPayment, extraYearlyPayment } = props;
-    const { colorMode } = useColorMode();
     const calculatedTermLength = breakdownByMonth ? termLength : termLength * 12;
     const paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, calculatedTermLength) + (extraPrincipalPayment || 0);
     const formatToDollar = Helpers.String.FormatToDollar.format;
@@ -95,9 +94,9 @@ const AmortizationTable = (props: AmortizationTableProps) => {
 
     return (
         <>
-            <Card boxShadow="inner" p="6" rounded="md" bg= { colorMode === "light" ? "" : "gray.900"}>
+            <Card boxShadow="inner" p="6" rounded="md" bg= { useColorModeValue("", "gray.900")}>
                 <CardHeader>
-                    <HStack bg={ colorMode === "light" ? "gray.100": "gray.700"} borderRadius="md" p="10px" spacing="10x">
+                    <HStack bg={ useColorModeValue("gray.100", "gray.700")} borderRadius="md" p="10px" spacing="10x">
                         <Stat dropShadow={"inner"}>
                             <StatLabel>Monthly payment</StatLabel>
                             <StatNumber>{formatToDollar(paymentAmount)}</StatNumber>
