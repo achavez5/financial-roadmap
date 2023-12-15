@@ -1,6 +1,7 @@
 import { Box, HStack, useColorModeValue, Image, Tooltip } from "@chakra-ui/react";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import logo from "../images/placeholderLogo.png"; // TODO: get a logo
+import { ColorModeSwitcher } from "../ColorModeSwitcher"
 
 const Header = () => {
 
@@ -35,7 +36,7 @@ const Header = () => {
           <Image src={logo} boxSize="1.5em"/>
           <nav>
             {/**TODO: figure out what goes here */}
-            <></>
+            <ColorModeSwitcher justifySelf="flex-end" />
           </nav>
         </HStack>
       </Box>
