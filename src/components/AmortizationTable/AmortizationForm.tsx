@@ -1,7 +1,10 @@
 import { 
     Heading, FormLabel, Input, VStack,
     FormControl, Button, FormErrorMessage, Select, 
-    Card, CardHeader, CardBody, CardFooter, useColorMode } from "@chakra-ui/react";
+    Card, CardHeader, CardBody, CardFooter, useColorModeValue,
+    Accordion, AccordionButton, AccordionItem, AccordionPanel, AccordionIcon,
+    Box, Tooltip, HStack} from "@chakra-ui/react";
+import { InfoOutlineIcon } from "@chakra-ui/icons";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -11,33 +14,41 @@ type AmortizationParameters = {
     updateTermLength: React.Dispatch<React.SetStateAction<number>>,
     updateInterestRate: React.Dispatch<React.SetStateAction<number>>,
     updateBreakDownByMonth: React.Dispatch<React.SetStateAction<boolean>>,
+    updateExtraPrincipalPayment: React.Dispatch<React.SetStateAction<number>>,
+    updateExtraYearlyPayment: React.Dispatch<React.SetStateAction<number>>,
     breakdownByMonth: boolean,
 }
 
 const AmortizationForm = (props: AmortizationParameters) => {
     const { updateLoanAmount, updateTermLength, updateInterestRate, 
-            updateBreakDownByMonth, breakdownByMonth } = props;
-    const { colorMode } = useColorMode();
+            updateBreakDownByMonth, updateExtraPrincipalPayment, 
+            updateExtraYearlyPayment, breakdownByMonth } = props;
     const formik = useFormik({
         initialValues: {
-          loanAmount: "", 
-          termLength: "",
-          interestRate: "",
+            loanAmount: "", 
+            termLength: "",
+            interestRate: "",
+            extraPrincipalPayment: "",
+            extraYearlyPayment: "",
         },
         onSubmit: (values) => {
             updateLoanAmount(parseFloat(values.loanAmount));
             updateTermLength(parseFloat(values.termLength));
             updateInterestRate(parseFloat(values.interestRate));
+            updateExtraPrincipalPayment(parseFloat(values.extraPrincipalPayment));
+            updateExtraYearlyPayment(parseFloat(values.extraYearlyPayment));
         },
         validationSchema: Yup.object({
             loanAmount: Yup.number().required("Required").min(1, "Must be at least $1"),
             termLength: Yup.number().required("Required").min(1, `Must be at least 1 ${breakdownByMonth ? "month": "year"}`).max(breakdownByMonth ? 480 : 40, breakdownByMonth ? "Must be at most 480 months" : "Must be at most 40 years"),
             interestRate: Yup.number().required("Required").min(0, "Must be at least 0% (cannot have a negative interest rate)"),
+            extraPrincipalPayment: Yup.number().min(0, "Must be a non-negative number"),
+            extraYearlyPayment: Yup.number().min(0, "Must be a non-negative number"), 
         }),
       });
 
     return (
-        <Card variant={"elevated"} maxWidth="100%" bg={ colorMode === "light" ? "" : "gray.900"}>
+        <Card variant={"elevated"} maxWidth="100%" bg={ useColorModeValue("", "gray.900")} >
             <CardHeader>
                 <Heading size="lg">Amortization Calculator</Heading>
             </CardHeader>
@@ -95,6 +106,44 @@ const AmortizationForm = (props: AmortizationParameters) => {
                         </FormControl>
                     </VStack>
                 </CardBody>
+                <Accordion id="additional-options" allowToggle>
+                    <AccordionItem>
+                        <h2>
+                            <AccordionButton _hover={{ background: useColorModeValue("", "gray.400")}}>
+                                <Box as="span" flex='1' textAlign='left'>Advanced options</Box>
+                                <AccordionIcon />
+                            </AccordionButton>
+                        </h2>
+                        <AccordionPanel pb={4} bg={useColorModeValue("gray.100", "gray.700")}  padding="20px" dropShadow="inner" borderRadius="medium">
+                            <VStack spacing={4}>
+                                <FormControl>
+                                    <FormLabel htmlFor="extraPrincipalPayment">Extra monthly principal payment</FormLabel>
+                                    <Input
+                                        id="extraPrincipalPayment"
+                                        placeholder="0"
+                                        type="number"
+                                        {...formik.getFieldProps("extraPrincipalPayment")}
+                                    />                                
+                                </FormControl>
+                                <FormControl >
+                                    <HStack spacing="0">
+                                            <FormLabel htmlFor="extraYearlyPayment" >Extra yearly payment</FormLabel>
+                                            {/**  TODO: fix this janky tooltip*/}
+                                            <Tooltip label='Extra payment is placed on 12th month of each year' placement='right-start'>
+                                                <span><InfoOutlineIcon fontSize={"sm"}/></span>
+                                            </Tooltip>
+                                    </HStack>
+                                    <Input
+                                        id="extraYearlyPayment"
+                                        placeholder="Extra yearly payment"
+                                        type="text"
+                                        {...formik.getFieldProps("extraYearlyPayment")}
+                                    />                                
+                                </FormControl>
+                            </VStack>
+                        </AccordionPanel>
+                    </AccordionItem>
+                </Accordion>
                 <CardFooter>
                     <Button type="submit" width="full" colorScheme="telegram">Calculate amortization schedule</Button>                
                 </CardFooter>
