@@ -13,29 +13,27 @@ const AmortizationApp = () => {
     const [extraYearlyPayment, updateExtraYearlyPayment] = useState(0);
 
     return (
-        <>
-            <HStack spacing={4} align="top">
-                <Box boxSize="md">
-                    <AmortizationForm 
-                        updateLoanAmount={updateLoanAmount} 
-                        updateTermLength={updateTermLength}
-                        updateInterestRate={updateInterestRate}
-                        updateBreakDownByMonth={updateBreakDownByMonth}
-                        updateExtraPrincipalPayment={updateExtraPrincipalPayment}
-                        updateExtraYearlyPayment={updateExtraYearlyPayment}
-                        breakdownByMonth={breakdownByMonth}
-                    />
-                </Box>
-                <AmortizationTable 
-                        loanAmount={loanAmount}
-                        termLength={termLength}
-                        interestRate={interestRate}
-                        breakdownByMonth={breakdownByMonth}
-                        extraPrincipalPayment={extraPrincipalPayment}
-                        extraYearlyPayment={extraYearlyPayment}
+        <HStack spacing={4} align="top">
+            <Box boxSize="md">
+                <AmortizationForm 
+                    updateLoanAmount={updateLoanAmount} 
+                    updateTermLength={updateTermLength}
+                    updateInterestRate={updateInterestRate}
+                    updateBreakDownByMonth={updateBreakDownByMonth}
+                    updateExtraPrincipalPayment={updateExtraPrincipalPayment}
+                    updateExtraYearlyPayment={updateExtraYearlyPayment}
+                    breakdownByMonth={breakdownByMonth}
                 />
-            </HStack>
-        </>
+            </Box>
+            <AmortizationTable 
+                    loanAmount={loanAmount}
+                    termLength={termLength}
+                    interestRate={interestRate}
+                    breakdownByMonth={breakdownByMonth}
+                    extraPrincipalPayment={extraPrincipalPayment}
+                    extraYearlyPayment={extraYearlyPayment}
+            />
+        </HStack>
     )
 };
 

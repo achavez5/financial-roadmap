@@ -13,8 +13,7 @@ type AmortizationTableProps = {
     extraYearlyPayment: number,
 }
 
-const AmortizationTable = (props: AmortizationTableProps) => {
-    const { loanAmount, termLength, interestRate, breakdownByMonth, extraPrincipalPayment, extraYearlyPayment } = props;
+const AmortizationTable = ({ loanAmount, termLength, interestRate, breakdownByMonth, extraPrincipalPayment, extraYearlyPayment }: AmortizationTableProps) => {
     const calculatedTermLength = breakdownByMonth ? termLength : termLength * 12;
     const paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, calculatedTermLength) + (extraPrincipalPayment || 0);
     const formatToDollar = Helpers.String.FormatToDollar.format;
