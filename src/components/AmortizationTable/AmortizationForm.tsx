@@ -19,10 +19,9 @@ type AmortizationParameters = {
     breakdownByMonth: boolean,
 }
 
-const AmortizationForm = (props: AmortizationParameters) => {
-    const { updateLoanAmount, updateTermLength, updateInterestRate, 
-            updateBreakDownByMonth, updateExtraPrincipalPayment, 
-            updateExtraYearlyPayment, breakdownByMonth } = props;
+const AmortizationForm = ({ updateLoanAmount, updateTermLength, updateInterestRate, updateBreakDownByMonth, updateExtraPrincipalPayment, 
+    updateExtraYearlyPayment, breakdownByMonth }: AmortizationParameters) => {
+
     const formik = useFormik({
         initialValues: {
             loanAmount: "", 
@@ -40,7 +39,14 @@ const AmortizationForm = (props: AmortizationParameters) => {
         },
         validationSchema: Yup.object({
             loanAmount: Yup.number().required("Required").min(1, "Must be at least $1"),
-            termLength: Yup.number().required("Required").min(1, `Must be at least 1 ${breakdownByMonth ? "month": "year"}`).max(breakdownByMonth ? 480 : 40, breakdownByMonth ? "Must be at most 480 months" : "Must be at most 40 years"),
+            termLength: Yup.number()
+                           .required("Required")
+                           .min(1, `Must be at least 1 ${breakdownByMonth ? "month": "year"}`)
+                           .max(breakdownByMonth ? 480 : 40,
+                                breakdownByMonth ? 
+                                    "Must be at most 480 months"  
+                                    : "Must be at most 40 years"
+                            ),
             interestRate: Yup.number().required("Required").min(0, "Must be at least 0% (cannot have a negative interest rate)"),
             extraPrincipalPayment: Yup.number().min(0, "Must be a non-negative number"),
             extraYearlyPayment: Yup.number().min(0, "Must be a non-negative number"), 
