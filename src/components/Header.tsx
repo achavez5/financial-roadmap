@@ -9,7 +9,7 @@ const Header = () => {
     <Box
       position="fixed"
       top={0}
-      left={0}
+      left={200}
       right={0}
       translateY={0}
       transitionProperty="transform"
@@ -35,7 +35,6 @@ const Header = () => {
           </nav>
           <Image src={logo} boxSize="1.5em"/>
           <nav>
-            {/**TODO: figure out what goes here */}
             <ColorModeSwitcher justifySelf="flex-end" />
           </nav>
         </HStack>

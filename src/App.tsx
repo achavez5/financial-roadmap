@@ -2,21 +2,22 @@ import {
   ChakraProvider,
   Box,
   VStack,
-  Grid,
 } from "@chakra-ui/react"
 import AmortizationApp from "./components/AmortizationTable/AmortizationApp"
 import Header from "./components/Header"
+import Sidebar from "./components/Sidebar"
 import theme from "./theme"
 
-export const App = () => (
-  <ChakraProvider theme={theme}>
-    <Header />
-    <Box pt="4rem" textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <VStack spacing={8}>
-          <AmortizationApp />
+export const App = () => {
+  return  (
+    <ChakraProvider theme={theme}>
+      <Sidebar/>
+      <Box ml="false" alignContent={"center"} pl="200px">
+        <Header /**onShowSidebar={toggleSidebar} showSidebarButton={isSidebarOpen}*/ />
+        <VStack spacing={8} textAlign="center" pt={"8rem"}>
+          <AmortizationApp/>
         </VStack>
-      </Grid>
-    </Box>
-  </ChakraProvider>
-)
+      </Box>
+</ChakraProvider>
+  );
+}
