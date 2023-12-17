@@ -1,6 +1,11 @@
 import {
-    Box, Button, VStack,
+    Button, VStack, Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton 
 } from '@chakra-ui/react'
+
+type SidebarProps = {
+    isOpen: boolean;
+    onClose: () => void;
+};
 
   
 const SidebarContent = () => (
@@ -11,13 +16,18 @@ const SidebarContent = () => (
     </VStack>
 )
 
-const Sidebar = () => {
+const Sidebar = ( {isOpen, onClose} : SidebarProps) => {
     return (
-        <Box position="fixed" left={0} p={5} w="200px" top={0} h="100%"
-            bg="#dfdfdf" // TODO: make this look good
-        >
-            <SidebarContent />
-        </Box>
+        <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+            <DrawerOverlay />
+            <DrawerContent>
+                <DrawerCloseButton />
+                <DrawerHeader>Financial tools</DrawerHeader>
+                <DrawerBody>
+                    <SidebarContent />
+                </DrawerBody>
+            </DrawerContent>
+        </Drawer>
     )
 }
 

@@ -1,3 +1,5 @@
+import { useState } from "react"
+
 import {
   ChakraProvider,
   Box,
@@ -9,11 +11,17 @@ import Sidebar from "./components/Sidebar"
 import theme from "./theme"
 
 export const App = () => {
+  const [isSidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!isSidebarOpen);
+  };
+
   return  (
     <ChakraProvider theme={theme}>
-      <Sidebar/>
-      <Box ml="false" alignContent={"center"} pl="200px">
-        <Header /**onShowSidebar={toggleSidebar} showSidebarButton={isSidebarOpen}*/ />
+      <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar}/>
+      <Box ml="0" alignContent={"center"} >
+        <Header onShowSidebar={toggleSidebar} />
         <VStack spacing={8} textAlign="center" pt={"8rem"}>
           <AmortizationApp/>
         </VStack>
