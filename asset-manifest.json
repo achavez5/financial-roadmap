@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/financial-roadmap/static/js/main.69893061.js",
+    "main.js": "/financial-roadmap/static/js/main.2b40aa54.js",
     "index.html": "/financial-roadmap/index.html",
-    "main.69893061.js.map": "/financial-roadmap/static/js/main.69893061.js.map"
+    "main.2b40aa54.js.map": "/financial-roadmap/static/js/main.2b40aa54.js.map"
   },
   "entrypoints": [
-    "static/js/main.69893061.js"
+    "static/js/main.2b40aa54.js"
   ]
 }
