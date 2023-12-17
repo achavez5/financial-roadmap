@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AmortizationForm from "./AmortizationForm";
 import AmortizationTable from "./AmortizationTable";
-import { HStack, Box } from "@chakra-ui/react";
+import { HStack, VStack, Box, useBreakpointValue } from "@chakra-ui/react";
+
+const smVariant = { oneColumnApp: true };
+const mdVariant = { oneColumnApp: true };
+const lgVariant = { oneColumnApp: false };
 
 const AmortizationApp = () => {
     // Default values
@@ -12,29 +16,48 @@ const AmortizationApp = () => {
     const [extraPrincipalPayment, updateExtraPrincipalPayment] = useState(0);
     const [extraYearlyPayment, updateExtraYearlyPayment] = useState(0);
 
-    return (
-        <HStack spacing={4} align="top">
-            <Box boxSize="md">
-                <AmortizationForm 
-                    updateLoanAmount={updateLoanAmount} 
-                    updateTermLength={updateTermLength}
-                    updateInterestRate={updateInterestRate}
-                    updateBreakDownByMonth={updateBreakDownByMonth}
-                    updateExtraPrincipalPayment={updateExtraPrincipalPayment}
-                    updateExtraYearlyPayment={updateExtraYearlyPayment}
-                    breakdownByMonth={breakdownByMonth}
-                />
-            </Box>
-            <AmortizationTable 
-                    loanAmount={loanAmount}
-                    termLength={termLength}
-                    interestRate={interestRate}
-                    breakdownByMonth={breakdownByMonth}
-                    extraPrincipalPayment={extraPrincipalPayment}
-                    extraYearlyPayment={extraYearlyPayment}
+    const variants = useBreakpointValue({ base: smVariant, md: mdVariant, lg: lgVariant })
+    const appParts = [
+    (
+        <Box boxSize="md">
+            <AmortizationForm 
+                updateLoanAmount={updateLoanAmount} 
+                updateTermLength={updateTermLength}
+                updateInterestRate={updateInterestRate}
+                updateBreakDownByMonth={updateBreakDownByMonth}
+                updateExtraPrincipalPayment={updateExtraPrincipalPayment}
+                updateExtraYearlyPayment={updateExtraYearlyPayment}
+                breakdownByMonth={breakdownByMonth}
             />
-        </HStack>
+        </Box>
+    ),
+    (
+        <AmortizationTable 
+            loanAmount={loanAmount}
+            termLength={termLength}
+            interestRate={interestRate}
+            breakdownByMonth={breakdownByMonth}
+            extraPrincipalPayment={extraPrincipalPayment}
+            extraYearlyPayment={extraYearlyPayment}
+        />
     )
+    ]; 
+
+    useEffect(() => {
+        console.log("variants", variants, "oneAppColumn", variants?.oneColumnApp);
+    }, [variants]);
+
+    return variants?.oneColumnApp 
+    ? (
+        <><VStack spacing={4} align="center">
+            {appParts}
+        </VStack></>
+    ) 
+    : (
+        <><HStack spacing={4} align="top">
+            {appParts}
+        </HStack></>
+    );
 };
 
 export default AmortizationApp;

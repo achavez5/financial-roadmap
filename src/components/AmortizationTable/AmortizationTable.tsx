@@ -93,10 +93,10 @@ const AmortizationTable = ({ loanAmount, termLength, interestRate, breakdownByMo
 
     return (
         <>
-            <Card boxShadow="inner" p="6" rounded="md" bg= { useColorModeValue("", "gray.900")}>
+            <Card variant="elevated" p="6" rounded="md" bg= { useColorModeValue("", "gray.900")}>
                 <CardHeader>
                     <HStack bg={ useColorModeValue("gray.100", "gray.700")} borderRadius="md" p="10px" spacing="10x">
-                        <Stat dropShadow={"inner"}>
+                        <Stat>
                             <StatLabel>Monthly payment</StatLabel>
                             <StatNumber>{formatToDollar(paymentAmount)}</StatNumber>
                         </Stat>
