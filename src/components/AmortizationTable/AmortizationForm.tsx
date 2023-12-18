@@ -7,6 +7,7 @@ import {
 import { InfoOutlineIcon } from "@chakra-ui/icons";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { AppVariant } from "./AmortizationApp";
 
 // figure out if there is a better way to handle the states
 type AmortizationParameters = {
@@ -17,10 +18,11 @@ type AmortizationParameters = {
     updateExtraPrincipalPayment: React.Dispatch<React.SetStateAction<number>>,
     updateExtraYearlyPayment: React.Dispatch<React.SetStateAction<number>>,
     breakdownByMonth: boolean,
+    variants?: AppVariant,
 }
 
 const AmortizationForm = ({ updateLoanAmount, updateTermLength, updateInterestRate, updateBreakDownByMonth, updateExtraPrincipalPayment, 
-    updateExtraYearlyPayment, breakdownByMonth }: AmortizationParameters) => {
+    updateExtraYearlyPayment, breakdownByMonth, variants }: AmortizationParameters) => {
 
     const formik = useFormik({
         initialValues: {
@@ -53,8 +55,18 @@ const AmortizationForm = ({ updateLoanAmount, updateTermLength, updateInterestRa
         }),
       });
 
+    const accordionHoverColor = useColorModeValue("gray.200", "gray.600");
+    const accordionPanelColor = useColorModeValue("gray.100", "gray.700");
+
+    // console.log("variants", variants, "oneAppColumn", variants?.oneColumnApp);
+
+    const un = () => {
+                console.log(">>>>One column app", variants?.oneColumnApp);
+                return null;
+            };
+
     return (
-        <Card variant={"elevated"} maxWidth="100%" bg={ useColorModeValue("", "gray.900")} >
+        <Card variant={"elevated"} maxWidth="100%" bg={ useColorModeValue("", "gray.900")} size={variants?.compactApplication ? "sm" : "md"}>
             <CardHeader>
                 <Heading size="lg">Amortization Calculator</Heading>
             </CardHeader>
@@ -112,15 +124,16 @@ const AmortizationForm = ({ updateLoanAmount, updateTermLength, updateInterestRa
                         </FormControl>
                     </VStack>
                 </CardBody>
-                <Accordion id="additional-options" allowToggle>
+            { un()   }
+                { !variants?.oneColumnApp ? (<Accordion id="additional-options" allowToggle >
                     <AccordionItem>
                         <h2>
-                            <AccordionButton _hover={{ background: useColorModeValue("", "gray.400")}}>
+                            <AccordionButton _hover={ {background: accordionHoverColor }}>
                                 <Box as="span" flex='1' textAlign='left'>Advanced options</Box>
                                 <AccordionIcon />
                             </AccordionButton>
                         </h2>
-                        <AccordionPanel pb={4} bg={useColorModeValue("gray.100", "gray.700")}  padding="20px" dropShadow="inner" borderRadius="medium">
+                        <AccordionPanel pb={4} bg={accordionPanelColor}  padding="20px" dropShadow="inner" borderRadius="medium">
                             <VStack spacing={4}>
                                 <FormControl>
                                     <FormLabel htmlFor="extraPrincipalPayment">Extra monthly principal payment</FormLabel>
@@ -149,7 +162,7 @@ const AmortizationForm = ({ updateLoanAmount, updateTermLength, updateInterestRa
                             </VStack>
                         </AccordionPanel>
                     </AccordionItem>
-                </Accordion>
+                </Accordion>) : null } 
                 <CardFooter>
                     <Button type="submit" width="full" colorScheme="telegram">Calculate amortization schedule</Button>                
                 </CardFooter>

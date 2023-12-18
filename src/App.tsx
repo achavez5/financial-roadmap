@@ -20,12 +20,12 @@ export const App = () => {
   return  (
     <ChakraProvider theme={theme}>
       <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar}/>
-      <Box ml="0" alignContent={"center"} >
+      <Box textAlign="center" fontSize="xl" maxWidth="100dvw">
         <Header onShowSidebar={toggleSidebar} />
-        <VStack spacing={8} textAlign="center" pt={"8rem"}>
-          <AmortizationApp/>
+        <VStack spacing={8}>
+           <AmortizationApp />
         </VStack>
       </Box>
-</ChakraProvider>
+    </ChakraProvider>
   );
 }
