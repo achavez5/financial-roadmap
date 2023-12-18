@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
 import AmortizationForm from "./AmortizationForm";
 import AmortizationTable from "./AmortizationTable";
-import { HStack, VStack, Box, useBreakpointValue } from "@chakra-ui/react";
+import { HStack, Stack, Box, useBreakpointValue } from "@chakra-ui/react";
 
-const smVariant = { oneColumnApp: true };
-const mdVariant = { oneColumnApp: true };
-const lgVariant = { oneColumnApp: false };
+export type AppVariant = {
+    oneColumnApp: boolean,
+    compactApplication: boolean,
+}
+
+const smVariant:AppVariant = { oneColumnApp: true, compactApplication: true };
+const mdVariant:AppVariant = { oneColumnApp: true, compactApplication: false };
+const lgVariant:AppVariant = { oneColumnApp: true, compactApplication: false };
+const xlVariant:AppVariant = { oneColumnApp: false, compactApplication: false};
 
 const AmortizationApp = () => {
     // Default values
@@ -15,11 +21,11 @@ const AmortizationApp = () => {
     const [breakdownByMonth, updateBreakDownByMonth] = useState(false);
     const [extraPrincipalPayment, updateExtraPrincipalPayment] = useState(0);
     const [extraYearlyPayment, updateExtraYearlyPayment] = useState(0);
+    const variants = useBreakpointValue({ base: smVariant, sm:smVariant, md: mdVariant, lg: lgVariant, xl: xlVariant });
 
-    const variants = useBreakpointValue({ base: smVariant, md: mdVariant, lg: lgVariant })
     const appParts = [
     (
-        <Box boxSize="md">
+        <Box boxSize={variants?.oneColumnApp ? "sm" : "md"} key="1" margin="0 auto">
             <AmortizationForm 
                 updateLoanAmount={updateLoanAmount} 
                 updateTermLength={updateTermLength}
@@ -28,6 +34,7 @@ const AmortizationApp = () => {
                 updateExtraPrincipalPayment={updateExtraPrincipalPayment}
                 updateExtraYearlyPayment={updateExtraYearlyPayment}
                 breakdownByMonth={breakdownByMonth}
+                variants={variants}
             />
         </Box>
     ),
@@ -39,22 +46,20 @@ const AmortizationApp = () => {
             breakdownByMonth={breakdownByMonth}
             extraPrincipalPayment={extraPrincipalPayment}
             extraYearlyPayment={extraYearlyPayment}
+            variants={variants}
+            key="2"
         />
     )
     ]; 
 
-    useEffect(() => {
-        console.log("variants", variants, "oneAppColumn", variants?.oneColumnApp);
-    }, [variants]);
-
     return variants?.oneColumnApp 
     ? (
-        <><VStack spacing={4} align="center">
+        <><Stack spacing={variants?.compactApplication ? 125 : 175} align="center" fontSize={variants?.compactApplication ? "sm" : "md"}>
             {appParts}
-        </VStack></>
+        </Stack></>
     ) 
     : (
-        <><HStack spacing={4} align="top">
+        <><HStack align={"top"}>
             {appParts}
         </HStack></>
     );
