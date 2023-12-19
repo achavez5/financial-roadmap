@@ -130,11 +130,15 @@ const AmortizationTable = ({ loanAmount, termLength, interestRate, breakdownByMo
 
     return (
         <>
-            <Card variant="elevated" p="6" rounded="md" bg= { useColorModeValue("", "gray.900")} margin="0 auto" size={variants?.compactApplication ? "sm" : "md"}>
+            <Card variant="elevated" p="" rounded="md" bg= { useColorModeValue("", "gray.900")} margin="0 auto" size={variants?.compactApplication ? "sm" : "md" } id="amortization-table" scrollMarginTop={75} >
                 <CardHeader>
                      {variants?.compactApplication ? 
                         <VStack bg={ statStackProps.background } borderRadius={statStackProps.borderRadius} p={statStackProps.padding} spacing={statStackProps.spacing}>
-                            {statsElems}
+                            {statsElems[0]}
+                            <HStack spacing={statStackProps.spacing} width="100%">
+                                {statsElems[1]}
+                                {statsElems[2]}
+                            </HStack>
                         </VStack> : 
                         <HStack bg={ statStackProps.background } borderRadius={statStackProps.borderRadius} p={statStackProps.padding} spacing={statStackProps.spacing}>
                             {statsElems}

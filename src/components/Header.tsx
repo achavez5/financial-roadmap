@@ -1,4 +1,4 @@
-import { Box, HStack, useColorModeValue, Image, Button } from "@chakra-ui/react";
+import { Box, HStack, useColorModeValue, Image, Button, useBreakpointValue } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import logo from "../images/placeholderLogo.png"; // TODO: get a logo
 import { ColorModeSwitcher } from "../ColorModeSwitcher"
@@ -7,8 +7,17 @@ type HeaderProps = {
   onShowSidebar: () => void;
 };
 
+export type AppVariant = {
+  size: number,
+}
 
-const Header = ( { onShowSidebar}: HeaderProps) => {
+const Header = ( { onShowSidebar } : HeaderProps) => {
+  
+  const smVariant:AppVariant = { size: 1 };
+  const mdVariant:AppVariant = { size: 1 };
+  const lgVariant:AppVariant = { size: 2 };
+  const xlVariant:AppVariant = { size: 3 };
+  const variant = useBreakpointValue({ base: smVariant, sm:smVariant, md: mdVariant, lg: lgVariant, xl: xlVariant });
 
   return (
     <Box
@@ -28,7 +37,8 @@ const Header = ( { onShowSidebar}: HeaderProps) => {
       <Box maxWidth="1280px" mx="auto">
         <HStack
           px={16}
-          py={4}
+          py={variant?.size || 4}
+          // py={4}
           justifyContent="space-between"
           alignItems="center"
         >

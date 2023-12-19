@@ -1,7 +1,7 @@
 import { useState } from "react";
 import AmortizationForm from "./AmortizationForm";
 import AmortizationTable from "./AmortizationTable";
-import { HStack, Stack, Box, useBreakpointValue } from "@chakra-ui/react";
+import { Stack, useBreakpointValue } from "@chakra-ui/react";
 
 export type AppVariant = {
     oneColumnApp: boolean,
@@ -25,18 +25,16 @@ const AmortizationApp = () => {
 
     const appParts = [
     (
-        <Box boxSize={variants?.oneColumnApp ? "sm" : "md"} key="1" margin="0 auto">
-            <AmortizationForm 
-                updateLoanAmount={updateLoanAmount} 
-                updateTermLength={updateTermLength}
-                updateInterestRate={updateInterestRate}
-                updateBreakDownByMonth={updateBreakDownByMonth}
-                updateExtraPrincipalPayment={updateExtraPrincipalPayment}
-                updateExtraYearlyPayment={updateExtraYearlyPayment}
-                breakdownByMonth={breakdownByMonth}
-                variants={variants}
-            />
-        </Box>
+        <AmortizationForm 
+            updateLoanAmount={updateLoanAmount} 
+            updateTermLength={updateTermLength}
+            updateInterestRate={updateInterestRate}
+            updateBreakDownByMonth={updateBreakDownByMonth}
+            updateExtraPrincipalPayment={updateExtraPrincipalPayment}
+            updateExtraYearlyPayment={updateExtraYearlyPayment}
+            breakdownByMonth={breakdownByMonth}
+            variants={variants}
+        />
     ),
     (
         <AmortizationTable 
@@ -54,14 +52,14 @@ const AmortizationApp = () => {
 
     return variants?.oneColumnApp 
     ? (
-        <><Stack spacing={variants?.compactApplication ? 125 : 175} align="center" fontSize={variants?.compactApplication ? "sm" : "md"}>
+        <><Stack align="center" fontSize={variants?.compactApplication ? "sm" : "md"} id="amortization-app-stack">
             {appParts}
         </Stack></>
     ) 
     : (
-        <><HStack align={"top"}>
+        <><Stack align={"top"} id="amortization-app-hstack" direction={"row"}>
             {appParts}
-        </HStack></>
+        </Stack></>
     );
 };
 

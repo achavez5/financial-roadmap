@@ -22,7 +22,7 @@ export const App = () => {
       <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar}/>
       <Box textAlign="center" fontSize="xl" maxWidth="100dvw">
         <Header onShowSidebar={toggleSidebar} />
-        <VStack spacing={8}>
+        <VStack spacing={8} pt="75px" id="app-vstack">
            <AmortizationApp />
         </VStack>
       </Box>

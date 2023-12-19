@@ -58,19 +58,25 @@ const AmortizationForm = ({ updateLoanAmount, updateTermLength, updateInterestRa
     const accordionHoverColor = useColorModeValue("gray.200", "gray.600");
     const accordionPanelColor = useColorModeValue("gray.100", "gray.700");
 
-    // console.log("variants", variants, "oneAppColumn", variants?.oneColumnApp);
+    const handleClick = () => {
+        const element = document.getElementById("amortization-table");
+        const { loanAmount, termLength, interestRate } = formik.values;
 
-    const un = () => {
-                console.log(">>>>One column app", variants?.oneColumnApp);
-                return null;
-            };
+        if (element && variants && variants?.oneColumnApp && loanAmount && termLength && interestRate) {
+            element.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }
+    };
+    
 
     return (
-        <Card variant={"elevated"} maxWidth="100%" bg={ useColorModeValue("", "gray.900")} size={variants?.compactApplication ? "sm" : "md"}>
-            <CardHeader>
-                <Heading size="lg">Amortization Calculator</Heading>
-            </CardHeader>
+        <Card variant={"elevated"} bg={ useColorModeValue("", "gray.900")}  id="form-card" margin="0 auto">
             <form onSubmit={formik.handleSubmit}>
+                <CardHeader>
+                    <Heading size="lg">Amortization Calculator</Heading>
+                </CardHeader>
                 <CardBody>
                     <VStack spacing={4}>    
                         <FormControl isInvalid={Boolean(formik.touched.loanAmount && formik.errors.loanAmount)}>
@@ -124,8 +130,7 @@ const AmortizationForm = ({ updateLoanAmount, updateTermLength, updateInterestRa
                         </FormControl>
                     </VStack>
                 </CardBody>
-            { un()   }
-                { !variants?.oneColumnApp ? (<Accordion id="additional-options" allowToggle >
+                <Accordion id="additional-options" allowToggle >
                     <AccordionItem>
                         <h2>
                             <AccordionButton _hover={ {background: accordionHoverColor }}>
@@ -162,12 +167,11 @@ const AmortizationForm = ({ updateLoanAmount, updateTermLength, updateInterestRa
                             </VStack>
                         </AccordionPanel>
                     </AccordionItem>
-                </Accordion>) : null } 
+                </Accordion>
                 <CardFooter>
-                    <Button type="submit" width="full" colorScheme="telegram">Calculate amortization schedule</Button>                
+                    <Button type="submit" width="full" colorScheme="telegram" onClick={ handleClick }>Calculate amortization schedule</Button>                
                 </CardFooter>
             </form>
-
         </Card>
     )
 };
