@@ -9,6 +9,7 @@ import AmortizationApp from "./components/AmortizationTable/AmortizationApp"
 import Header from "./components/Header"
 import Sidebar from "./components/Sidebar"
 import theme from "./theme"
+import CompoundingInterestApp from "./components/CompoundingInterestCalculator/CompoundingInterestApp"
 
 export const App = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -23,7 +24,8 @@ export const App = () => {
       <Box textAlign="center" fontSize="xl" maxWidth="100dvw">
         <Header onShowSidebar={toggleSidebar} />
         <VStack spacing={8} pt="75px" id="app-vstack">
-           <AmortizationApp />
+           {/* <AmortizationApp /> */}
+           <CompoundingInterestApp />
         </VStack>
       </Box>
     </ChakraProvider>
