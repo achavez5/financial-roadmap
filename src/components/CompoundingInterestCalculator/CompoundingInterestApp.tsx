@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import CompoundInterestTable from './CompoundInterestTable';
 
-
-
 const CompoundingInterestApp: React.FC = () => {    
     const [principal, setPrincipal] = useState<number>(1000);
     const [interestRatePercent, setInterestRate] = useState<number>(8);

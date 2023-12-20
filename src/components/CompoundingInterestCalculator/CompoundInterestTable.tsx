@@ -78,13 +78,7 @@ const CompoundInterestTable = ({ principal, interestRatePercent, monthlyPayment,
                 </HStack>
             </CardHeader>
             <CardBody>
-                <TableContainer
-                    // borderRadius="lg"
-                    // boxShadow="lg"
-                    // bg={useColorModeValue("white", "gray.800")}
-                    // p={3}
-                    // mb={4}
-                    >
+                <TableContainer>
                     <Table variant="striped">
                         <Thead>
                             <Tr>
