@@ -1,7 +1,7 @@
 import React from "react";
 import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, 
          Stat, StatNumber, StatLabel, HStack, Card,
-         CardHeader, CardBody, useColorModeValue, VStack } from '@chakra-ui/react';
+         CardHeader, CardBody, useColorModeValue } from '@chakra-ui/react';
 import { Helpers } from "../../Libraries/Helpers";
 
 type CompoundInterestTableProps = {
@@ -78,14 +78,14 @@ const CompoundInterestTable = ({ principal, interestRatePercent, monthlyPayment,
                 </HStack>
             </CardHeader>
             <CardBody>
-                <TableContainer>
+                <TableContainer id="compounding-table">
                     <Table variant="striped">
                         <Thead>
                             <Tr>
                                 <Th>Month</Th>
-                                <Th>Principal</Th>
-                                <Th>Interest</Th>
-                                <Th>Total</Th>
+                                <Th>Potential value</Th>
+                                <Th>Monthly growth</Th>
+                                <Th>Total growth</Th>
                             </Tr>
                         </Thead>
                         <Tbody>
