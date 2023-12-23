@@ -19,8 +19,8 @@ type Stats = {
 
 const calculateInterest = (interestRatePercent:number, principal:number) => {
     // Calculation logic goes here    
-    let interestRate = interestRatePercent / 100;
-    let monthlyInterestRate = interestRate / 12;
+    const interestRate = interestRatePercent / 100;
+    const monthlyInterestRate = interestRate / 12;
 
     return principal * monthlyInterestRate;
 };
@@ -28,8 +28,8 @@ const calculateInterest = (interestRatePercent:number, principal:number) => {
 const generateTable = (principal:number, interestRatePercent:number, monthlyPayment:number, timePeriod:number, stats:Stats) => {
     const formatToDollar = Helpers.String.FormatToDollar.format;
     
-    let arr:React.ReactElement[] = [];
-    let timePeriodInMonths = timePeriod * 12;
+    const arr:React.ReactElement[] = [];
+    const timePeriodInMonths = timePeriod * 12;
 
     for (let i = 0; i < timePeriodInMonths; i++) {
         let monthInterest = calculateInterest(interestRatePercent, stats.total);
@@ -52,7 +52,7 @@ const generateTable = (principal:number, interestRatePercent:number, monthlyPaym
 
 const CompoundInterestTable = ({ principal, interestRatePercent, monthlyPayment, timePeriod }: CompoundInterestTableProps) => {
     const formatToDollar = Helpers.String.FormatToDollar.format;
-    let stats:Stats = {
+    const stats:Stats = {
         total: principal,
         totalInterest: 0,
         totalContribution: principal   

@@ -40,7 +40,7 @@ const CompoundingInterestForm = ({ updatePrincipalAmount, updateTermLength, upda
         <Card variant={"elevated"} bg={ useColorModeValue("", "gray.900")}  id="form-card" margin="0 auto">
             <form onSubmit={formik.handleSubmit}>
                 <CardHeader>
-                    <Heading size="lg">Compounding Interest Calculator</Heading>
+                    <Heading size="lg">Compounding Interest<br/>Calculator</Heading>
                 </CardHeader>
                 <CardBody>
                     <VStack spacing={4}>    
