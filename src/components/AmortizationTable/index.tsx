@@ -2,6 +2,7 @@ import { useState } from "react";
 import AmortizationForm from "./AmortizationForm";
 import AmortizationTable from "./AmortizationTable";
 import { Stack, useBreakpointValue } from "@chakra-ui/react";
+// import Header from "../Header";
 
 export type AppVariant = {
     oneColumnApp: boolean,
@@ -50,16 +51,21 @@ const AmortizationApp = () => {
     )
     ]; 
 
-    return variants?.oneColumnApp 
-    ? (
-        <><Stack align="center" fontSize={variants?.compactApplication ? "sm" : "md"} id="amortization-app-stack">
-            {appParts}
-        </Stack></>
-    ) 
-    : (
-        <><Stack align={"top"} id="amortization-app-hstack" direction={"row"}>
-            {appParts}
-        </Stack></>
+    return (
+        <>
+            {/* <Header onShowSidebar={toggleSidebar}/> */}
+            {variants?.oneColumnApp 
+            ? (
+                <><Stack align="center" fontSize={variants?.compactApplication ? "sm" : "md"} id="amortization-app-stack">
+                    {appParts}
+                </Stack></>
+            ) 
+            : (
+                <><Stack align={"top"} id="amortization-app-hstack" direction={"row"}>
+                    {appParts}
+                </Stack></>
+            )}
+        </>
     );
 };
 

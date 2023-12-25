@@ -1,15 +1,16 @@
 import { useState } from "react"
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 import {
   ChakraProvider,
   Box,
   VStack,
 } from "@chakra-ui/react"
-import AmortizationApp from "./components/AmortizationTable/AmortizationApp"
 import Header from "./components/Header"
 import Sidebar from "./components/Sidebar"
 import theme from "./theme"
-import CompoundingInterestApp from "./components/CompoundingInterestCalculator/CompoundingInterestApp"
+import CompoundingInterestApp from "./components/CompoundingInterest"
+import AmortizationApp from "./components/AmortizationTable"
 
 export const App = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -24,8 +25,13 @@ export const App = () => {
       <Box textAlign="center" fontSize="xl" maxWidth="100dvw">
         <Header onShowSidebar={toggleSidebar} />
         <VStack spacing={8} pt="75px" id="app-vstack">
-           {/* <AmortizationApp /> */}
-           <CompoundingInterestApp />
+          <BrowserRouter basename="financial-roadmap"> 
+           <Routes> 
+              <Route path="/" element={<AmortizationApp />}/>
+              <Route path="/amortization" element={<AmortizationApp />}/>
+              <Route path="/compounding-interest" element={<CompoundingInterestApp />}/>
+            </Routes>
+          </BrowserRouter>
         </VStack>
       </Box>
     </ChakraProvider>

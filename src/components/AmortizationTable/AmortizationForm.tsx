@@ -7,7 +7,7 @@ import {
 import { InfoOutlineIcon } from "@chakra-ui/icons";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { AppVariant } from "./AmortizationApp";
+import { AppVariant } from ".";
 
 // figure out if there is a better way to handle the states
 type AmortizationParameters = {
@@ -69,7 +69,6 @@ const AmortizationForm = ({ updateLoanAmount, updateTermLength, updateInterestRa
             });
         }
     };
-    
 
     return (
         <Card variant={"elevated"} bg={ useColorModeValue("", "gray.900")}  id="form-card" margin="0 auto">

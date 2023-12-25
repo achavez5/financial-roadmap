@@ -3,7 +3,7 @@ import { Table, Thead, Tbody, Tr, Th, Td, TableContainer,
          Stat, StatNumber, StatLabel, HStack, Card,
          CardHeader, CardBody, useColorModeValue, VStack } from '@chakra-ui/react';
 import { Helpers } from "../../Libraries/Helpers";
-import { AppVariant } from "./AmortizationApp";
+import { AppVariant } from ".";
 
 type AmortizationTableProps = {
     loanAmount: number,

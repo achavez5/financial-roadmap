@@ -1,6 +1,5 @@
-import { Box, HStack, useColorModeValue, Image, Button, useBreakpointValue } from "@chakra-ui/react";
+import { Box, HStack, useColorModeValue, Button, useBreakpointValue } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import logo from "../images/placeholderLogo.png"; // TODO: get a logo
 import { ColorModeSwitcher } from "../ColorModeSwitcher"
 
 type HeaderProps = {
@@ -29,7 +28,7 @@ const Header = ( { onShowSidebar } : HeaderProps) => {
       transitionProperty="transform"
       transitionDuration=".3s"
       transitionTimingFunction="ease-in-out"
-      backgroundColor={useColorModeValue("cyan.700", "cyan.900")}
+      backgroundColor={useColorModeValue("var(--chakra-colors-chakra-body-bg)", "var(--chakra-colors-chakra-body-bg)")}
       zIndex={200} // fixes the header navigation bar to the top of all elements
       width="100dvw" // fixes the header navigation bar from having elements jump around on sidebar open and close
                      // This fix is because of the scrollbar. it disappears when the side bar is open and reappears when closed
@@ -38,7 +37,6 @@ const Header = ( { onShowSidebar } : HeaderProps) => {
         <HStack
           px={16}
           py={variant?.size || 4}
-          // py={4}
           justifyContent="space-between"
           alignItems="center"
         >
@@ -47,9 +45,9 @@ const Header = ( { onShowSidebar } : HeaderProps) => {
               <HamburgerIcon />
             </Button>          
           </nav>
-          <Image src={logo} boxSize="1.5em"/>
+          <nav/> 
           <nav>
-            <ColorModeSwitcher color="white"/>
+            <ColorModeSwitcher/>
           </nav>
         </HStack>
       </Box>

@@ -1,5 +1,6 @@
 import {
-    Button, VStack, Drawer, DrawerBody, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton 
+    Button, VStack, Drawer, DrawerBody, DrawerHeader, 
+    DrawerOverlay, DrawerContent, DrawerCloseButton, Link 
 } from '@chakra-ui/react'
 
 type SidebarProps = {
@@ -10,10 +11,9 @@ type SidebarProps = {
   
 const SidebarContent = () => (
     <VStack>
-        <Button w="100%">Home</Button>
-        <Button w="100%">About</Button>
-        <Button w="100%">Contact</Button>
-    </VStack>
+        <Button w="100%"><Link href="/financial-roadmap/amortization">Amortization Calculator</Link></Button>
+        <Button w="100%"><Link href="/financial-roadmap/compounding-interest">Compounding Interest Calculator</Link></Button>
+     </VStack>
 )
 
 const Sidebar = ( {isOpen, onClose} : SidebarProps) => {
