@@ -1,6 +1,6 @@
 import { Box, HStack, useColorModeValue, Button, useBreakpointValue } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
-import { ColorModeSwitcher } from "../ColorModeSwitcher"
+import { ColorModeSwitcher } from "../../components/ColorModeSwitcher"
 
 type HeaderProps = {
   onShowSidebar: () => void;

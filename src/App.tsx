@@ -6,11 +6,11 @@ import {
   Box,
   VStack,
 } from "@chakra-ui/react"
-import Header from "./components/Header"
-import Sidebar from "./components/Sidebar"
+import Header from "./scenes/global/Header"
+import Sidebar from "./scenes/global/Sidebar"
 import theme from "./theme"
-import CompoundingInterestApp from "./components/CompoundingInterest"
-import AmortizationApp from "./components/AmortizationTable"
+import CompoundingInterestApp from "./scenes/compounding-interest"
+import AmortizationApp from "./scenes/amortization-table"
 
 export const App = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(false);

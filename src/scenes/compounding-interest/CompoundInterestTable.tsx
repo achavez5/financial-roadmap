@@ -2,7 +2,7 @@ import React from "react";
 import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, 
          Stat, StatNumber, StatLabel, HStack, Card,
          CardHeader, CardBody, useColorModeValue } from '@chakra-ui/react';
-import { Helpers } from "../../Libraries/Helpers";
+import { Helpers } from "../../libraries/Helpers";
 
 type CompoundInterestTableProps = {
     principal: number;
