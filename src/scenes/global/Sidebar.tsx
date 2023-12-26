@@ -11,8 +11,8 @@ type SidebarProps = {
   
 const SidebarContent = () => (
     <VStack>
-        <Button w="100%"><Link href="/financial-roadmap/amortization">Amortization Calculator</Link></Button>
-        <Button w="100%"><Link href="/financial-roadmap/compounding-interest">Compounding Interest Calculator</Link></Button>
+        <Button w="100%"><Link href="/financial-roadmap/#/amortization">Amortization Calculator</Link></Button>
+        <Button w="100%"><Link href="/financial-roadmap/#/compounding-interest">Compounding Interest Calculator</Link></Button>
      </VStack>
 )
 

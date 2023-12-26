@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { HashRouter, Routes, Route } from "react-router-dom"
 
 import {
   ChakraProvider,
@@ -25,13 +25,13 @@ export const App = () => {
       <Box textAlign="center" fontSize="xl" maxWidth="100dvw">
         <Header onShowSidebar={toggleSidebar} />
         <VStack spacing={8} pt="75px" id="app-vstack">
-          <BrowserRouter basename="financial-roadmap"> 
+          <HashRouter basename="/"> 
            <Routes> 
               <Route path="/" element={<AmortizationApp />}/>
               <Route path="/amortization" element={<AmortizationApp />}/>
               <Route path="/compounding-interest" element={<CompoundingInterestApp />}/>
             </Routes>
-          </BrowserRouter>
+          </HashRouter>
         </VStack>
       </Box>
     </ChakraProvider>
