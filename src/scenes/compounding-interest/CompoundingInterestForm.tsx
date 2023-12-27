@@ -39,9 +39,6 @@ const CompoundingInterestForm = ({ updatePrincipalAmount, updateTermLength, upda
     return (
         <Card variant={"elevated"} bg={ useColorModeValue("", "gray.900")}  id="form-card" margin="0 auto">
             <form onSubmit={formik.handleSubmit}>
-                <CardHeader>
-                    <Heading size="lg">Compounding Interest<br/>Calculator</Heading>
-                </CardHeader>
                 <CardBody>
                     <VStack spacing={4}>    
                         <FormControl isInvalid={Boolean(formik.touched.principal && formik.errors.principal)}>

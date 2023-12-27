@@ -3,7 +3,7 @@ import { ColorModeContext, useMode } from './theme';
 import { CssBaseline, ThemeProvider } from "@mui/material";
 
 /** #### GLOBAL COMPONENTS #### */
-import Sidebar from "./scenes/global/Sidebar"
+import AppSidebar from "./scenes/global/Sidebar"
 
 /** #### APP PAGES #### */
 import Home from "./scenes/home-dashboard"
@@ -18,13 +18,13 @@ export const App = () => {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          <Sidebar /> 
+          <AppSidebar /> 
           <main className="content">
           <HashRouter basename="/"> 
           <Routes> 
               <Route path="/" element={<Home/>}/>
               <Route path="/amortization" element={<AmortizationApp />}/>
-              <Route path="/compounding-interest" element={<CompoundingInterestApp />}/>
+              <Route path="/compound-interest" element={<CompoundingInterestApp />}/>
             </Routes>
           </HashRouter>
           </main>
