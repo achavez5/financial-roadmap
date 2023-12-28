@@ -25,7 +25,7 @@ const AmortizationApp = () => {
             updateTermLength={updateTermLength}
             updateInterestRate={updateInterestRate}
             updateBreakDownByMonth={updateBreakDownByMonth}
-            updateExtraPrincipalPayment={updateExtraPrincipalPayment}
+            updateExtraMonthlyPayment={updateExtraPrincipalPayment}
             updateExtraYearlyPayment={updateExtraYearlyPayment}
             breakdownByMonth={breakdownByMonth}
         />
