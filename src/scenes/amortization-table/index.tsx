@@ -1,8 +1,8 @@
 import { useState } from "react";
 import AmortizationForm from "./AmortizationForm";
 import AmortizationTable from "./AmortizationTable";
-import { Stack} from "@chakra-ui/react";
 import Topbar from "../global/Topbar"; 
+import { Box } from "@mui/material";
 
 export type AppVariant = {
     oneColumnApp: boolean,
@@ -12,7 +12,7 @@ export type AppVariant = {
 const AmortizationApp = () => {
     // Default values
     const [loanAmount, updateLoanAmount] = useState(100_000);
-    const [termLength, updateTermLength] = useState(30);
+    const [termLength, updateTermLength] = useState(360);
     const [interestRate, updateInterestRate] = useState(5);
     const [breakdownByMonth, updateBreakDownByMonth] = useState(false);
     const [extraPrincipalPayment, updateExtraPrincipalPayment] = useState(0);
@@ -27,7 +27,7 @@ const AmortizationApp = () => {
             updateBreakDownByMonth={updateBreakDownByMonth}
             updateExtraMonthlyPayment={updateExtraPrincipalPayment}
             updateExtraYearlyPayment={updateExtraYearlyPayment}
-            breakdownByMonth={breakdownByMonth}
+            key="1"
         />
     ),
     (
@@ -46,9 +46,9 @@ const AmortizationApp = () => {
     return (
         <>
            <Topbar title="Amortization table" /> 
-            <><Stack align="center" fontSize={ "md"} id="amortization-app-stack">
+            <Box>
                 {appParts}
-            </Stack></>
+            </Box>
         </>
     );
 };

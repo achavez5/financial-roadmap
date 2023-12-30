@@ -21,7 +21,7 @@ type Stats = {
     totalInterest: number
 };
 
-function generateTable(loanAmount:number, termLength:number, interestRate:number, extraPrincipalPayment:number, extraYearlyPayment:number, stats:Stats, paymentAmount:number, breakdownByMonth:boolean, variants:AppVariant = { oneColumnApp: true, compactApplication: true }): React.ReactElement[] {
+function generateTable(loanAmount:number, interestRate:number, extraPrincipalPayment:number, extraYearlyPayment:number, stats:Stats, paymentAmount:number, breakdownByMonth:boolean, variants:AppVariant = { oneColumnApp: true, compactApplication: true }): React.ReactElement[] {
     const formatToDollar = Helpers.String.FormatToDollar.format;
     let yearlyPrincipal = 0, yearlyInterest = 0;
 
@@ -61,7 +61,7 @@ function generateTable(loanAmount:number, termLength:number, interestRate:number
                     <Td>{breakdownByMonth  ? month : month / 12}</Td>
                     <Td>{formatToDollar(breakdownByMonth ? interest : yearlyInterest)}</Td>
                     <Td>{formatToDollar(breakdownByMonth ? principal: yearlyPrincipal)}</Td>
-                    {variants?.compactApplication ? null : (<Td>{formatToDollar(balance)}</Td>) }
+                    <Td>{formatToDollar(balance)}</Td>
                 </Tr>
             );
         }
@@ -74,7 +74,7 @@ function generateTable(loanAmount:number, termLength:number, interestRate:number
                 <Td>{Math.ceil(month / 12)}</Td>
                 <Td>{formatToDollar(yearlyInterest)}</Td>
                 <Td>{formatToDollar(yearlyPrincipal)}</Td>
-                {variants?.compactApplication ? null : (<Td>{formatToDollar(balance)}</Td>) }
+                <Td>{formatToDollar(balance)}</Td>
             </Tr>
         );
     }
@@ -82,10 +82,9 @@ function generateTable(loanAmount:number, termLength:number, interestRate:number
     return arr;
 }
 
-
 const AmortizationTable = ({ loanAmount, termLength, interestRate, breakdownByMonth, extraPrincipalPayment, extraYearlyPayment, variants }: AmortizationTableProps) => {
     const formatToDollar = Helpers.String.FormatToDollar.format;
-    const paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, breakdownByMonth ? termLength : termLength * 12) + (extraPrincipalPayment || 0);
+    const paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, termLength) + (extraPrincipalPayment || 0);
     const stats:Stats = {
         total: 0, 
         totalInterest: 0 
@@ -98,7 +97,7 @@ const AmortizationTable = ({ loanAmount, termLength, interestRate, breakdownByMo
                 <Th>{breakdownByMonth ? "Month" : "Year"}</Th>
                 <Th>Interest</Th>
                 <Th>Principal</Th>
-                {variants?.compactApplication ? null : (<Th>Balance</Th>) }
+                <Th>Balance</Th>
             </Tr>
         </Thead>
     );
@@ -111,7 +110,7 @@ const AmortizationTable = ({ loanAmount, termLength, interestRate, breakdownByMo
         fontSize: variants?.compactApplication ? "sm" : ""
     };
 
-    let table = <Tbody>{generateTable(loanAmount, termLength, interestRate, extraPrincipalPayment, extraYearlyPayment, stats, paymentAmount, breakdownByMonth, variants)}</Tbody>;
+    let table = <Tbody>{generateTable(loanAmount, interestRate, extraPrincipalPayment, extraYearlyPayment, stats, paymentAmount, breakdownByMonth, variants)}</Tbody>;
     let statsElems = [
         (<Stat key={1} >
             <StatLabel fontSize={statStackProps.fontSize}>Monthly payment</StatLabel>

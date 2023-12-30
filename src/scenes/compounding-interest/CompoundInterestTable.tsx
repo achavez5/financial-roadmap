@@ -67,7 +67,7 @@ const CompoundInterestTable = ({ principal, interestRatePercent, monthlyPayment,
     ];
 
     return (
-        <Card variant="elevated" bg={useColorModeValue("", "gray.900")} alignContent={"center"}>
+        <Card variant="elevated" bg={useColorModeValue("", "gray.900")} alignContent={"center"} id="compoundingInterestTable">
             <CardHeader>
                 <HStack background= {useColorModeValue("gray.100", "gray.700")}
                     borderRadius="md"
