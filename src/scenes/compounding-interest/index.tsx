@@ -13,18 +13,23 @@ const CompoundingInterestApp: React.FC = () => {
     return (
         <Box>
             <Topbar title="Compounding Interest Calculator" />
-            <CompoundingInterestForm 
-                updatePrincipalAmount={setPrincipal}
-                updateInterestRate={setInterestRate}
-                updateTermLength={setTimePeriod}
-                updateMonthlyPayment={setMonthlyPayment}
-            />
-            <CompoundInterestTable
-                interestRatePercent={interestRatePercent} 
-                principal={principal} 
-                monthlyPayment={monthlyPayment}
-                timePeriod={timePeriod}
-            />
+            <Box
+                display="flex"
+                flexWrap={"wrap"}
+            >
+                <CompoundingInterestForm 
+                    updatePrincipalAmount={setPrincipal}
+                    updateInterestRate={setInterestRate}
+                    updateTermLength={setTimePeriod}
+                    updateMonthlyPayment={setMonthlyPayment}
+                />
+                <CompoundInterestTable
+                    interestRatePercent={interestRatePercent} 
+                    principal={principal} 
+                    monthlyPayment={monthlyPayment}
+                    timePeriod={timePeriod}
+                />
+            </Box>
         </Box>
     );
 };

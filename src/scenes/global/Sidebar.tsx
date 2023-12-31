@@ -71,7 +71,6 @@ const AppSidebar = () => {
                         onClick={() => setCollapsed(!collapsed)}
                         icon = {collapsed ? <MenuOutlinedIcon /> : null }
                         style={{
-                            margin: "10px 0 20px 0",
                             color: colors.grey[100],
                         }}
                     >
@@ -81,7 +80,6 @@ const AppSidebar = () => {
                                 display="flex"
                                 justifyContent={"space-between"}
                                 alignItems="center"
-                                ml="15px"
                             >
                                 <Typography variant="h4" color={colors.grey[100]}>Tools</Typography>
                                 <IconButton onClick = {() => setCollapsed(!collapsed)}>

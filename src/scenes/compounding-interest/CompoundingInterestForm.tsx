@@ -60,7 +60,7 @@ const CompoundingInterestForm = ({ updatePrincipalAmount, updateTermLength, upda
             <TextFormInput
                 id="termLength"
                 type="number"
-                label="Monthly payment"
+                label="Term length"
                 error={Boolean(formik.touched.termLength && formik.errors.termLength)}
                 fieldProps={formik.getFieldProps("termLength")}
                 adornment={{ position: "end", text: "years" }}
@@ -68,7 +68,7 @@ const CompoundingInterestForm = ({ updatePrincipalAmount, updateTermLength, upda
             <TextFormInput
                 id="interestRate"
                 type="number"
-                label="Monthly payment"
+                label="Projected interest rate"
                 error={Boolean(formik.touched.interestRate && formik.errors.interestRate)}
                 fieldProps={formik.getFieldProps("interestRate")}
                 adornment={{ position: "end", text: "%" }}

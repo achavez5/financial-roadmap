@@ -20,13 +20,19 @@ const FormBox = ({children, handleSubmit} : FormBoxProps) => {
         boxShadow={theme.palette.mode === "dark" ? "0px 0px 10px 0px rgba(0,0,0,0.75)" : "0px 0px 10px 0px rgba(0,0,0,0.25)"}
         maxWidth="30vw"
         minWidth="325px"
-        margin="0 auto"
         padding="20px"
         gap="15px"
         display="flex"
-        flexWrap="wrap"
+        flexDirection={"column"}
+        alignSelf="start"
         onSubmit={handleSubmit}
-        sx={{ 
+        sx={{
+            [theme.breakpoints.down("md")]: {
+                margin: "0 auto 20px auto",
+            },
+            [theme.breakpoints.up("md")]: {
+                margin: "0 20px 20px 20px",
+            },
             '& label.Mui-focused': {
                 color: inputHighlightColor,
             },
