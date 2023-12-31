@@ -44,12 +44,16 @@ const AmortizationApp = () => {
     ]; 
 
     return (
-        <>
+        <Box>
            <Topbar title="Amortization table" /> 
-            <Box>
+            <Box
+                display="flex"
+                flexWrap="wrap"
+                maxHeight="100vh"
+            >
                 {appParts}
             </Box>
-        </>
+        </Box>
     );
 };
 

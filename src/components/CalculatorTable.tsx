@@ -13,7 +13,8 @@ const CalculatorTable = ({table, columns} : CalculatorTableProps) => {
     const colors = colorTokens(theme.palette.mode);
     const boxShadow = theme.palette.mode === "dark" ? "0px 0px 10px 0px rgba(0,0,0,0.75)" : "0px 0px 10px 0px rgba(0,0,0,0.25)";
 
-    <Box
+    return(
+        <Box
             borderRadius="4px"
             id="compounding-box"
             boxShadow={boxShadow}
@@ -41,17 +42,20 @@ const CalculatorTable = ({table, columns} : CalculatorTableProps) => {
                 disableColumnMenu
                 disableColumnSelector
                 disableEval
-                initialState={{
-                    pagination: { paginationModel: { pageSize: 10 }},
-                }}
+                autoPageSize
+                rowCount={table.length}
+                // initialState={{
+                //     pagination: { paginationModel: { pageSize: 10 }},
+                // }}
                 sx={{
                     display: "flex",
                     [`& .MuiDataGrid-columnHeader`]: {
-                        backgroundColor: colors.blueAccent[500],
+                        backgroundColor: theme.palette.mode === "dark" ? colors.blueAccent[500] : colors.primary[900],
                     },
                 }}
             />
-       </Box> 
+        </Box> 
+    );
 };
 
 export default CalculatorTable;
