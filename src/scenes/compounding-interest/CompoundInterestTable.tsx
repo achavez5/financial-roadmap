@@ -34,10 +34,9 @@ const calculateInterest = (interestRatePercent:number, principal:number) => {
 
 const generateTable = (interestRatePercent:number, monthlyPayment:number, timePeriod:number, stats:Stats, breakdownByMonth:boolean) => {
     const arr:RowProps[] = [];
-    const timePeriodInMonths = timePeriod * 12;
     let month = 1;
 
-    while (month <= timePeriodInMonths) {
+    while (month <= timePeriod) {
         let monthInterest = calculateInterest(interestRatePercent, stats.total);
         let yearlyInterest = 0;
         

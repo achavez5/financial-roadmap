@@ -7,7 +7,7 @@ import Topbar from '../global/Topbar';
 const CompoundingInterestApp: React.FC = () => {    
     const [principal, setPrincipal] = useState<number>(100_000);
     const [interestRatePercent, setInterestRate] = useState<number>(5);
-    const [timePeriod, setTimePeriod] = useState<number>(30);
+    const [timePeriod, setTimePeriod] = useState<number>(360);
     const [monthlyPayment, setMonthlyPayment] = useState<number>(500);
     const [breakdownByMonth, setBreakdownByMonth] = useState<boolean>(false);
 

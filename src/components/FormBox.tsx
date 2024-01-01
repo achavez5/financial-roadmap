@@ -37,13 +37,16 @@ const FormBox = ({children, handleSubmit} : FormBoxProps) => {
                 fontSize: "1px"
             },
             '& .MuiInputBase-input': {
-                fontSize: ".75rem"
+                fontSize: "1rem"
             },
             '& .MuiTypography-root': {
-                fontSize: "0.75rem"
+                fontSize: "1rem"
             }, 
             '& label.Mui-focused': {
                 color: inputHighlightColor,
+            },
+            '& label.MuiInputLabel-root': {
+                fontSize: '1rem'
             },
             '& .MuiInput-underline:after': {
                 borderBottomColor: inputHighlightColor,

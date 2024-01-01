@@ -34,7 +34,7 @@ const CalculatorTable = ({table, columns} : CalculatorTableProps) => {
                 rows={table}
                 columns={columns}
                 paginationMode="client"
-                density="compact"
+                density="standard"
                 isRowSelectable={() => false}
                 rowSpacingType={'border'}
                 pageSizeOptions={[]} // turns off the number of rows per page dropdown
@@ -50,6 +50,9 @@ const CalculatorTable = ({table, columns} : CalculatorTableProps) => {
                     display: "flex",
                     [`& .MuiDataGrid-columnHeader`]: {
                         backgroundColor: theme.palette.mode === "dark" ? colors.blueAccent[500] : colors.primary[900],
+                    },
+                    '& > *': {
+                        fontSize: "1rem"
                     },
                 }}
             />

@@ -17,24 +17,26 @@ type CompoundingFormParameters = {
 const validationSchema = Yup.object({
         principal: Yup.number().required("Required").min(0, "Must be at least $0"),
         monthlyPayment: Yup.number().min(0, "Must be a non-negative number"),
-        termLength: Yup.number().required("Required").min(1, "Must be at least 1 year.").max(40, "Must be at most 40 years"), 
+        termLengthYear: Yup.number().required("Required").min(1, "Must be at least 1 year.").max(40, "Must be at most 40 years"),
+        termLengthMonth: Yup.number().max(11, "Must be at most 11 months"),
         interestRate: Yup.number().required("Required").min(0, "Must be at least 0% (cannot have a negative interest rate)"),
 });
 
 const initialValues = {
     principal: "", 
     monthlyPayment: "",
-    termLength: "",
+    termLengthYear: "",
+    termLengthMonth: "",
     interestRate: "",
 };
 
 const CompoundingInterestForm = ({ updatePrincipalAmount, updateTermLength, updateInterestRate, updateMonthlyPayment, updateBreakDownByMonth }: CompoundingFormParameters) => {
     const [breakdownBy, updateBreakdownBy] = useState("Year");
     
-    const onSubmit = (values: {principal: string, termLength: string, interestRate: string, monthlyPayment: string}) => {
+    const onSubmit = (values: {principal: string, termLengthYear: string, termLengthMonth: string, interestRate: string, monthlyPayment: string}) => {
         updatePrincipalAmount(parseFloat(values.principal));
         updateMonthlyPayment(parseFloat(values.monthlyPayment));
-        updateTermLength(parseFloat(values.termLength));
+        updateTermLength((parseFloat(values.termLengthYear) * 12) + parseFloat(values.termLengthMonth));
         updateInterestRate(parseFloat(values.interestRate));
     };
 
@@ -67,20 +69,20 @@ const CompoundingInterestForm = ({ updatePrincipalAmount, updateTermLength, upda
                 gap={"15px"}
             >
                 <TextFormInput
-                    id="termLength"
+                    id="termLengthYear"
                     type="number"
-                    label="Term length"
-                    error={Boolean(formik.touched.termLength && formik.errors.termLength)}
-                    fieldProps={formik.getFieldProps("termLength")}
+                    label="Term length year"
+                    error={Boolean(formik.touched.termLengthYear && formik.errors.termLengthYear)}
+                    fieldProps={formik.getFieldProps("termLengthYear")}
                     adornment={{ position: "end", text: "years" }}
                 />
                 <TextFormInput
-                    id="termLength"
+                    id="termLengthMonth"
                     type="number"
-                    label="Term length"
-                    error={Boolean(formik.touched.termLength && formik.errors.termLength)}
-                    fieldProps={formik.getFieldProps("termLength")}
-                    adornment={{ position: "end", text: "years" }}
+                    label="Term length month"
+                    error={Boolean(formik.touched.termLengthMonth && formik.errors.termLengthMonth)}
+                    fieldProps={formik.getFieldProps("termLengthMonth")}
+                    adornment={{ position: "end", text: "months" }}
                 />
             </Box>
             <TextFormInput
