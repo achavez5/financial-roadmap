@@ -59,9 +59,9 @@ const Home = () => {
                 margin="0 auto"
                 maxWidth="90vw"
             >
-                <HomeCard label="Amortization Calculator" theme={theme} colors={colors} to="/#/amortization" /> 
+                <HomeCard label="Amortization Calculator" theme={theme} colors={colors} to="/financial-roadmap/#/amortization" /> 
                 <Grid item>
-                    <HomeCard label="Compounding Interest Calculator" theme={theme} colors={colors} to="/#/compound-interest"/> 
+                    <HomeCard label="Compounding Interest Calculator" theme={theme} colors={colors} to="/financial-roadmap/#/compound-interest"/> 
                 </Grid>
             </Grid> 
         </Box>

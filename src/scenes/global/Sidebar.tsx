@@ -87,21 +87,21 @@ const AppSidebar = () => {
                         title="Home"
                         icon={<HomeOutlinedIcon />}
                         selected={selected}
-                        to="/#/home"
+                        to="/financial-roadmap/#/home"
                         setSelected={setSelected}
                     />
                     <Item 
                         title="Amortization Calculator"
                         icon={<SignalCellularAltOutlinedIcon sx={{transform:"scaleX(-1)"}}/>} // flip the icon horizontally
                         selected={selected}
-                        to="/#/amortization"
+                        to="/financial-roadmap/#/amortization"
                         setSelected={setSelected}
                     />
                     <Item 
                         title="Compound Interest Calculator"
                         icon={<SignalCellularAltOutlinedIcon/>}
                         selected={selected}
-                        to="/#/compound-interest"
+                        to="/financial-roadmap/#/compound-interest"
                         setSelected={setSelected}
                     />
                     
