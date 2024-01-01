@@ -1,28 +1,17 @@
 import { useState } from "react";
 import AmortizationForm from "./AmortizationForm";
 import AmortizationTable from "./AmortizationTable";
-import { Stack, useBreakpointValue } from "@chakra-ui/react";
-// import Header from "../Header";
-
-export type AppVariant = {
-    oneColumnApp: boolean,
-    compactApplication: boolean,
-}
-
-const smVariant:AppVariant = { oneColumnApp: true, compactApplication: true };
-const mdVariant:AppVariant = { oneColumnApp: true, compactApplication: false };
-const lgVariant:AppVariant = { oneColumnApp: true, compactApplication: false };
-const xlVariant:AppVariant = { oneColumnApp: false, compactApplication: false};
+import Topbar from "../global/Topbar"; 
+import { Box } from "@mui/material";
 
 const AmortizationApp = () => {
     // Default values
     const [loanAmount, updateLoanAmount] = useState(100_000);
-    const [termLength, updateTermLength] = useState(30);
+    const [termLength, updateTermLength] = useState(360);
     const [interestRate, updateInterestRate] = useState(5);
     const [breakdownByMonth, updateBreakDownByMonth] = useState(false);
     const [extraPrincipalPayment, updateExtraPrincipalPayment] = useState(0);
     const [extraYearlyPayment, updateExtraYearlyPayment] = useState(0);
-    const variants = useBreakpointValue({ base: smVariant, sm:smVariant, md: mdVariant, lg: lgVariant, xl: xlVariant });
 
     const appParts = [
     (
@@ -31,10 +20,9 @@ const AmortizationApp = () => {
             updateTermLength={updateTermLength}
             updateInterestRate={updateInterestRate}
             updateBreakDownByMonth={updateBreakDownByMonth}
-            updateExtraPrincipalPayment={updateExtraPrincipalPayment}
+            updateExtraMonthlyPayment={updateExtraPrincipalPayment}
             updateExtraYearlyPayment={updateExtraYearlyPayment}
-            breakdownByMonth={breakdownByMonth}
-            variants={variants}
+            key="1"
         />
     ),
     (
@@ -45,27 +33,22 @@ const AmortizationApp = () => {
             breakdownByMonth={breakdownByMonth}
             extraPrincipalPayment={extraPrincipalPayment}
             extraYearlyPayment={extraYearlyPayment}
-            variants={variants}
             key="2"
         />
     )
     ]; 
 
     return (
-        <>
-            {/* <Header onShowSidebar={toggleSidebar}/> */}
-            {variants?.oneColumnApp 
-            ? (
-                <><Stack align="center" fontSize={variants?.compactApplication ? "sm" : "md"} id="amortization-app-stack">
-                    {appParts}
-                </Stack></>
-            ) 
-            : (
-                <><Stack align={"top"} id="amortization-app-hstack" direction={"row"}>
-                    {appParts}
-                </Stack></>
-            )}
-        </>
+        <Box>
+           <Topbar title="Amortization table" /> 
+            <Box
+                display="flex"
+                flexWrap="wrap"
+                maxHeight="100vh"
+            >
+                {appParts}
+            </Box>
+        </Box>
     );
 };
 

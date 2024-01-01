@@ -1,20 +1,27 @@
-import React from "react";
-import { Table, Thead, Tbody, Tr, Th, Td, TableContainer, 
-         Stat, StatNumber, StatLabel, HStack, Card,
-         CardHeader, CardBody, useColorModeValue } from '@chakra-ui/react';
 import { Helpers } from "../../libraries/Helpers";
+import CalculatorTable from "../../components/CalculatorTable";
+import { GridColDef } from "@mui/x-data-grid";
+const formatToDollar = Helpers.String.FormatToDollar.format;
 
 type CompoundInterestTableProps = {
     principal: number;
     interestRatePercent: number;
     monthlyPayment: number;
     timePeriod: number;
+    breakdownByMonth: boolean;
 };
 
 type Stats = {
     total: number,
-    totalInterest: number,
+    totalGrowth: number,
     totalContribution: number
+};
+
+type RowProps = {
+    id: number;
+    potentialValue: string;
+    monthlyGrowth: string;
+    totalGrowth: string;
 };
 
 const calculateInterest = (interestRatePercent:number, principal:number) => {
@@ -25,78 +32,56 @@ const calculateInterest = (interestRatePercent:number, principal:number) => {
     return principal * monthlyInterestRate;
 };
 
-const generateTable = (principal:number, interestRatePercent:number, monthlyPayment:number, timePeriod:number, stats:Stats) => {
-    const formatToDollar = Helpers.String.FormatToDollar.format;
-    
-    const arr:React.ReactElement[] = [];
+const generateTable = (interestRatePercent:number, monthlyPayment:number, timePeriod:number, stats:Stats, breakdownByMonth:boolean) => {
+    const arr:RowProps[] = [];
     const timePeriodInMonths = timePeriod * 12;
+    let month = 1;
 
-    for (let i = 0; i < timePeriodInMonths; i++) {
+    while (month <= timePeriodInMonths) {
         let monthInterest = calculateInterest(interestRatePercent, stats.total);
-        stats.totalInterest += monthInterest; 
+        let yearlyInterest = 0;
+        
+        stats.totalGrowth += monthInterest;
+        yearlyInterest += monthInterest;
         stats.total += monthInterest + monthlyPayment;
         stats.totalContribution += monthlyPayment;
         
-        arr.push((
-            <Tr key={i}>
-                <Td>{i + 1}</Td>
-                <Td>{formatToDollar(stats.total)}</Td>
-                <Td>{formatToDollar(monthInterest)}</Td>
-                <Td>{formatToDollar(stats.totalInterest)}</Td>
-            </Tr>
-        
-        ));
+        if (breakdownByMonth || month % 12 === 0 ) {
+            arr.push(
+                {
+                    id: (breakdownByMonth ? month : month / 12), 
+                    potentialValue: formatToDollar(stats.total),
+                    monthlyGrowth: formatToDollar(breakdownByMonth ? monthInterest : yearlyInterest),
+                    totalGrowth: formatToDollar(stats.totalGrowth)
+                }
+            );
+            yearlyInterest = 0;
+        }
+        month++;
     }
     return (arr); 
 };
 
-const CompoundInterestTable = ({ principal, interestRatePercent, monthlyPayment, timePeriod }: CompoundInterestTableProps) => {
-    const formatToDollar = Helpers.String.FormatToDollar.format;
+const CompoundInterestTable = ({ principal, interestRatePercent, monthlyPayment, timePeriod, breakdownByMonth }: CompoundInterestTableProps) => {
     const stats:Stats = {
         total: principal,
-        totalInterest: 0,
+        totalGrowth: 0,
         totalContribution: principal   
     };
-
-    const table = generateTable(principal, interestRatePercent, monthlyPayment, timePeriod, stats);
-
-    const tableStats = [
-        (<Stat><StatLabel>Total:</StatLabel><StatNumber>{formatToDollar(stats.total)}</StatNumber></Stat>),
-        (<Stat><StatLabel>Total Contribution:</StatLabel><StatNumber>{formatToDollar(stats.totalContribution)}</StatNumber></Stat>),
-        (<Stat><StatLabel>Total Interest:</StatLabel><StatNumber>{formatToDollar(stats.totalInterest)}</StatNumber></Stat>)
+    const table = generateTable(interestRatePercent, monthlyPayment, timePeriod, stats, breakdownByMonth);
+    const columns: GridColDef[] = [
+        { field: 'id', headerName: (breakdownByMonth ? 'Month' : 'Year'), flex: 0.5},
+        { field: 'potentialValue', headerName: 'Potential Value', sortable: false, flex: 1},
+        { field: 'monthlyGrowth', headerName: 'Monthly Growth', sortable: false, flex: 1},
+        { field: 'totalGrowth', headerName: 'Total Growth', sortable: false, flex: 1},
     ];
-
+    
     return (
-        <Card variant="elevated" bg={useColorModeValue("", "gray.900")} alignContent={"center"}>
-            <CardHeader>
-                <HStack background= {useColorModeValue("gray.100", "gray.700")}
-                    borderRadius="md"
-                    spacing="10px"
-                    padding={"10px"}
-                    >
-                    {tableStats}
-                </HStack>
-            </CardHeader>
-            <CardBody>
-                <TableContainer id="compounding-table">
-                    <Table variant="striped">
-                        <Thead>
-                            <Tr>
-                                <Th>Month</Th>
-                                <Th>Potential value</Th>
-                                <Th>Monthly growth</Th>
-                                <Th>Total growth</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {table}
-                        </Tbody>
-                    </Table>
-                </TableContainer>
-            </CardBody>
-        </Card>   
+        <CalculatorTable
+            columns={columns}
+            table={table}
+        />
     );
-
 };
 
 export default CompoundInterestTable;
