@@ -8,6 +8,7 @@ type CompoundInterestTableProps = {
     interestRatePercent: number;
     monthlyPayment: number;
     timePeriod: number;
+    breakdownByMonth: boolean;
 };
 
 type Stats = {
@@ -23,13 +24,6 @@ type RowProps = {
     totalGrowth: string;
 };
 
-const columns: GridColDef[] = [
-    { field: 'id', headerName: 'Month', flex: 0.5},
-    { field: 'potentialValue', headerName: 'Potential Value', sortable: false, flex: 1},
-    { field: 'monthlyGrowth', headerName: 'Monthly Growth', sortable: false, flex: 1},
-    { field: 'totalGrowth', headerName: 'Total Growth', sortable: false, flex: 1},
-];
-
 const calculateInterest = (interestRatePercent:number, principal:number) => {
     // Calculation logic goes here    
     const interestRate = interestRatePercent / 100;
@@ -38,43 +32,50 @@ const calculateInterest = (interestRatePercent:number, principal:number) => {
     return principal * monthlyInterestRate;
 };
 
-const generateTable = (interestRatePercent:number, monthlyPayment:number, timePeriod:number, stats:Stats) => {
-    
+const generateTable = (interestRatePercent:number, monthlyPayment:number, timePeriod:number, stats:Stats, breakdownByMonth:boolean) => {
     const arr:RowProps[] = [];
     const timePeriodInMonths = timePeriod * 12;
+    let month = 1;
 
-    for (let i = 0; i < timePeriodInMonths; i++) {
+    while (month <= timePeriodInMonths) {
         let monthInterest = calculateInterest(interestRatePercent, stats.total);
-        stats.totalGrowth += monthInterest; 
+        let yearlyInterest = 0;
+        
+        stats.totalGrowth += monthInterest;
+        yearlyInterest += monthInterest;
         stats.total += monthInterest + monthlyPayment;
         stats.totalContribution += monthlyPayment;
         
-        arr.push(
-            {
-                id: i + 1, 
-                potentialValue: formatToDollar(stats.total),
-                monthlyGrowth: formatToDollar(monthInterest),
-                totalGrowth: formatToDollar(stats.totalGrowth)
-            }
-        );
+        if (breakdownByMonth || month % 12 === 0 ) {
+            arr.push(
+                {
+                    id: (breakdownByMonth ? month : month / 12), 
+                    potentialValue: formatToDollar(stats.total),
+                    monthlyGrowth: formatToDollar(breakdownByMonth ? monthInterest : yearlyInterest),
+                    totalGrowth: formatToDollar(stats.totalGrowth)
+                }
+            );
+            yearlyInterest = 0;
+        }
+        month++;
     }
     return (arr); 
 };
 
-const CompoundInterestTable = ({ principal, interestRatePercent, monthlyPayment, timePeriod }: CompoundInterestTableProps) => {
-
+const CompoundInterestTable = ({ principal, interestRatePercent, monthlyPayment, timePeriod, breakdownByMonth }: CompoundInterestTableProps) => {
     const stats:Stats = {
         total: principal,
         totalGrowth: 0,
         totalContribution: principal   
     };
-
-    const table = generateTable(interestRatePercent, monthlyPayment, timePeriod, stats);
-
-    const tableStats = [
-        // TODO: stats
+    const table = generateTable(interestRatePercent, monthlyPayment, timePeriod, stats, breakdownByMonth);
+    const columns: GridColDef[] = [
+        { field: 'id', headerName: (breakdownByMonth ? 'Month' : 'Year'), flex: 0.5},
+        { field: 'potentialValue', headerName: 'Potential Value', sortable: false, flex: 1},
+        { field: 'monthlyGrowth', headerName: 'Monthly Growth', sortable: false, flex: 1},
+        { field: 'totalGrowth', headerName: 'Total Growth', sortable: false, flex: 1},
     ];
-
+    
     return (
         <CalculatorTable
             columns={columns}

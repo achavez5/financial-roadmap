@@ -1,6 +1,5 @@
 import { GridColDef } from "@mui/x-data-grid";
 import { Helpers } from "../../libraries/Helpers";
-import { AppVariant } from ".";
 import CalculatorTable from "../../components/CalculatorTable";
 
 type AmortizationTableProps = {
@@ -10,7 +9,6 @@ type AmortizationTableProps = {
     breakdownByMonth: boolean,
     extraPrincipalPayment: number,
     extraYearlyPayment: number,
-    variants?: AppVariant,
     accordionToggled?: boolean,
 }
 
@@ -26,7 +24,7 @@ type RowProps = {
     balance: number,
 };
 
-function generateTable(loanAmount:number, interestRate:number, extraPrincipalPayment:number, extraYearlyPayment:number, stats:Stats, paymentAmount:number, breakdownByMonth:boolean, variants:AppVariant = { oneColumnApp: true, compactApplication: true }): RowProps[] {
+function generateTable(loanAmount:number, interestRate:number, extraPrincipalPayment:number, extraYearlyPayment:number, stats:Stats, paymentAmount:number, breakdownByMonth:boolean): RowProps[] {
     let yearlyPrincipal = 0, yearlyInterest = 0;
     let arr: RowProps[] = [];
     let balance = loanAmount;
@@ -85,10 +83,10 @@ function generateTable(loanAmount:number, interestRate:number, extraPrincipalPay
     return arr;
 }
 
-const AmortizationTable = ({ loanAmount, termLength, interestRate, breakdownByMonth, extraPrincipalPayment, extraYearlyPayment, variants }: AmortizationTableProps) => {
+const AmortizationTable = ({ loanAmount, termLength, interestRate, breakdownByMonth, extraPrincipalPayment, extraYearlyPayment  }: AmortizationTableProps) => {
     const paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, termLength) + (extraPrincipalPayment || 0);
     const stats:Stats = { total: 0, totalInterest: 0 };
-    const table = generateTable(loanAmount, interestRate, extraPrincipalPayment, extraYearlyPayment, stats, paymentAmount, breakdownByMonth, variants);
+    const table = generateTable(loanAmount, interestRate, extraPrincipalPayment, extraYearlyPayment, stats, paymentAmount, breakdownByMonth );
     const valueFormatter = (params:any) => Helpers.String.FormatToDollar.format(params.value);
 
     // store the header to have on top and bottom of table

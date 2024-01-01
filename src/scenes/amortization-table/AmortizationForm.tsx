@@ -94,7 +94,7 @@ const AmortizationForm = ({ updateLoanAmount, updateTermLength, updateInterestRa
             <TextFormInput
                 id="interestRate"
                 type="number"
-                label="Term length in months"
+                label="Interest rate"
                 error={Boolean(formik.touched.interestRate && formik.errors.interestRate)}
                 fieldProps={formik.getFieldProps("interestRate")}
                 adornment={{ position: "end", text: "%" }}
@@ -134,7 +134,7 @@ const AmortizationForm = ({ updateLoanAmount, updateTermLength, updateInterestRa
                     <TextFormInput
                         id="extraMonthlyPayment"
                         type="number"
-                        label="Term length in months"
+                        label="Extra monthly payment"
                         error={Boolean(formik.touched.extraMonthlyPayment && formik.errors.extraMonthlyPayment)}
                         fieldProps={formik.getFieldProps("extraMonthlyPayment")}
                         adornment={{ position: "start", text: "$" }}
@@ -143,7 +143,7 @@ const AmortizationForm = ({ updateLoanAmount, updateTermLength, updateInterestRa
                     <TextFormInput
                         id="extraYearlyPayment"
                         type="number"
-                        label="Term length in years"
+                        label="Extra yearly payment"
                         error={Boolean(formik.touched.extraYearlyPayment && formik.errors.extraYearlyPayment)}
                         fieldProps={formik.getFieldProps("extraYearlyPayment")}
                         adornment={{ position: "start", text: "$" }}

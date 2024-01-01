@@ -4,11 +4,6 @@ import AmortizationTable from "./AmortizationTable";
 import Topbar from "../global/Topbar"; 
 import { Box } from "@mui/material";
 
-export type AppVariant = {
-    oneColumnApp: boolean,
-    compactApplication: boolean,
-}
-
 const AmortizationApp = () => {
     // Default values
     const [loanAmount, updateLoanAmount] = useState(100_000);

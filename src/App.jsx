@@ -23,6 +23,7 @@ export const App = () => {
           <HashRouter basename="/"> 
           <Routes> 
               <Route path="/" element={<Home/>}/>
+              <Route path="/home" element={<Home/>}/>
               <Route path="/amortization" element={<AmortizationApp />}/>
               <Route path="/compound-interest" element={<CompoundingInterestApp />}/>
             </Routes>

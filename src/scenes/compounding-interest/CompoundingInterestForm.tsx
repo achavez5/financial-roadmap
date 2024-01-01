@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import FormBox from '../../components/FormBox';
 import TextFormInput from '../../components/TextFormInput';
 import SubmitButton from '../../components/SubmitButton';
+import { FormControl, InputLabel, MenuItem, Select, Box } from '@mui/material';
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -9,6 +11,7 @@ type CompoundingFormParameters = {
     updateMonthlyPayment: React.Dispatch<React.SetStateAction<number>>,
     updateTermLength: React.Dispatch<React.SetStateAction<number>>,
     updateInterestRate: React.Dispatch<React.SetStateAction<number>>,
+    updateBreakDownByMonth: React.Dispatch<React.SetStateAction<boolean>>,
 }
 
 const validationSchema = Yup.object({
@@ -25,7 +28,9 @@ const initialValues = {
     interestRate: "",
 };
 
-const CompoundingInterestForm = ({ updatePrincipalAmount, updateTermLength, updateInterestRate, updateMonthlyPayment }: CompoundingFormParameters) => {
+const CompoundingInterestForm = ({ updatePrincipalAmount, updateTermLength, updateInterestRate, updateMonthlyPayment, updateBreakDownByMonth }: CompoundingFormParameters) => {
+    const [breakdownBy, updateBreakdownBy] = useState("Year");
+    
     const onSubmit = (values: {principal: string, termLength: string, interestRate: string, monthlyPayment: string}) => {
         updatePrincipalAmount(parseFloat(values.principal));
         updateMonthlyPayment(parseFloat(values.monthlyPayment));
@@ -44,7 +49,7 @@ const CompoundingInterestForm = ({ updatePrincipalAmount, updateTermLength, upda
             <TextFormInput
                 id="principal"
                 type="number"
-                label="Loan amount"
+                label="Initial investment"
                 error={Boolean(formik.touched.principal && formik.errors.principal)}
                 fieldProps={formik.getFieldProps("principal")}
                 adornment={{ position: "start", text: "$" }}
@@ -57,14 +62,27 @@ const CompoundingInterestForm = ({ updatePrincipalAmount, updateTermLength, upda
                 fieldProps={formik.getFieldProps("monthlyPayment")}
                 adornment={{ position: "start", text: "$" }}
             />
-            <TextFormInput
-                id="termLength"
-                type="number"
-                label="Term length"
-                error={Boolean(formik.touched.termLength && formik.errors.termLength)}
-                fieldProps={formik.getFieldProps("termLength")}
-                adornment={{ position: "end", text: "years" }}
-            />
+            <Box
+                display={"flex"}
+                gap={"15px"}
+            >
+                <TextFormInput
+                    id="termLength"
+                    type="number"
+                    label="Term length"
+                    error={Boolean(formik.touched.termLength && formik.errors.termLength)}
+                    fieldProps={formik.getFieldProps("termLength")}
+                    adornment={{ position: "end", text: "years" }}
+                />
+                <TextFormInput
+                    id="termLength"
+                    type="number"
+                    label="Term length"
+                    error={Boolean(formik.touched.termLength && formik.errors.termLength)}
+                    fieldProps={formik.getFieldProps("termLength")}
+                    adornment={{ position: "end", text: "years" }}
+                />
+            </Box>
             <TextFormInput
                 id="interestRate"
                 type="number"
@@ -73,6 +91,23 @@ const CompoundingInterestForm = ({ updatePrincipalAmount, updateTermLength, upda
                 fieldProps={formik.getFieldProps("interestRate")}
                 adornment={{ position: "end", text: "%" }}
             />
+            <FormControl fullWidth>
+                <InputLabel id="breakdownBy">Breakdown by</InputLabel>
+                <Select
+                    labelId="breakdownBy"
+                    id="breakdownBy"
+                    label="Breakdown by"
+                    value={breakdownBy}
+                    onChange={(e) =>  {
+                        let newBreakdownByMonth = e.target.value as string === "Month";
+                        updateBreakDownByMonth(newBreakdownByMonth);
+                        updateBreakdownBy(newBreakdownByMonth ? "Month" : "Year");
+                    }}
+                >
+                    <MenuItem value="Year">Year</MenuItem>
+                    <MenuItem value="Month">Month</MenuItem>
+                </Select>
+            </FormControl>
             <SubmitButton label="Calculate compounding interest" />
         </FormBox>
     );

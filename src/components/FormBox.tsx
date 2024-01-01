@@ -33,6 +33,15 @@ const FormBox = ({children, handleSubmit} : FormBoxProps) => {
             [theme.breakpoints.up("md")]: {
                 margin: "0 20px 20px 20px",
             },
+            '& .MuiOutlinedInput': {
+                fontSize: "1px"
+            },
+            '& .MuiInputBase-input': {
+                fontSize: ".75rem"
+            },
+            '& .MuiTypography-root': {
+                fontSize: "0.75rem"
+            }, 
             '& label.Mui-focused': {
                 color: inputHighlightColor,
             },
@@ -44,7 +53,7 @@ const FormBox = ({children, handleSubmit} : FormBoxProps) => {
                     borderColor: inputHighlightColor,
                     borderWidth: "1px"
                 },
-                '&.Mui-focused fieldset': {
+                '& .Mui-focused fieldset': {
                     borderColor: inputHighlightColor,
                     borderWidth: "1px"
                 },

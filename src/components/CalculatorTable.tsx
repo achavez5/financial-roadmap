@@ -37,16 +37,15 @@ const CalculatorTable = ({table, columns} : CalculatorTableProps) => {
                 density="compact"
                 isRowSelectable={() => false}
                 rowSpacingType={'border'}
-                pageSizeOptions={[10, 15, 20, 25]}
+                pageSizeOptions={[]} // turns off the number of rows per page dropdown
                 disableColumnFilter
                 disableColumnMenu
                 disableColumnSelector
                 disableEval
-                autoPageSize
                 rowCount={table.length}
-                // initialState={{
-                //     pagination: { paginationModel: { pageSize: 10 }},
-                // }}
+                initialState={{
+                    pagination: { paginationModel: { pageSize: 10 }},
+                }}
                 sx={{
                     display: "flex",
                     [`& .MuiDataGrid-columnHeader`]: {

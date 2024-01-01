@@ -7,7 +7,6 @@ import { Box, IconButton, Typography, useTheme, Link} from '@mui/material'
 /** #### ICONS #### */
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import SignalCellularAltOutlinedIcon from '@mui/icons-material/SignalCellularAltOutlined';
 
 type ItemProps = {
@@ -61,12 +60,7 @@ const AppSidebar = () => {
                     border: "none",
                 }}
             >
-                <Menu menuItemStyles={{
-                    root: {
-                        
-                    },
-                    
-                }}>
+                <Menu>
                     <MenuItem 
                         onClick={() => setCollapsed(!collapsed)}
                         icon = {collapsed ? <MenuOutlinedIcon /> : null }
@@ -90,15 +84,15 @@ const AppSidebar = () => {
                     }
                     </MenuItem>
                     <Item 
-                        title="Dashboard"
+                        title="Home"
                         icon={<HomeOutlinedIcon />}
                         selected={selected}
-                        to="/"
+                        to="/#/home"
                         setSelected={setSelected}
                     />
                     <Item 
                         title="Amortization Calculator"
-                        icon={<AssessmentOutlinedIcon />}
+                        icon={<SignalCellularAltOutlinedIcon sx={{transform:"scaleX(-1)"}}/>} // flip the icon horizontally
                         selected={selected}
                         to="/#/amortization"
                         setSelected={setSelected}
