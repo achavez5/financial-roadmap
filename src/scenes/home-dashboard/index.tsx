@@ -15,7 +15,7 @@ const HomeCard = (props: HomeCardProps) => {
     return (
         <Grid 
             item
-            height="20vh"
+            height="15vh"
             width="15vw"
             sx={{
                 "& .MuiTypography-root": {
@@ -25,20 +25,25 @@ const HomeCard = (props: HomeCardProps) => {
             }}
             >
             <Link href={props.to}>
-            <Paper
+            <Box
                 sx={{
                     ...props.theme.typography.body1,
                     boxShadow: props.theme.palette.mode === "dark" ? "0px 0px 10px 0px rgba(0,0,0,0.75)" : "0px 0px 10px 0px rgba(0,0,0,0.25)",
                     padding: props.theme.spacing(1),
                     textAlign: "center",
+                    height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    borderRadius: "4px",
+                    backgroundColor: props.theme.palette.mode === "dark" ? props.colors.primary[400] : props.colors.primary[900],
                     "&:hover": {
-                        backgroundColor: props.theme.palette.mode === "dark" ? props.colors.primary[400] : props.colors.primary[900],
+                        backgroundColor: props.theme.palette.mode === "dark" ? props.colors.primary[500] : props.colors.grey[900],
                         textDecoration: "none",
                     },
                 }}
             >
-                <Typography>{props.label}</Typography>
-            </Paper>
+                <Typography margin="auto auto" variant="h3">{props.label}</Typography>
+            </Box>
             </Link>
         </Grid>
     );
@@ -60,9 +65,9 @@ const Home = () => {
                 maxWidth="90vw"
             >
                 <HomeCard label="Amortization Calculator" theme={theme} colors={colors} to="/financial-roadmap/#/amortization" /> 
-                <Grid item>
-                    <HomeCard label="Compounding Interest Calculator" theme={theme} colors={colors} to="/financial-roadmap/#/compound-interest"/> 
-                </Grid>
+                <HomeCard label="Compounding Interest Calculator" theme={theme} colors={colors} to="/financial-roadmap/#/compound-interest"/> 
+                <HomeCard label="Budget" theme={theme} colors={colors} to="/financial-roadmap/#/budget"/>
+                <HomeCard label="Debt payoff" theme={theme} colors={colors} to="/financial-roadmap/#/debt-payoff"/>
             </Grid> 
         </Box>
     )

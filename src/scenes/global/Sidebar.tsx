@@ -8,6 +8,8 @@ import { Box, IconButton, Typography, useTheme, Link} from '@mui/material'
 import MenuOutlinedIcon from '@mui/icons-material/MenuOutlined';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import SignalCellularAltOutlinedIcon from '@mui/icons-material/SignalCellularAltOutlined';
+import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import CreditCardOffOutlinedIcon from '@mui/icons-material/CreditCardOffOutlined';
 
 type ItemProps = {
     title: string,
@@ -102,6 +104,20 @@ const AppSidebar = () => {
                         icon={<SignalCellularAltOutlinedIcon/>}
                         selected={selected}
                         to="/financial-roadmap/#/compound-interest"
+                        setSelected={setSelected}
+                    />
+                    <Item 
+                        title="Budget app"
+                        icon={<AssessmentOutlinedIcon/>}
+                        selected={selected}
+                        to="/financial-roadmap/#/budget"
+                        setSelected={setSelected}
+                    />
+                    <Item 
+                        title="Debt payoff"
+                        icon={<CreditCardOffOutlinedIcon/>}
+                        selected={selected}
+                        to="/financial-roadmap/#/debt-payoff"
                         setSelected={setSelected}
                     />
                     
