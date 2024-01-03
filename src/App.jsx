@@ -9,6 +9,8 @@ import AppSidebar from "./scenes/global/Sidebar"
 import Home from "./scenes/home-dashboard"
 import CompoundingInterestApp from "./scenes/compounding-interest"
 import AmortizationApp from "./scenes/amortization-table"
+import BudgetApp from "./scenes/budget-app"
+import DebtPayoff from "./scenes/debt-payoff";
 
 export const App = () => {
   const [theme, colorMode] = useMode();
@@ -26,6 +28,8 @@ export const App = () => {
               <Route path="/home" element={<Home/>}/>
               <Route path="/amortization" element={<AmortizationApp />}/>
               <Route path="/compound-interest" element={<CompoundingInterestApp />}/>
+              <Route path="/budget" element={<BudgetApp/>}/>
+              <Route path="/debt-payoff" element={<DebtPayoff/>}/>
             </Routes>
           </HashRouter>
           </main>
