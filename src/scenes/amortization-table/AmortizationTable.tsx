@@ -1,5 +1,5 @@
 import { GridColDef } from "@mui/x-data-grid";
-import { Helpers } from "../../libraries/Helpers";
+import Helpers from "../../libraries/Helpers";
 import CalculatorTable from "../../components/CalculatorTable";
 
 type AmortizationTableProps = {

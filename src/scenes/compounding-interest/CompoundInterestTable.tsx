@@ -1,4 +1,4 @@
-import { Helpers } from "../../libraries/Helpers";
+import Helpers from "../../libraries/Helpers";
 import CalculatorTable from "../../components/CalculatorTable";
 import { GridColDef } from "@mui/x-data-grid";
 const formatToDollar = Helpers.String.FormatToDollar.format;
