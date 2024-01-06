@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, useTheme, Typography, ButtonBase } from '@mui/material';
+import { Box, useTheme, Typography, ButtonBase, TextField } from '@mui/material';
 import Helpers from '../../libraries/Helpers';
 import Topbar from '../global/Topbar';
 import { colorTokens } from '../../theme';
@@ -9,6 +9,7 @@ const formatToDollar = Helpers.String.FormatToDollar.format;
 
 type BudgetItem = {
     category: string,
+    label?: string,
     items: {
         [key: string]: number,
     },
@@ -47,6 +48,13 @@ const budget:BudgetItem[] = [
             student_loans: 200,
             credit_card: 200,
             other: 100,
+        },
+    },
+    {
+        category: "other",
+        label: "Other",
+        items: {
+            buffer: 100,
         },
     }
 ];
@@ -121,13 +129,41 @@ const AddTileButton = (props: {addTile: () => void} ) => {
         </Tile>
     );
 }
-const BudgetTile = (budgetItem:BudgetItem, key:number) => {
+
+type BudgetTileProps = {
+    budgetItem: BudgetItem,
+    key: number,
+}
+
+const BudgetTile = ({ budgetItem, key }: BudgetTileProps) => {
+    console.log(`key: ${key}, budgetItem: ${JSON.stringify(budgetItem)}`);
     return ( 
-        <Tile variant="primary" key={key} sx={{width:"15rem", height:"15rem"}}>
-            <Typography variant="h4" sx={{marginBottom: "20px"}}>{transformKey(budgetItem.category)}</Typography>
-            <Box>
+        <Tile variant="primary" key={key} sx={{width:"15rem", height:"15rem" }}>
+            {budgetItem.label 
+                ? <TextField
+                    placeholder={transformKey(budgetItem.label)}
+                    variant="standard"
+                    autoComplete='off'
+                    sx={{
+                        marginBottom: "20px",
+                        '& .MuiInputBase-input': {
+                            fontSize: "1.5rem",
+                        },
+                    }}
+                />
+                : <Typography fontSize="1.5rem" sx={{marginBottom: "20px"}}>{transformKey(budgetItem.category)}</Typography> }
+            <Box >
                 {Object.entries(budgetItem?.items || []).map(([_key, value]) => (
-                    <Typography marginBottom=".25rem" marginLeft="1rem" marginRight="1rem" key={_key}>{transformKey(_key)}: {formatToDollar(value)}</Typography>
+                    <Box display="flex">
+                        <TextField placeholder={transformKey(_key)} variant="standard" autoComplete="off" sx={{
+                            '& .MuiInputBase-input': { 
+                                fontSize: "0.75rem", 
+                            }
+                        }}/>
+                        <Typography sx={{margin: "auto 0", fontSize: "0.75"}}>:</Typography>
+                        <TextField placeholder={formatToDollar(value)} variant="standard" autoComplete="off" sx={{'& .MuiInputBase-input': { fontSize: "0.75rem", flexGrow: 4 }}}/>
+                    </Box>
+
                 ))}
             </Box>
         </Tile>
@@ -136,13 +172,20 @@ const BudgetTile = (budgetItem:BudgetItem, key:number) => {
 
 const BudgetApp = () => {
     
-    const [ tiles, updateTiles ] = useState([] as React.ReactNode[]);
+    const [ tiles, updateTiles ] = useState(budget.map((item, index) => <BudgetTile budgetItem={item} key={index} />));
     const theme = useTheme(); 
     const colors = colorTokens(theme.palette.mode);
 
+    const newBudgetItem: BudgetItem = {
+        category: "other",
+        label: "Other",
+        items: {},
+    };
+
     const handleAddTile = () => {
-        console.log("Add tile");
-    }
+        const newTile = <BudgetTile budgetItem={newBudgetItem} key={tiles.length + 1} />;
+        updateTiles(tiles.concat(newTile));
+    };
 
     // grab the main categories
     const expenses = budget.find((item) => item.category === "expenses");
@@ -157,12 +200,6 @@ const BudgetApp = () => {
     const totalIncome = income ? Object.values(income.items).reduce((a, b) => a + b, 0) : 0;
     const balance = totalIncome - totalExpenses - totalSavings - totalMinimumPayments;
 
-    for (let i = 0; i < budget.length; i++) {
-       tiles.push(<BudgetTile {...budget[i]} key={i} />);
-    }
-    
-    useEffect(() => updateTiles(tiles), [tiles]);
-
     return (
         <Box>
             <Topbar title="Budget App" />
@@ -176,11 +213,11 @@ const BudgetApp = () => {
                         margin: "20px auto 40px auto",
                     }}
                 >
-                    <Typography variant="h4">Income: {formatToDollar(totalIncome)}</Typography>
-                    <Typography variant="h4">Expenses: {formatToDollar(totalExpenses)}</Typography>
-                    <Typography variant="h4">Savings: {formatToDollar(totalSavings)}</Typography>
-                    <Typography variant="h4">Debt: {formatToDollar(totalMinimumPayments)}</Typography>
-                    <Typography variant="h4" color={ balance < 0 ? colors.redAccent[500] : colors.greenAccent[500]}>Balance: {formatToDollar(balance)}</Typography>
+                    <Typography variant="h3">Income: {formatToDollar(totalIncome)}</Typography>
+                    <Typography variant="h3">Expenses: {formatToDollar(totalExpenses)}</Typography>
+                    <Typography variant="h3">Savings: {formatToDollar(totalSavings)}</Typography>
+                    <Typography variant="h3">Debt: {formatToDollar(totalMinimumPayments)}</Typography>
+                    <Typography variant="h3" color={ balance < 0 ? colors.redAccent[500] : colors.greenAccent[500]}>Balance: {formatToDollar(balance)}</Typography>
                 </Box>
                 <Tile
                     sx={{

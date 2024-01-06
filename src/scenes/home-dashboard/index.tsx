@@ -1,7 +1,7 @@
 import Topbar from "../global/Topbar"
 import { useTheme } from '@mui/material/styles';
 import { colorTokens } from "../../theme";
-import { Box, Grid, Paper, Typography, Link } from '@mui/material';
+import { Box, Grid, Typography, Link } from '@mui/material';
 
 
 type HomeCardProps = {
