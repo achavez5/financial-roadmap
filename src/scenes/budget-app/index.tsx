@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
-import { Box, useTheme, Typography, ButtonBase, TextField } from '@mui/material';
+import { useState, Fragment } from 'react';
+import { Box, useTheme, Typography, ButtonBase } from '@mui/material';
 import Helpers from '../../libraries/Helpers';
 import Topbar from '../global/Topbar';
 import { colorTokens } from '../../theme';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import React from 'react';
+import Tile from '../../components/Tile';
+import BudgetTile from './BudgetTile';
 const formatToDollar = Helpers.String.FormatToDollar.format;
 
-type BudgetItem = {
+export type BudgetItem = {
     category: string,
     label?: string,
     items: {
@@ -58,48 +59,7 @@ const budget:BudgetItem[] = [
         },
     }
 ];
-const transformKey = (word: string) => {
-    return Helpers.String.CapitalizeFirstCharacterOfWord(word).replace(/_/g, " "); 
-} 
-
-type TileProps = {
-    children: React.ReactNode[] | React.ReactNode,
-    sx?: any,
-    variant?: "primary" | "secondary",
-    addTile?: () => void,
-}
-
-const Tile = (props: TileProps) => {
-    const theme = useTheme();
-    const colors = colorTokens(theme.palette.mode);
-    const boxShadow = theme.palette.mode === "dark" ? "0px 0px 10px 0px rgba(0,0,0,0.75)" : "0px 0px 10px 0px rgba(0,0,0,0.25)";
-    const borderRadius = "4px";
-    const mode = theme.palette.mode;
-    let backgroundColor = "";
-
-    if (props.variant === "primary") {
-        backgroundColor = mode === "dark" ? colors.primary[400] : colors.primary[900];
-    } else {
-        backgroundColor = mode === "dark" ? colors.primary[700] : colors.primary[800];
-    }
-    
-    return (
-        <Box
-            onClick={props.addTile}
-            sx={{
-                backgroundColor: backgroundColor,
-                margin: "0 20px 20px 20px",
-                padding : "20px",
-                boxShadow: boxShadow,
-                borderRadius: borderRadius,
-                ...props.sx, // properties to override the default styling
-            }}
-        >
-            {props.children}
-        </Box>
-    );
-};
-
+ 
 const AddTileButton = (props: {addTile: () => void} ) => {
     const theme = useTheme();
     const colors = colorTokens(theme.palette.mode);
@@ -130,49 +90,9 @@ const AddTileButton = (props: {addTile: () => void} ) => {
     );
 }
 
-type BudgetTileProps = {
-    budgetItem: BudgetItem,
-    key: number,
-}
-
-const BudgetTile = ({ budgetItem, key }: BudgetTileProps) => {
-    console.log(`key: ${key}, budgetItem: ${JSON.stringify(budgetItem)}`);
-    return ( 
-        <Tile variant="primary" key={key} sx={{width:"15rem", height:"15rem" }}>
-            {budgetItem.label 
-                ? <TextField
-                    placeholder={transformKey(budgetItem.label)}
-                    variant="standard"
-                    autoComplete='off'
-                    sx={{
-                        marginBottom: "20px",
-                        '& .MuiInputBase-input': {
-                            fontSize: "1.5rem",
-                        },
-                    }}
-                />
-                : <Typography fontSize="1.5rem" sx={{marginBottom: "20px"}}>{transformKey(budgetItem.category)}</Typography> }
-            <Box >
-                {Object.entries(budgetItem?.items || []).map(([_key, value]) => (
-                    <Box display="flex">
-                        <TextField placeholder={transformKey(_key)} variant="standard" autoComplete="off" sx={{
-                            '& .MuiInputBase-input': { 
-                                fontSize: "0.75rem", 
-                            }
-                        }}/>
-                        <Typography sx={{margin: "auto 0", fontSize: "0.75"}}>:</Typography>
-                        <TextField placeholder={formatToDollar(value)} variant="standard" autoComplete="off" sx={{'& .MuiInputBase-input': { fontSize: "0.75rem", flexGrow: 4 }}}/>
-                    </Box>
-
-                ))}
-            </Box>
-        </Tile>
-    );
-};    
-
 const BudgetApp = () => {
     
-    const [ tiles, updateTiles ] = useState(budget.map((item, index) => <BudgetTile budgetItem={item} key={index} />));
+    const [ tiles, updateTiles ] = useState(budget.map((item, index) => <Fragment key={index}><BudgetTile budgetItem={item} /></Fragment>));
     const theme = useTheme(); 
     const colors = colorTokens(theme.palette.mode);
 
@@ -210,7 +130,7 @@ const BudgetApp = () => {
                         flexDirection: "row",
                         justifyContent: "space-between",
                         maxWidth: "75vw",
-                        margin: "20px auto 40px auto",
+                        margin: "20px auto 20px auto",
                     }}
                 >
                     <Typography variant="h3">Income: {formatToDollar(totalIncome)}</Typography>
