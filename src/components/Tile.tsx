@@ -3,7 +3,7 @@ import { colorTokens } from '../theme';
 
 
 type TileProps = {
-    children: React.ReactNode[] | React.ReactNode,
+    children?: React.ReactNode[] | React.ReactNode,
     sx?: any,
     variant?: "primary" | "secondary",
     addTile?: () => void,

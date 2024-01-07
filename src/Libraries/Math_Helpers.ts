@@ -7,5 +7,10 @@ export function GetPaymentAmount(principalPayment: number, interestRate: number,
     let numerator = principalPayment * monthlyInterestRate;
     let denominator = (1.0 - Math.pow(1.0 + monthlyInterestRate, -(termLengthInMonths)));
     
+    if (denominator === 0) {
+        console.error("Divide by zero error in GetPaymentAmount function");
+        return 0;
+    }
+
     return numerator / denominator;
 }
