@@ -32,7 +32,10 @@ const validationSchema = Yup.object({
         .required("Required")
         .min(1, `Must be at least 1 year`)
         .max(40, "Must be less than 40 years"),
-    termLengthMonths: Yup.number().max(11, "Must be less than 12 months"),
+    termLengthMonths: Yup.number()
+        .required("Required")
+        .min(0, "Must be at least 0 months")
+        .max(11, "Must be less than 12 months"),
     interestRate: Yup.number().required("Required").min(0, "Must be at least 0% (cannot have a negative interest rate)"),
     extraPrincipalPayment: Yup.number().min(0, "Must be a non-negative number"),
     extraYearlyPayment: Yup.number().min(0, "Must be a non-negative number"), 
@@ -57,8 +60,8 @@ const AmortizationForm = ({ updateLoanAmount, updateTermLength, updateInterestRa
             updateLoanAmount(parseFloat(values.loanAmount));
             updateTermLength(termLength);
             updateInterestRate(parseFloat(values.interestRate));
-            updateExtraMonthlyPayment(parseFloat(values.extraMonthlyPayment));
-            updateExtraYearlyPayment(parseFloat(values.extraYearlyPayment));
+            updateExtraMonthlyPayment(parseFloat(values.extraMonthlyPayment) || 0);
+            updateExtraYearlyPayment(parseFloat(values.extraYearlyPayment) || 0);
         },
         validationSchema: validationSchema,
     });

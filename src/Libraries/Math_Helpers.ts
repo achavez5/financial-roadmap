@@ -1,4 +1,4 @@
-export function Round(numberToBeRounded: number, precision: number): number {
+export function Round(numberToBeRounded: number, precision: number = 2): number {
     return Math.round(numberToBeRounded * Math.pow(10, precision)) / Math.pow(10, precision);
 }
 
@@ -11,6 +11,8 @@ export function GetPaymentAmount(principalPayment: number, interestRate: number,
         console.error("Divide by zero error in GetPaymentAmount function");
         return 0;
     }
+
+    console.log("Payment amount:" + (numerator / denominator).toFixed(2));
 
     return numerator / denominator;
 }

@@ -68,8 +68,12 @@ const AddTileButton = (props: {addTile: () => void} ) => {
             variant="primary"
             addTile={ props.addTile } 
             sx={{
-                height:"15rem",
-                width:"15rem",
+                minHeight: "5rem", 
+                minWidth: "15rem",
+                width:"100%",
+                background: "transparent",
+                boxShadow: "none",
+                marginBottom: "20px",
                 display: "flex",
                 padding: "0", 
                 '&:hover': {
@@ -84,7 +88,7 @@ const AddTileButton = (props: {addTile: () => void} ) => {
                 }
             }}>
             <ButtonBase sx={{display:"flex", width: "100%", height: "100%"}}>
-                <AddCircleOutlineIcon sx={{ margin: "auto auto", height:"5rem", width: "5rem"}}/>
+                <AddCircleOutlineIcon sx={{ margin: "auto auto", height:"5rem", maxWidth: "100%", width: "2rem"}}/>
             </ButtonBase>
         </Tile>
     );
@@ -123,14 +127,20 @@ const BudgetApp = () => {
     return (
         <Box>
             <Topbar title="Budget App" />
-            <Tile variant="primary">
+            <Tile variant="secondary" sx={{ display: "flex", flexDirection: "row", maxWidth:"75vw", margin: "20px auto 20px auto" }}>
                 <Box
                     sx={{
                         display: "flex",
                         flexDirection: "row",
+                        width: "100%",
                         justifyContent: "space-between",
-                        maxWidth: "75vw",
+                        flexWrap: "wrap",
                         margin: "20px auto 20px auto",
+                        gap: "20px",
+                        '& > *': {
+                            textAlign: "center",
+                            margin: "auto",
+                        } 
                     }}
                 >
                     <Typography variant="h3">Income: {formatToDollar(totalIncome)}</Typography>
@@ -139,15 +149,16 @@ const BudgetApp = () => {
                     <Typography variant="h3">Debt: {formatToDollar(totalMinimumPayments)}</Typography>
                     <Typography variant="h3" color={ balance < 0 ? colors.redAccent[500] : colors.greenAccent[500]}>Balance: {formatToDollar(balance)}</Typography>
                 </Box>
-                <Tile
-                    sx={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                    }}
-                >
-                    {tiles}
-                    <AddTileButton addTile={handleAddTile} />
-                </Tile>
+            </Tile>
+            <Tile
+                sx={{
+                    display: "flex",
+                    flexWrap: "wrap",
+                    flexDirection: "row",
+                }}
+            >
+                {tiles}
+                <AddTileButton addTile={handleAddTile} />
             </Tile>
         </Box>
     );

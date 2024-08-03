@@ -15,7 +15,7 @@ const formatToDollar = Helpers.String.FormatToDollar.format;
 
 const DebtPayoff = () => {
 
-    let extraPayment = 1800; 
+    let extraPayment = 1000; 
     let initialBalance = loans.reduce((sum, loan) => sum + loan.balance, 0);
     let totalMinimumPayments = loans.reduce((sum, loan) => sum + (loan.minimumPayment || 0 ), 0);
     let snowballStats: Stats = {

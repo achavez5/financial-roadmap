@@ -1,7 +1,7 @@
 export type Loan = {
     name: string;
     balance: number;
-    minimumPayment?: number;
+    minimumPayment: number;
     interestRate: number;
 };
 

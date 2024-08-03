@@ -1,4 +1,5 @@
 import { Loan, Stats } from './types';
+import { Round } from '../../libraries/Math_Helpers';
 
 export function avalanchePayoff(loans: Loan[], stats: Stats, extraPayment: number ): void 
 {
@@ -15,12 +16,23 @@ export function snowballPayoff(loans: Loan[], stats: Stats, extraPayment: number
 export function calculatePayoff(loans: Loan[], stats: Stats, extraPayment: number ): void 
 {
     let interest = 0, principalPayment = 0, remainderAfterPayoff = 0;
+    let print = "", header = "";
 
-    while (stats.totalBalance > 0 && loans.length > 0) {
+    while (stats.totalBalance > 0) {
         let i = 0;
         let first = true;
         while (i < loans.length && loans.length > 0) {
             let loan = loans[i];
+            if (stats.month === 1) {
+                header += loan.name + (loans.length - 1 === i ? "\n" : ",");
+            }
+            print += Round(loan.balance) + (loans.length - 1 === i ? "\n" : ",");
+
+            if (loan.balance <= 0) {
+                i++;
+                continue;
+            }
+
             interest = loan.balance * (loan.interestRate / 100) / 12;
             principalPayment = (loan.minimumPayment || 0 ) - interest;
             
@@ -48,20 +60,22 @@ export function calculatePayoff(loans: Loan[], stats: Stats, extraPayment: numbe
             stats.totalPayment += principalPayment + interest;
             stats.totalInterest += interest;
         
-            if (loan.balance > 0) {
-                i++;
-            } else {
-                stats.payoffOrder.push(loans.shift()?.name as string);
+            if (loan.balance <= 0) {
+                stats.payoffOrder.push(loans[i].name as string);
+                extraPayment += loan.minimumPayment || 0;
                 console.log("Loan paid off: " + loan.name + " on month " + stats.month);
-                if (i !== 0) {
-                }
-                if (loans.length === 0) {
-                    break;
+                console.log("Extra payments moving forward after paying off loan: " + extraPayment);
+                if (Round(stats.totalBalance) <= 0) {
+                    let date = new Date();
+                    date.setMonth(date.getMonth() + stats.month);
+                    console.log(`Payoff: ${date}`);
+                    console.log("Csvoutput\n" + header + print);
+                    return;
                 }
             }
-        
+            i++;
         }
-        if (loans.length > 0) {
+        if (stats.totalBalance > 0) {
             stats.month++;
         }
 
