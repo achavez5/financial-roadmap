@@ -8,55 +8,58 @@ import Tile from '../../components/Tile';
 import BudgetTile from './BudgetTile';
 const formatToDollar = Helpers.String.FormatToDollar.format;
 
-export type BudgetItem = {
-    category: string,
-    label?: string,
-    items: {
-        [key: string]: number,
-    },
-
+export type BudgetItem = 
+{
+    key: string,
+    value: number
 };
 
-const budget:BudgetItem[] = [
+export type BudgetTileData = {
+    category: string,
+    label?: string,
+    items: BudgetItem[]
+};
+
+const budget: BudgetTileData[] = [
     {
         category: "income",
-        items: {
-            salary: 5_600,
-            other: 0,
-        }
+        items: [
+            { key: "salary", value: 5_600 },
+            { key: "other", value: 0 }
+        ]
     },
     {
         category: "expenses",
-        items: {
-            rent: 1_000,
-            food: 500,
-            utilities: 200,
-            entertainment: 200,
-            other: 100,
-        }
+        items: [
+            { key: "rent", value: 1_000 },
+            { key: "food", value: 500 },
+            { key: "utilities", value: 200 },
+            { key: "entertainment", value: 200 },
+            { key: "other", value: 100 }
+        ]
     },
     {
         category: "savings",
-        items: {
-            emergency: 500,
-            retirement: 500,
-            other: 100,
-        },
+        items: [
+            { key: "emergency", value: 500 },
+            { key: "retirement", value: 500 },
+            { key: "other", value: 100 },
+        ],
     },
     {
         category: "minimum_debt_repayments",
-        items: {
-            student_loans: 200,
-            credit_card: 200,
-            other: 100,
-        },
+        items: [
+            { key: "student_loans", value: 200 },
+            { key: "credit_card", value: 200 },
+            { key: "other", value: 100 }
+        ]
     },
     {
         category: "other",
         label: "Other",
-        items: {
-            buffer: 100,
-        },
+        items: [
+            { key: "buffer", value: 100 },
+        ],
     }
 ];
  
@@ -100,14 +103,16 @@ const BudgetApp = () => {
     const theme = useTheme(); 
     const colors = colorTokens(theme.palette.mode);
 
-    const newBudgetItem: BudgetItem = {
+    const newBudgetItem: BudgetTileData = {
         category: "other",
         label: "Other",
-        items: {},
+        items: [
+            { key: "Other", value: 0 },
+        ],
     };
 
     const handleAddTile = () => {
-        const newTile = <BudgetTile budgetItem={newBudgetItem} key={tiles.length + 1} />;
+        const newTile = <BudgetTile budgetItem={structuredClone(newBudgetItem)} key={tiles.length + 1} />;
         updateTiles(tiles.concat(newTile));
     };
 
@@ -118,10 +123,10 @@ const BudgetApp = () => {
     const income = budget.find((item) => item.category === "income");
 
     // find the stats for the cateogories
-    const totalExpenses = expenses ? Object.values(expenses.items).reduce((a, b) => a + b, 0) : 0;
-    const totalSavings = savings ? Object.values(savings.items).reduce((a, b) => a + b, 0) : 0;
-    const totalMinimumPayments = minimum_debt_repayments ? Object.values(minimum_debt_repayments.items).reduce((a, b) => a + b, 0) : 0;
-    const totalIncome = income ? Object.values(income.items).reduce((a, b) => a + b, 0) : 0;
+    const totalExpenses = expenses ? expenses.items.reduce((a, b) => a + b.value, 0) : 0;
+    const totalSavings = savings ? savings.items.reduce((a, b) => a + b.value, 0) : 0;
+    const totalMinimumPayments = minimum_debt_repayments ? minimum_debt_repayments.items.reduce((a, b) => a + b.value, 0) : 0;
+    const totalIncome = income ? income.items.reduce((a, b) => a + b.value, 0) : 0;
     const balance = totalIncome - totalExpenses - totalSavings - totalMinimumPayments;
 
     return (

@@ -1,8 +1,11 @@
-import { Box, TextField, Typography, Button, useTheme } from '@mui/material';
+import { Box, TextField, Typography, ButtonBase } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import AddIcon from '@mui/icons-material/Add';
+
 import Tile from '../../components/Tile';
-import { BudgetItem }  from './index';
-import { colorTokens } from '../../theme';
+import { BudgetTileData }  from './index';
 import Helpers from '../../libraries/Helpers';
+import { LoginTwoTone } from '@mui/icons-material';
 const formatToDollar = Helpers.String.FormatToDollar.format;
 
 const transformKey = (word: string) => {
@@ -10,56 +13,35 @@ const transformKey = (word: string) => {
 }
 
 type BudgetTileProps = {
-    budgetItem: BudgetItem,
+    budgetItem: BudgetTileData,
     // key: number,
 }
-type DeleteButtonProps = {
-    variant?: string,
-}
 
-const DeleteButton = ({variant}: DeleteButtonProps) => {
-    const theme = useTheme();
-    const colors = colorTokens(theme.palette.mode);
-
-    return (
-        <Button
-            sx={{
-                '&:hover': {
-                    backgroundColor: theme.palette.mode === "dark" ? colors.primary[300] : colors.primary[700],
-                    cursor: "pointer",
-                },
-                '&:hover > .MuiSvgIcon-root': {
-                    color: theme.palette.mode === "dark" ? colors.primary[100] : colors.primary[800],
-                },
-                '&:active': {
-                    backgroundColor: theme.palette.mode === "dark" ? colors.primary[600] : colors.primary[600],
-                },
-                color: theme.palette.mode === "dark" ? colors.primary[100] : colors.primary[900],
-                backgroundColor: variant === "primary" ? (theme.palette.mode === "dark" ? colors.grey[900] : colors.grey[300]) : "",
-            }}
-        >X</Button>
-    );
-};
-
-const TitleBar = ({ budgetItem }: {budgetItem: BudgetItem}) => {
+const TitleBar = ({ budgetItem }: {budgetItem: BudgetTileData}) => {
 
     return (
         <Box display="flex" justifyContent="space-between" p={2}>
             <Typography variant="h3">{transformKey(budgetItem.category || "")}</Typography>
             <Box display="flex">
-                <DeleteButton variant="primary"></DeleteButton>
+                <ButtonBase>
+                    <CloseIcon />
+                </ButtonBase>
             </Box>
         </Box>
     );
 };
 
-const TileLine = ({ budgetItem }: { budgetItem: BudgetItem }) => {
+const TileLine = ({ budgetItem }: { budgetItem: BudgetTileData }) => {
+    const addItem = () => {
+        return true;
+    };
+
     return (<>
         <Box >
-            {Object.entries(budgetItem?.items || []).map(([_key, value]) => (
-                <Box display="flex" key={_key} gap={"10px"} marginBottom="20px" marginTop="20px">
+            {budgetItem?.items.map(({key, value}) => (
+                <Box display="flex" key={key} gap={"10px"} marginBottom="20px" marginTop="20px">
                     <TextField 
-                        placeholder={transformKey(_key)} 
+                        placeholder={transformKey(key)} 
                         variant="standard" 
                         autoComplete="off" 
                         sx={{
@@ -81,7 +63,8 @@ const TileLine = ({ budgetItem }: { budgetItem: BudgetItem }) => {
                                 fontSize: "1rem",
                             }
                         }}/>
-                    <DeleteButton variant="secondary"></DeleteButton>
+                    <ButtonBase><CloseIcon fontSize="small"/></ButtonBase>
+                    <ButtonBase onClick={addItem}><AddIcon fontSize="small"/></ButtonBase>
                 </Box>
             ))}
         </Box>
