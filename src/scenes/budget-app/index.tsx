@@ -90,7 +90,7 @@ const AddTileButton = (props: {addTile: () => void} ) => {
                     backgroundColor: theme.palette.mode === "dark" ? colors.primary[600] : colors.primary[600],
                 }
             }}>
-            <ButtonBase sx={{display:"flex", width: "100%", height: "100%"}}>
+            <ButtonBase disableRipple sx={{display:"flex", width: "100%", height: "100%"}}>
                 <AddCircleOutlineIcon sx={{ margin: "auto auto", height:"5rem", maxWidth: "100%", width: "2rem"}}/>
             </ButtonBase>
         </Tile>
@@ -99,7 +99,7 @@ const AddTileButton = (props: {addTile: () => void} ) => {
 
 const BudgetApp = () => {
     
-    const [ tiles, updateTiles ] = useState(budget.map((item, index) => <Fragment key={index}><BudgetTile budgetItem={item} /></Fragment>));
+    const [ budgetTiles, updateTiles ] = useState(budget.map((item, index) => <Fragment key={index}><BudgetTile budgetItem={item} /></Fragment>));
     const theme = useTheme(); 
     const colors = colorTokens(theme.palette.mode);
 
@@ -112,8 +112,8 @@ const BudgetApp = () => {
     };
 
     const handleAddTile = () => {
-        const newTile = <BudgetTile budgetItem={structuredClone(newBudgetItem)} key={tiles.length + 1} />;
-        updateTiles(tiles.concat(newTile));
+        const newTile = <BudgetTile budgetItem={structuredClone(newBudgetItem)} key={budgetTiles.length + 1} />;
+        updateTiles(budgetTiles.concat(newTile));
     };
 
     // grab the main categories
@@ -155,16 +155,16 @@ const BudgetApp = () => {
                     <Typography variant="h3" color={ balance < 0 ? colors.redAccent[500] : colors.greenAccent[500]}>Balance: {formatToDollar(balance)}</Typography>
                 </Box>
             </Tile>
-            <Tile
+            <Box
                 sx={{
                     display: "flex",
                     flexWrap: "wrap",
                     flexDirection: "row",
                 }}
             >
-                {tiles}
+                {budgetTiles}
                 <AddTileButton addTile={handleAddTile} />
-            </Tile>
+            </Box>
         </Box>
     );
 };

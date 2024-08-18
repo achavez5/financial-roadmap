@@ -5,7 +5,6 @@ import AddIcon from '@mui/icons-material/Add';
 import Tile from '../../components/Tile';
 import { BudgetTileData }  from './index';
 import Helpers from '../../libraries/Helpers';
-import { LoginTwoTone } from '@mui/icons-material';
 const formatToDollar = Helpers.String.FormatToDollar.format;
 
 const transformKey = (word: string) => {
@@ -23,7 +22,7 @@ const TitleBar = ({ budgetItem }: {budgetItem: BudgetTileData}) => {
         <Box display="flex" justifyContent="space-between" p={2}>
             <Typography variant="h3">{transformKey(budgetItem.category || "")}</Typography>
             <Box display="flex">
-                <ButtonBase>
+                <ButtonBase disableRipple>
                     <CloseIcon />
                 </ButtonBase>
             </Box>
@@ -39,7 +38,7 @@ const TileLine = ({ budgetItem }: { budgetItem: BudgetTileData }) => {
     return (<>
         <Box >
             {budgetItem?.items.map(({key, value}) => (
-                <Box display="flex" key={key} gap={"10px"} marginBottom="20px" marginTop="20px">
+                <Box display="flex" key={key} gap={"5px"} marginBottom="20px" marginTop="20px">
                     <TextField 
                         placeholder={transformKey(key)} 
                         variant="standard" 
@@ -63,8 +62,8 @@ const TileLine = ({ budgetItem }: { budgetItem: BudgetTileData }) => {
                                 fontSize: "1rem",
                             }
                         }}/>
-                    <ButtonBase><CloseIcon fontSize="small"/></ButtonBase>
-                    <ButtonBase onClick={addItem}><AddIcon fontSize="small"/></ButtonBase>
+                    <ButtonBase disableRipple><CloseIcon fontSize="small"/></ButtonBase>
+                    <ButtonBase disableRipple onClick={addItem}><AddIcon fontSize="small"/></ButtonBase>
                 </Box>
             ))}
         </Box>

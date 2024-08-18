@@ -5,9 +5,10 @@ import { colorTokens } from "../theme";
 type FormBoxProps = {
     children: React.ReactNode[],
     handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void,
+    sx?: object
 }
 
-const FormBox = ({children, handleSubmit} : FormBoxProps) => {
+const FormBox = ({children, handleSubmit, sx} : FormBoxProps) => {
     const theme = useTheme();
     const colors = colorTokens(theme.palette.mode);
 
@@ -27,6 +28,7 @@ const FormBox = ({children, handleSubmit} : FormBoxProps) => {
         alignSelf="start"
         onSubmit={handleSubmit}
         sx={{
+            ...sx,
             [theme.breakpoints.down("md")]: {
                 margin: "0 auto 20px auto",
             },
