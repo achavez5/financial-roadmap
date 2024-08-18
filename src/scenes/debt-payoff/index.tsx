@@ -3,6 +3,9 @@ import { Box, Typography } from "@mui/material";
 
 // ### CUSTOM COMPONENTS ###
 import Tile from "../../components/Tile";
+import FormBox from "../../components/FormBox";
+import SubmitButton from "../../components/SubmitButton";
+import TextFormInput from "../../components/TextFormInput";
 
 // ### CUSTOM TYPES ###
 import { Stats } from "./types";
@@ -40,60 +43,53 @@ const DebtPayoff = () => {
     return (
         <Box>
             <Topbar title="Debt Payoff Calculator" />
-            <Tile
-                sx={{
-                    margin: "20px",
-                }}
-            >
-                <Typography variant="h2">Snowball Payoff</Typography>
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        maxWidth: "75vw",
-                        margin: "20px auto 20px auto",
-                    }}
-                >
-                    <Typography variant="h4">Initial Balance: {formatToDollar(initialBalance)}</Typography>
-                    <Typography variant="h4">Total Minimums: {formatToDollar(totalMinimumPayments)}</Typography>
-                    <Typography variant="h4">Total Payment: {formatToDollar(snowballStats.totalPayment)}</Typography>
-                    <Typography variant="h4">Total Interest: {formatToDollar(snowballStats.totalInterest)}</Typography> 
-                    <Typography variant="h4">Months: {snowballStats.month}</Typography>
-                </Box>            
-                <Tile variant="primary">
-                    <Typography variant="h3" marginBottom="20px">Payoff Order</Typography>
-                    <Typography variant="h5">{snowballStats.payoffOrder.join(", ")}</Typography>
-                </Tile> 
-            </Tile>
-            <Tile
-                sx={{
-                    margin: "20px",
-                }}
-            >
-                <Typography variant="h2">Avalanche Payoff</Typography>
+            <Box display={"flex"}> 
+                <FormBox handleSubmit={()=> null /** TODO: submission */} sx={{margin: "20px"}}>
+                    <TextFormInput id="blank" type="text" label="My label" error={false} fieldProps={{}}/>
+                    <SubmitButton label="nothing" scrollToId=""/>
+                </FormBox>
                 <Box>
-                    <Box
+                    <Typography variant="h2">Snowball Payoff</Typography>
+                    <Tile
+                        variant="primary"
                         sx={{
                             display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between",
                             maxWidth: "75vw",
+                            flexDirection: "column",
                             margin: "20px auto 20px auto",
                         }}
                     >
-                        <Typography variant="h4">Initial Balance: {formatToDollar(initialBalance)}</Typography>
-                        <Typography variant="h4">Total Minimums: {formatToDollar(totalMinimumPayments)}</Typography>
-                        <Typography variant="h4">Total Payment: {formatToDollar(avalancheStats.totalPayment)}</Typography>
-                        <Typography variant="h4">Total Interest: {formatToDollar(avalancheStats.totalInterest)}</Typography> 
-                        <Typography variant="h4">Months: {avalancheStats.month}</Typography>
-                    </Box>
-                </Box>            
-                <Tile variant="primary">
-                    <Typography variant="h3" marginBottom="20px">Payoff Order</Typography>
-                    <Typography variant="h5">{avalancheStats.payoffOrder.join(", ")}</Typography>
-                </Tile> 
-            </Tile>
+                        <Box sx={{'& .MuiTypography-h4': { marginBottom: "5px"}}}>
+                            <Typography variant="body1">Initial Balance: {formatToDollar(initialBalance)}</Typography>
+                            <Typography variant="body1">Total Minimums: {formatToDollar(totalMinimumPayments)}</Typography>
+                            <Typography variant="body1">Total Payment: {formatToDollar(snowballStats.totalPayment)}</Typography>
+                            <Typography variant="body1">Total Interest: {formatToDollar(snowballStats.totalInterest)}</Typography> 
+                            <Typography variant="body1">Months: {snowballStats.month}</Typography>
+                            <Typography variant="body1">Payoff Order: {snowballStats.payoffOrder.join(", ")}</Typography>
+                        </Box>
+                    </Tile>
+                    <br />
+                    <Typography variant="h2">Avalanche Payoff</Typography>
+                    <Tile
+                        variant="primary"
+                        sx={{
+                            display: "flex",
+                            maxWidth: "75vw",
+                            flexDirection: "column",
+                            margin: "20px auto 20px auto",
+                        }}
+                    >
+                        <Box sx={{'& .MuiTypography-h4': { marginBottom: "5px"}}}>
+                            <Typography variant="body1">Initial Balance: {formatToDollar(initialBalance)}</Typography>
+                            <Typography variant="body1">Total Minimums: {formatToDollar(totalMinimumPayments)}</Typography>
+                            <Typography variant="body1">Total Payment: {formatToDollar(avalancheStats.totalPayment)}</Typography>
+                            <Typography variant="body1">Total Interest: {formatToDollar(avalancheStats.totalInterest)}</Typography> 
+                            <Typography variant="body1">Months: {avalancheStats.month}</Typography>
+                            <Typography variant="body1">Payoff Order: {avalancheStats.payoffOrder.join(", ")}</Typography>
+                        </Box>
+                    </Tile>
+                </Box>
+            </Box>
         </Box>
     );
 };
