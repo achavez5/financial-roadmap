@@ -5,7 +5,6 @@ import AmortizationChart from "./AmortizationChart";
 import Tile from "../../components/Tile";
 import Topbar from "../global/Topbar"; 
 import { Box, Tab, Tabs, styled } from "@mui/material";
-import AppBox from "../global/AppBox";
 import { colorTokens } from "../../theme";
 
 interface TabPanelProps {
@@ -43,8 +42,6 @@ const StyledTab = styled(Tab)(({ theme }) => {
             }
         }
     )
-    
-
 });
 
 function a11yProps(index: number) {
@@ -105,7 +102,7 @@ const AmortizationApp = () => {
     ]; 
 
     return (
-        <AppBox>
+        <Box>
             <Topbar title="Amortization table" /> 
             <Box display="flex">
                 <Box sx={{ marginTop: "48px" }}>{appParts[0]}</Box>
@@ -122,7 +119,7 @@ const AmortizationApp = () => {
                     </CustomTabPanel>
                 </Box>
             </Box>
-        </AppBox>
+        </Box>
     );
 };
 
