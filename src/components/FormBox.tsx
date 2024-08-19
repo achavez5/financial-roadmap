@@ -28,7 +28,6 @@ const FormBox = ({children, handleSubmit, sx} : FormBoxProps) => {
         alignSelf="start"
         onSubmit={handleSubmit}
         sx={{
-            ...sx,
             [theme.breakpoints.down("md")]: {
                 margin: "0 auto 20px auto",
             },
@@ -63,6 +62,7 @@ const FormBox = ({children, handleSubmit, sx} : FormBoxProps) => {
                     borderWidth: "1px"
                 },
             },
+            ...sx,
         }}
     >
         {children}

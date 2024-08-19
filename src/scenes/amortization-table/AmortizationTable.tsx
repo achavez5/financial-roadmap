@@ -1,6 +1,7 @@
 import { GridColDef } from "@mui/x-data-grid";
 import Helpers from "../../libraries/Helpers";
 import CalculatorTable from "../../components/CalculatorTable";
+import { useTheme } from "@mui/material";
 
 type AmortizationTableProps = {
     loanAmount: number,
@@ -83,7 +84,8 @@ function generateTable(loanAmount:number, interestRate:number, extraPrincipalPay
     return arr;
 }
 
-const AmortizationTable = ({ loanAmount, termLength, interestRate, breakdownByMonth, extraPrincipalPayment, extraYearlyPayment  }: AmortizationTableProps) => {
+const AmortizationTable = ({ loanAmount, termLength, interestRate, breakdownByMonth, extraPrincipalPayment, extraYearlyPayment }: AmortizationTableProps) => {
+    const theme = useTheme();
     const paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, termLength) + (extraPrincipalPayment || 0);
     const stats:Stats = { total: 0, totalInterest: 0 };
     const table = generateTable(loanAmount, interestRate, extraPrincipalPayment, extraYearlyPayment, stats, paymentAmount, breakdownByMonth );
@@ -98,7 +100,14 @@ const AmortizationTable = ({ loanAmount, termLength, interestRate, breakdownByMo
     ];
     
     return (
-        <CalculatorTable columns={columns} table={table} />
+        <CalculatorTable columns={columns} table={table} sx={{
+            [theme.breakpoints.down("md")]: {
+                margin: "0 auto",
+            },
+            [theme.breakpoints.up("md")]: {
+                margin: "none",
+            },
+        }} />
     );
 };
 

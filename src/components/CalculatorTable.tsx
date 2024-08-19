@@ -5,10 +5,10 @@ import { colorTokens } from "../theme";
 type CalculatorTableProps = {
     table: any[],
     columns: GridColDef[],
-
+    sx?: any,
 }
 
-const CalculatorTable = ({table, columns} : CalculatorTableProps) => {
+const CalculatorTable = ({table, columns, sx} : CalculatorTableProps) => {
     const theme = useTheme();
     const colors = colorTokens(theme.palette.mode);
     const boxShadow = theme.palette.mode === "dark" ? "0px 0px 10px 0px rgba(0,0,0,0.75)" : "0px 0px 10px 0px rgba(0,0,0,0.25)";
@@ -28,13 +28,14 @@ const CalculatorTable = ({table, columns} : CalculatorTableProps) => {
                 [theme.breakpoints.up("md")]: {
                     margin: "0 0 0 20px",
                 },
+                ...sx
             }}
         >
             <DataGrid
                 rows={table}
                 columns={columns}
                 paginationMode="client"
-                density="standard"
+                density="compact"
                 isRowSelectable={() => false}
                 rowSpacingType={'border'}
                 pageSizeOptions={[]} // turns off the number of rows per page dropdown

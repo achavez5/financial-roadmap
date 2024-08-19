@@ -54,7 +54,7 @@ const AppSidebar = () => {
                 collapsed={collapsed}
                 rootStyles={{
                     [`.${sidebarClasses.container}`]:{
-                        background: theme.palette.mode === "dark" ? colors.primary[400] : "",
+                        backgroundColor: "rgba(0,0,0,0)",
                     },
                 }}
                 style={{
