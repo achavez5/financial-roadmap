@@ -2,93 +2,10 @@ import { GridColDef } from "@mui/x-data-grid";
 import Helpers from "../../libraries/Helpers";
 import CalculatorTable from "../../components/CalculatorTable";
 import { useTheme } from "@mui/material";
+import { RowProps } from "./index";
 
-type AmortizationTableProps = {
-    loanAmount: number,
-    termLength: number,
-    interestRate: number,
-    breakdownByMonth: boolean,
-    extraPrincipalPayment: number,
-    extraYearlyPayment: number,
-    accordionToggled?: boolean,
-}
-
-type Stats = {
-    total: number,
-    totalInterest: number
-};
-
-type RowProps = {
-    id: number,
-    interestRate: number,
-    principalPayment: number,
-    balance: number,
-};
-
-function generateTable(loanAmount:number, interestRate:number, extraPrincipalPayment:number, extraYearlyPayment:number, stats:Stats, paymentAmount:number, breakdownByMonth:boolean): RowProps[] {
-    let yearlyPrincipal = 0, yearlyInterest = 0;
-    let arr: RowProps[] = [];
-    let balance = loanAmount;
-    let month = 1;
-    
-    while (balance > 0) {
-        let interest = balance * (interestRate / 12) / 100;
-        let principal = paymentAmount - interest;
-        
-        if (extraYearlyPayment > 0 && month % 12 === 0) {
-            principal += extraYearlyPayment;
-        }
-        
-        // handle last payment
-        if (balance - principal < 0) {
-            principal = balance;
-        }
-        
-        stats.total += principal + interest;
-        stats.totalInterest += interest;
-        balance -= principal;
-        
-        if(!breakdownByMonth) {
-            if (month % 12 === 1) {
-                yearlyPrincipal = 0;
-                yearlyInterest = 0;
-            }
-            yearlyInterest += interest;
-            yearlyPrincipal += principal;
-        }
-        
-        if (breakdownByMonth || month % 12 === 0) {
-            arr.push(
-                {
-                    id: (breakdownByMonth ? month : month / 12),
-                    interestRate: (breakdownByMonth ? interest : yearlyInterest),
-                    principalPayment: (breakdownByMonth ? principal : yearlyPrincipal),
-                    balance: balance,
-                }
-            );
-        }
-        month++;
-    }
-    
-    if ((extraPrincipalPayment > 0 || extraYearlyPayment > 0) && !breakdownByMonth) {
-        arr.push(
-            {
-                id: Math.ceil(month / 12),
-                interestRate: yearlyInterest,
-                principalPayment: yearlyPrincipal,
-                balance: balance,
-            }
-        );
-    }
-    
-    return arr;
-}
-
-const AmortizationTable = ({ loanAmount, termLength, interestRate, breakdownByMonth, extraPrincipalPayment, extraYearlyPayment }: AmortizationTableProps) => {
+const AmortizationTable = ({table, breakdownByMonth}: {table: RowProps[], breakdownByMonth: boolean}) => {
     const theme = useTheme();
-    const paymentAmount = Helpers.Math.GetPaymentAmount(loanAmount, interestRate, termLength) + (extraPrincipalPayment || 0);
-    const stats:Stats = { total: 0, totalInterest: 0 };
-    const table = generateTable(loanAmount, interestRate, extraPrincipalPayment, extraYearlyPayment, stats, paymentAmount, breakdownByMonth );
     const valueFormatter = (params:any) => Helpers.String.FormatToDollar.format(params.value);
 
     // store the header to have on top and bottom of table

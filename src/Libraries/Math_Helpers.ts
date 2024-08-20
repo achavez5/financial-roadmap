@@ -11,8 +11,5 @@ export function GetPaymentAmount(principalPayment: number, interestRate: number,
         console.error("Divide by zero error in GetPaymentAmount function");
         return 0;
     }
-
-    console.log("Payment amount:" + (numerator / denominator).toFixed(2));
-
     return numerator / denominator;
 }
