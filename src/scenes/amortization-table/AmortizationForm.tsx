@@ -123,13 +123,18 @@ const AmortizationForm = ({ updateLoanAmount, updateTermLength, updateInterestRa
             <Accordion 
                 sx={{
                     width: "100%",
-                    backgroundColor: "rgba(0,0,0,0)",
+                    background: "rgba(0,0,0,0)",
+                    boxShadow: "none",
+                    border: "none",
                 }}
             >
                 <AccordionSummary
                     expandIcon={<ExpandMoreOutlinedIcon />}
                     aria-controls="additional-options"
                     id="additional-options"
+                    sx={{
+                        border: "none"
+                    }}
                 >
                     <Typography>Additional options</Typography>
                 </AccordionSummary>
