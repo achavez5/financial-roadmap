@@ -38,7 +38,7 @@ const CalculatorTable = ({table, columns, sx} : CalculatorTableProps) => {
                 density="compact"
                 isRowSelectable={() => false}
                 rowSpacingType={'border'}
-                pageSizeOptions={[]} // turns off the number of rows per page dropdown
+                pageSizeOptions={[10]} // turns off the number of rows per page dropdown
                 disableColumnFilter
                 disableColumnMenu
                 disableColumnSelector
