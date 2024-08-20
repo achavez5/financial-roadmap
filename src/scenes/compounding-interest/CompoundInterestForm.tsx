@@ -30,7 +30,7 @@ const initialValues = {
     interestRate: "",
 };
 
-const CompoundingInterestForm = ({ updatePrincipalAmount, updateTermLength, updateInterestRate, updateMonthlyPayment, updateBreakDownByMonth }: CompoundingFormParameters) => {
+const CompoundInterestForm = ({ updatePrincipalAmount, updateTermLength, updateInterestRate, updateMonthlyPayment, updateBreakDownByMonth }: CompoundingFormParameters) => {
     const [breakdownBy, updateBreakdownBy] = useState("Year");
     
     const onSubmit = (values: {principal: string, termLengthYear: string, termLengthMonth: string, interestRate: string, monthlyPayment: string}) => {
@@ -115,4 +115,4 @@ const CompoundingInterestForm = ({ updatePrincipalAmount, updateTermLength, upda
     );
 };
     
-export default CompoundingInterestForm;
+export default CompoundInterestForm;

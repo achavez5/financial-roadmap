@@ -10,7 +10,7 @@ const DataLineChart = ({sx, data, xKeys, yKeys} : { sx?: any, data: any, xKeys:{
     return (
         <LineChart
             xAxis={xKeys.map((x) => {
-                return {dataKey: x.key, label: x.label, scaleType: "linear", min: 1}
+                return { dataKey: x.key, label: x.label, scaleType: "linear", min: 1 }
             })}
             series={yKeys.map((y) => {
                 let stackStrat = y.stack ? stackStrategy : {};
@@ -20,14 +20,7 @@ const DataLineChart = ({sx, data, xKeys, yKeys} : { sx?: any, data: any, xKeys:{
                 showMark: false,
                 ...stackStrat
               }})}
-            dataset={data.map((d: any) => {
-                return {
-                    id: d.id,
-                    principalPayment: Number(d.principalPayment.toFixed(2)),
-                    balance: Number(d.balance.toFixed(2)),
-                    interestRate: Number(d.interestRate.toFixed(2)),
-                }
-            })}
+            dataset={data}
             height={400}
             width={600}
             disableAxisListener={true}

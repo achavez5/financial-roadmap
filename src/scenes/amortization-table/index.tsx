@@ -3,9 +3,10 @@ import AmortizationForm from "./AmortizationForm";
 import AmortizationTable from "./AmortizationTable";
 import AmortizationChart from "./AmortizationChart";
 import Tile from "../../components/Tile";
-import Topbar from "../global/Topbar"; 
-import { Box, Tab, Tabs, styled, Typography } from "@mui/material";
-import { colorTokens } from "../../theme";
+import Counter from "../../components/Counter";
+import Topbar from "../global/Topbar";
+import { CustomTabPanel, StyledTab, a11yProps } from "../../components/Tabs";
+import { Box, Tabs } from "@mui/material";
 import Helpers from "../../libraries/Helpers"; 
 
 type Stats = {
@@ -13,27 +14,12 @@ type Stats = {
     totalInterest: number
 };
 
-interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-}
 export type RowProps = {
     id: number,
     interestRate: number,
     principalPayment: number,
     balance: number,
 };
-
-const Counter = ({ label, amount }: { label: string, amount: number | string }) => 
-{
-    return (
-        <Box display="flex" flexWrap="wrap">
-            <Typography variant="h3" align='center'>{label}<br/>{amount}</Typography>
-        </Box>
-    );
-
-}
 
 function generateTable(loanAmount:number, interestRate:number, extraPrincipalPayment:number, extraYearlyPayment:number, stats:Stats, paymentAmount:number, breakdownByMonth:boolean): [RowProps[], Stats] {
     let yearlyPrincipal = 0, yearlyInterest = 0;
@@ -93,44 +79,6 @@ function generateTable(loanAmount:number, interestRate:number, extraPrincipalPay
     return [arr, stats];
 }
 
-function CustomTabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
-  
-    return (
-      <div
-        role="tabpanel"
-        hidden={value !== index}
-        id={`simple-tabpanel-${index}`}
-        aria-labelledby={`simple-tab-${index}`}
-        {...other}
-      >
-        {value === index && children}
-      </div>
-    );
-}
-
-const StyledTab = styled(Tab)(({ theme }) => {
-    const colors = colorTokens(theme.palette.mode);
-    return (
-        {
-            color: colors.grey[100],
-            "&.Mui-selected": {
-                color: colors.grey[400],
-            },
-            "&.MuiTab-root": {
-                minWidth: "50%",
-            }
-        }
-    )
-});
-
-function a11yProps(index: number) {
-    return {
-      id: `simple-tab-${index}`,
-      'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
-
 const AmortizationApp = () => {
     const formatToDollar = Helpers.String.FormatToDollar.format;
 
@@ -153,18 +101,16 @@ const AmortizationApp = () => {
         <Box>
             <Topbar title="Amortization table" /> 
             <Box display="flex">
-                <Box>
-                    <AmortizationForm 
-                        updateLoanAmount={updateLoanAmount} 
-                        updateTermLength={updateTermLength}
-                        updateInterestRate={updateInterestRate}
-                        updateBreakDownByMonth={updateBreakDownByMonth}
-                        updateExtraMonthlyPayment={updateExtraPrincipalPayment}
-                        updateExtraYearlyPayment={updateExtraYearlyPayment}
-                        key="1"
-                    />
-                </Box>
-                <Box>
+                <AmortizationForm 
+                    updateLoanAmount={updateLoanAmount} 
+                    updateTermLength={updateTermLength}
+                    updateInterestRate={updateInterestRate}
+                    updateBreakDownByMonth={updateBreakDownByMonth}
+                    updateExtraMonthlyPayment={updateExtraPrincipalPayment}
+                    updateExtraYearlyPayment={updateExtraYearlyPayment}
+                    key="1"
+                />
+                <Box gap="5px">
                     <Tile>
                         <Box display='flex' flexDirection='row' justifyContent='space-between'>
                             <Counter label={`Payment:`} amount={formatToDollar(paymentAmount)}/>
