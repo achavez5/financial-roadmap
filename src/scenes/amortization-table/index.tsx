@@ -25,6 +25,16 @@ export type RowProps = {
     balance: number,
 };
 
+const Counter = ({ label, amount }: { label: string, amount: number | string }) => 
+{
+    return (
+        <Box display="flex" flexWrap="wrap">
+            <Typography variant="h3" align='center'>{label}<br/>{amount}</Typography>
+        </Box>
+    );
+
+}
+
 function generateTable(loanAmount:number, interestRate:number, extraPrincipalPayment:number, extraYearlyPayment:number, stats:Stats, paymentAmount:number, breakdownByMonth:boolean): [RowProps[], Stats] {
     let yearlyPrincipal = 0, yearlyInterest = 0;
     let arr: RowProps[] = [];
@@ -156,10 +166,10 @@ const AmortizationApp = () => {
                 </Box>
                 <Box>
                     <Tile>
-                        <Box display='flex' flexDirection='row' justifyContent='space-evenly'>
-                            <Typography>{`Payment:\n${formatToDollar(paymentAmount)}`}</Typography>
-                            <Typography>{`Total:\n${formatToDollar(stats.total)}`}</Typography>
-                            <Typography>{`Total interest:\n${formatToDollar(stats.totalInterest)}`}</Typography>
+                        <Box display='flex' flexDirection='row' justifyContent='space-between'>
+                            <Counter label={`Payment:`} amount={formatToDollar(paymentAmount)}/>
+                            <Counter label={`Total:`} amount={formatToDollar(stats.total)} />
+                            <Counter label={`Total interest:`} amount={formatToDollar(stats.totalInterest)} />
                         </Box>
                     </Tile>
                     <Tabs value={tabValue} onChange={handleTabChange} aria-label="amortization table tabs">
