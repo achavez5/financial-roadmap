@@ -1,9 +1,9 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Financial Roadmap",
+  "name": "Financial Roadmap",
   "icons": [
     {
-      "src": "favicon.png",
+      "src": "/assests/favicon.png",
       "type": "image/png"
     }
   ],
