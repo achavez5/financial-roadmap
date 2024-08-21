@@ -11,6 +11,8 @@ import SignalCellularAltOutlinedIcon from '@mui/icons-material/SignalCellularAlt
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import CreditCardOffOutlinedIcon from '@mui/icons-material/CreditCardOffOutlined';
 
+import * as featureToggle from '../../featureToggle';
+
 type ItemProps = {
     title: string,
     to: string, 
@@ -92,34 +94,34 @@ const AppSidebar = () => {
                         to="/financial-roadmap/#/home"
                         setSelected={setSelected}
                     />
-                    <Item 
-                        title="Amortization Calculator"
-                        icon={<SignalCellularAltOutlinedIcon sx={{transform:"scaleX(-1)"}}/>} // flip the icon horizontally
-                        selected={selected}
-                        to="/financial-roadmap/#/amortization"
-                        setSelected={setSelected}
-                    />
-                    <Item 
-                        title="Compound Interest Calculator"
-                        icon={<SignalCellularAltOutlinedIcon/>}
-                        selected={selected}
-                        to="/financial-roadmap/#/compound-interest"
-                        setSelected={setSelected}
-                    />
-                    <Item 
-                        title="Budget app"
-                        icon={<AssessmentOutlinedIcon/>}
-                        selected={selected}
-                        to="/financial-roadmap/#/budget"
-                        setSelected={setSelected}
-                    />
-                    <Item 
-                        title="Debt payoff"
-                        icon={<CreditCardOffOutlinedIcon/>}
-                        selected={selected}
-                        to="/financial-roadmap/#/debt-payoff"
-                        setSelected={setSelected}
-                    />
+                    { featureToggle.amortizationCalulator && <Item 
+                            title="Amortization Calculator"
+                            icon={<SignalCellularAltOutlinedIcon sx={{transform:"scaleX(-1)"}}/>} // flip the icon horizontally
+                            selected={selected}
+                            to="/financial-roadmap/#/amortization"
+                            setSelected={setSelected}
+                        /> }
+                    { featureToggle.compoundingCalculator && <Item 
+                            title="Compound Interest Calculator"
+                            icon={<SignalCellularAltOutlinedIcon/>}
+                            selected={selected}
+                            to="/financial-roadmap/#/compound-interest"
+                            setSelected={setSelected}
+                        /> }
+                    { featureToggle.budgetApp && <Item 
+                            title="Budget app"
+                            icon={<AssessmentOutlinedIcon/>}
+                            selected={selected}
+                            to="/financial-roadmap/#/budget"
+                            setSelected={setSelected}
+                        /> }
+                    { featureToggle.debtPayoffCalculator && <Item 
+                            title="Debt payoff"
+                            icon={<CreditCardOffOutlinedIcon/>}
+                            selected={selected}
+                            to="/financial-roadmap/#/debt-payoff"
+                            setSelected={setSelected}
+                        /> }
                     
                 </Menu>
             </Sidebar>

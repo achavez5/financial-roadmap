@@ -2,7 +2,7 @@ import Topbar from "../global/Topbar"
 import { useTheme } from '@mui/material/styles';
 import { colorTokens } from "../../theme";
 import { Box, Grid, Typography, Link } from '@mui/material';
-
+import * as featureToggle from "../../featureToggle";
 
 type HomeCardProps = {
     label: string,
@@ -64,10 +64,10 @@ const Home = () => {
                 margin="0 auto"
                 maxWidth="90vw"
             >
-                <HomeCard label="Amortization Calculator" theme={theme} colors={colors} to="/financial-roadmap/#/amortization" /> 
-                <HomeCard label="Compounding Interest Calculator" theme={theme} colors={colors} to="/financial-roadmap/#/compound-interest"/> 
-                <HomeCard label="Budget" theme={theme} colors={colors} to="/financial-roadmap/#/budget"/>
-                <HomeCard label="Debt payoff" theme={theme} colors={colors} to="/financial-roadmap/#/debt-payoff"/>
+                { featureToggle.amortizationCalulator && <HomeCard label="Amortization Calculator" theme={theme} colors={colors} to="/financial-roadmap/#/amortization" /> }
+                { featureToggle.compoundingCalculator && <HomeCard label="Compounding Interest Calculator" theme={theme} colors={colors} to="/financial-roadmap/#/compound-interest"/> }
+                { featureToggle.budgetApp && <HomeCard label="Budget" theme={theme} colors={colors} to="/financial-roadmap/#/budget"/> }
+                { featureToggle.debtPayoffCalculator && <HomeCard label="Debt payoff" theme={theme} colors={colors} to="/financial-roadmap/#/debt-payoff"/> }
             </Grid> 
         </Box>
     )
